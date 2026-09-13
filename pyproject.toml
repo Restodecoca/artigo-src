@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "healthcare-ner-replication"
+version = "0.1.0"
+description = "Reproducible evaluation of cybersecurity NER models in healthcare news"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "openpyxl>=3.1,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<10",
+    "ruff>=0.9,<1",
+]
+hf = [
+    "datasets>=3,<5",
+    "huggingface-hub>=0.26,<2",
+]
+models = [
+    "scikit-learn>=1.5,<2",
+    "seqeval>=1.2,<2",
+    "transformers>=4.40,<5",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/healthcare_ner_replication"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/update_template_deck.py" = ["E501"]

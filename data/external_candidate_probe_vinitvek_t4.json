@@ -1,0 +1,62 @@
+{
+  "experiment_status": "extension",
+  "probe": "first_nonempty_source_order_records",
+  "dataset": "vinitvek/cybersecurityattacks",
+  "dataset_revision": "92ed82a32fcd6d1bcfae16722e9ff5a7ab50d46b",
+  "config": null,
+  "split": "train",
+  "text_column": "description",
+  "source_license": "See data/SEARCH_LOG.md; probe does not grant redistribution rights.",
+  "access_date": "2026-09-13",
+  "redistribution": "Metadata and aggregate model counts only; no raw text or predictions.",
+  "sample": {
+    "documents": 5,
+    "characters_total": 993,
+    "characters_min": 88,
+    "characters_max": 312,
+    "words_total": 144,
+    "words_min": 13,
+    "words_max": 47,
+    "sample_sha256": "a940dbd1c0b01e1ef0b85a0086f0ed6b07e7daf550e0213ff6bc72e6c7b02ff5"
+  },
+  "runtime": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "transformers": "4.57.6",
+    "datasets": "4.8.5",
+    "gpu": "Tesla T4"
+  },
+  "models": [
+    {
+      "model": "SecureBERT-NER",
+      "repository": "CyberPeace-Institute/SecureBERT-NER",
+      "revision": "7f935a4f7db13697580c881e381bb2636dfa779a",
+      "documents": 5,
+      "target_entity_count": 24,
+      "documents_with_target_entities": 4,
+      "target_label_counts": {
+        "IDTY": 17,
+        "LOC": 5,
+        "ACT": 2
+      },
+      "seconds": 7.24,
+      "peak_gpu_memory_mib": 485.9
+    },
+    {
+      "model": "SecureBERT-APTNER",
+      "repository": "Cyber-ThreaD/SecureBERT-APTNER",
+      "revision": "f220a5fbeb8ed9b60a516cf420fc816d9705ce7d",
+      "documents": 5,
+      "target_entity_count": 7,
+      "documents_with_target_entities": 5,
+      "target_label_counts": {
+        "ACT": 1,
+        "IDTY": 4,
+        "LOC": 2
+      },
+      "seconds": 7.38,
+      "peak_gpu_memory_mib": 485.5
+    }
+  ]
+}

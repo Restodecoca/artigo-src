@@ -1,0 +1,75 @@
+[paper]
+title = "An Analysis of Pre-trained Models to Identify Cybersecurity Incidents Entities in the Healthcare Industry"
+authors = ["Rafael Paim", "Luciano Ignaczak"]
+reproduction_status = "approximate"
+original_corpus_available = false
+
+[collection]
+date = "2023-10-30"
+period_start = "2023-01-01"
+period_end = "2023-10-30"
+queries = [
+    "hospital AND cyberattack",
+    "hospital AND cybersecurity AND incident",
+    "healthcare AND cyberattack",
+    "healthcare AND cybersecurity AND incident",
+]
+portals_reported_in_text = [
+    "Security Magazine",
+    "Becker's Hospital Review",
+    "JD Supra",
+]
+portals_reported_in_table = ["SC Magazine", "Becker's Hospital Review", "JD Supra"]
+
+[collection.counts]
+collected = 24108
+unique_links = 15705
+selected_portals = 1449
+final_corpus = 1039
+
+[evaluation]
+models = ["SecureBERT-NER", "SecureBERT-APTNER"]
+entity_types = ["IDTY", "ACT", "VUL", "LOC"]
+modes = ["strict", "partial"]
+manual_documents = 60
+max_tokens_per_document = 400
+seeds = [42, 123, 2024]
+
+[[model]]
+name = "SecureBERT-NER"
+repository = "CyberPeace-Institute/SecureBERT-NER"
+label_encoding = "BIO"
+revision = "7f935a4f7db13697580c881e381bb2636dfa779a"
+label_aliases = { VULID = "VUL", VULNAME = "VUL" }
+
+[[model]]
+name = "SecureBERT-APTNER"
+repository = "Cyber-ThreaD/SecureBERT-APTNER"
+label_encoding = "BIOES"
+revision = "f220a5fbeb8ed9b60a516cf420fc816d9705ce7d"
+label_aliases = { VULID = "VUL", VULNAME = "VUL" }
+
+[limitations]
+original_data_missing = true
+manual_double_annotation_reported = false
+model_revisions_fully_pinned = false
+source_portal_name_inconsistent = true
+temporal_split_added_by_extension = true
+external_validation_required = true
+
+[[huggingface_reference]]
+repository = "zefang-liu/cyberbench"
+role = "reference_only"
+
+[[huggingface_reference]]
+repository = "chairulridjal/arcspan-cyber-ner"
+role = "reference_only"
+
+[[huggingface_reference]]
+repository = "priamai/AnnoCTR"
+role = "reference_only"
+
+[[huggingface_reference]]
+repository = "mrmoor/cyber-threat-intelligence"
+role = "reference_only"
+revision = "d8783e04f46039f3624df6958dd4d34405d8c72a"

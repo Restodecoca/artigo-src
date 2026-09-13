@@ -1,0 +1,186 @@
+{
+  "experiment_status": "extension",
+  "benchmark": "no_gold_span_candidate_suitability",
+  "dataset": "gvic-unb/public-health-news-DF-qa",
+  "dataset_revision": "9944e31a41e6cc1f3ed484b5d95cca363e6dc5ac",
+  "config": "knowledge_base",
+  "split": "corpus",
+  "text_column": "content",
+  "identity_column": "url",
+  "filter": "none",
+  "seed": 20260913,
+  "source_license": "See data/SEARCH_LOG.md; benchmark does not grant redistribution rights.",
+  "access_date": "2026-09-13",
+  "redistribution": "Aggregate diagnostics only; no raw text, identifiers, spans, or per-document predictions.",
+  "sampling": {
+    "eligible_before_dedup": 1688,
+    "duplicates_removed": 0,
+    "eligible_after_dedup": 1688,
+    "selected": 100
+  },
+  "sample_text": {
+    "documents": 100,
+    "characters_total": 336945,
+    "words_total": 53164,
+    "sample_sha256": "c46d08f49f30b0bed1b734a7eb3681e585101afb2edf903d28867e31752efb3c",
+    "characters": {
+      "min": 861,
+      "median": 2919.0,
+      "p90": 4708,
+      "p95": 5948,
+      "max": 11578
+    },
+    "words": {
+      "min": 141,
+      "median": 467.5,
+      "p90": 767,
+      "p95": 947,
+      "max": 1970
+    }
+  },
+  "runtime": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "transformers": "4.57.6",
+    "datasets": "4.8.5",
+    "gpu": "Tesla T4",
+    "seconds_total": 11.16
+  },
+  "models": [
+    {
+      "model": "SecureBERT-NER",
+      "repository": "CyberPeace-Institute/SecureBERT-NER",
+      "revision": "7f935a4f7db13697580c881e381bb2636dfa779a",
+      "documents_attempted": 100,
+      "documents_processed": 100,
+      "documents_failed": 0,
+      "failure_types": {},
+      "model_max_tokens": 512,
+      "token_lengths": {
+        "min": 364,
+        "median": 1120.5,
+        "p90": 1839,
+        "p95": 2292,
+        "max": 4871
+      },
+      "documents_over_model_limit": 98,
+      "over_limit_rate": 0.98,
+      "tokens_over_model_limit": 80413,
+      "inference_overflow_policy": "transformers_pipeline_default_single_window",
+      "predicted_entities": 120,
+      "documents_with_entities": 34,
+      "empty_prediction_rate": 0.66,
+      "entities_per_100_words": 0.2257,
+      "entity_label_counts": {
+        "IDTY": 113,
+        "LOC": 1,
+        "VUL": 6
+      },
+      "span_lengths": {
+        "min": 1,
+        "median": 2.0,
+        "p90": 5,
+        "p95": 7,
+        "max": 18
+      },
+      "score_mean": 0.636,
+      "score_p05": 0.3777,
+      "length_bins": {
+        "0-49": {
+          "documents": 0,
+          "documents_with_entities": 0,
+          "entities": 0
+        },
+        "50-199": {
+          "documents": 2,
+          "documents_with_entities": 0,
+          "entities": 0
+        },
+        "200-499": {
+          "documents": 54,
+          "documents_with_entities": 22,
+          "entities": 79
+        },
+        "500+": {
+          "documents": 44,
+          "documents_with_entities": 12,
+          "entities": 41
+        }
+      },
+      "seconds": 5.94,
+      "documents_per_second": 16.8396,
+      "peak_gpu_memory_mib": 501.2
+    },
+    {
+      "model": "SecureBERT-APTNER",
+      "repository": "Cyber-ThreaD/SecureBERT-APTNER",
+      "revision": "f220a5fbeb8ed9b60a516cf420fc816d9705ce7d",
+      "documents_attempted": 100,
+      "documents_processed": 100,
+      "documents_failed": 0,
+      "failure_types": {},
+      "model_max_tokens": 512,
+      "token_lengths": {
+        "min": 364,
+        "median": 1120.5,
+        "p90": 1839,
+        "p95": 2292,
+        "max": 4871
+      },
+      "documents_over_model_limit": 98,
+      "over_limit_rate": 0.98,
+      "tokens_over_model_limit": 80413,
+      "inference_overflow_policy": "transformers_pipeline_default_single_window",
+      "predicted_entities": 3,
+      "documents_with_entities": 3,
+      "empty_prediction_rate": 0.97,
+      "entities_per_100_words": 0.0056,
+      "entity_label_counts": {
+        "LOC": 2,
+        "VUL": 1
+      },
+      "span_lengths": {
+        "min": 3,
+        "median": 5,
+        "p90": 5,
+        "p95": 5,
+        "max": 5
+      },
+      "score_mean": 0.3026,
+      "score_p05": 0.1206,
+      "length_bins": {
+        "0-49": {
+          "documents": 0,
+          "documents_with_entities": 0,
+          "entities": 0
+        },
+        "50-199": {
+          "documents": 2,
+          "documents_with_entities": 0,
+          "entities": 0
+        },
+        "200-499": {
+          "documents": 54,
+          "documents_with_entities": 1,
+          "entities": 1
+        },
+        "500+": {
+          "documents": 44,
+          "documents_with_entities": 2,
+          "entities": 2
+        }
+      },
+      "seconds": 5.16,
+      "documents_per_second": 19.3779,
+      "peak_gpu_memory_mib": 501.3
+    }
+  ],
+  "agreement": {
+    "comparable_documents": 100,
+    "exact_set_agreement": 0.65,
+    "empty_nonempty_agreement": 0.67,
+    "mean_typed_concordance_f1": 0.6529,
+    "mean_boundary_concordance_f1": 0.6529
+  }
+}

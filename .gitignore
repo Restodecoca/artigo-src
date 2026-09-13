@@ -1,0 +1,20 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Restricted or generated research material
+.env
+.kaggle/
+data/raw/
+data/processed/
+artifacts/
+checkpoints/
+*.parquet
+*.jsonl

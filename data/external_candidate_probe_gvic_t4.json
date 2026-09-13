@@ -1,0 +1,56 @@
+{
+  "experiment_status": "extension",
+  "probe": "first_nonempty_source_order_records",
+  "dataset": "gvic-unb/public-health-news-DF-qa",
+  "dataset_revision": "9944e31a41e6cc1f3ed484b5d95cca363e6dc5ac",
+  "config": "knowledge_base",
+  "split": "corpus",
+  "text_column": "content",
+  "source_license": "See data/SEARCH_LOG.md; probe does not grant redistribution rights.",
+  "access_date": "2026-09-13",
+  "redistribution": "Metadata and aggregate model counts only; no raw text or predictions.",
+  "sample": {
+    "documents": 5,
+    "characters_total": 15675,
+    "characters_min": 2063,
+    "characters_max": 4165,
+    "words_total": 2488,
+    "words_min": 333,
+    "words_max": 663,
+    "sample_sha256": "8276122ed762d5a7a2e3074fb10d2cf5006f9bb354c344795b3edcb46dd6e81c"
+  },
+  "runtime": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "transformers": "4.57.6",
+    "datasets": "4.8.5",
+    "gpu": "Tesla T4"
+  },
+  "models": [
+    {
+      "model": "SecureBERT-NER",
+      "repository": "CyberPeace-Institute/SecureBERT-NER",
+      "revision": "7f935a4f7db13697580c881e381bb2636dfa779a",
+      "documents": 5,
+      "target_entity_count": 5,
+      "documents_with_target_entities": 1,
+      "target_label_counts": {
+        "IDTY": 5
+      },
+      "seconds": 0.8,
+      "peak_gpu_memory_mib": 501.2
+    },
+    {
+      "model": "SecureBERT-APTNER",
+      "repository": "Cyber-ThreaD/SecureBERT-APTNER",
+      "revision": "f220a5fbeb8ed9b60a516cf420fc816d9705ce7d",
+      "documents": 5,
+      "target_entity_count": 0,
+      "documents_with_target_entities": 0,
+      "target_label_counts": {},
+      "seconds": 0.68,
+      "peak_gpu_memory_mib": 501.3
+    }
+  ]
+}
