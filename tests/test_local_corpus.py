@@ -26,6 +26,11 @@ def test_load_pipe_articles_preserves_multiline_text_and_ids(tmp_path):
     ]
 
 
+def test_local_article_rejects_non_numeric_document_id():
+    with pytest.raises(ValueError):
+        LocalArticle("not-numeric", "Article text")
+
+
 def test_load_pipe_articles_rejects_malformed_rows(tmp_path):
     path = tmp_path / "articles.csv"
     path.write_text('1|"valid"\nmalformed\n', encoding="utf-8")

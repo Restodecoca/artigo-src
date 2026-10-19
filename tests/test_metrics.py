@@ -27,6 +27,17 @@ def test_partial_matching_accepts_overlapping_boundaries_without_type_match():
     assert result.f1 == 1.0
 
 
+def test_partial_matching_can_require_the_same_entity_type():
+    gold = [EntitySpan(0, 14, "IDTY")]
+    predicted = [EntitySpan(5, 10, "ACT")]
+
+    result = score_entities(gold, predicted, mode="partial", same_label=True)
+
+    assert result.true_positive == 0
+    assert result.false_positive == 1
+    assert result.false_negative == 1
+
+
 def test_partial_matching_is_one_to_one_and_does_not_reward_duplicate_predictions():
     gold = [EntitySpan(0, 8, "B-ACT")]
     predicted = [EntitySpan(0, 8, "B-ACT"), EntitySpan(0, 8, "B-ACT")]

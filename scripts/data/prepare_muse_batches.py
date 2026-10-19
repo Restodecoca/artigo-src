@@ -11,13 +11,20 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
-ALLOWED_LABELS = ("IDTY", "ACT", "VUL", "LOC")
-PERIOD_START = "2023-01-01"
-PERIOD_END = "2023-10-30"
+from healthcare_ner_replication.labels import ENTITY_TYPES
+from healthcare_ner_replication.protocol import (
+    COLLECTION_PERIOD_END,
+    COLLECTION_PERIOD_START,
+)
+from healthcare_ner_replication.schemas import MuseBatchSource
+
+ALLOWED_LABELS = ENTITY_TYPES
+PERIOD_START = COLLECTION_PERIOD_START
+PERIOD_END = COLLECTION_PERIOD_END
 
 
 @dataclass(frozen=True)
@@ -33,10 +40,14 @@ class DatasetSpec:
 
 
 def _nonempty(value: object) -> bool:
+    """Check whether a value is a non-blank string."""
+
     return isinstance(value, str) and bool(value.strip())
 
 
 def _vinitvek_selection(row: Mapping[str, object]) -> bool:
+    """Select described Vinitvek incidents associated with healthcare."""
+
     industry = str(row.get("affected_industry", "")).casefold()
     organization = str(row.get("affected_organization", "")).casefold()
     healthcare = "health" in industry or any(
@@ -46,10 +57,14 @@ def _vinitvek_selection(row: Mapping[str, object]) -> bool:
 
 
 def _scorton_selection(row: Mapping[str, object]) -> bool:
+    """Select Scorton records that contain a non-blank summary."""
+
     return _nonempty(row.get("Summary"))
 
 
 def _gvic_selection(row: Mapping[str, object]) -> bool:
+    """Select GVIC records that contain non-blank article content."""
+
     return _nonempty(row.get("content"))
 
 
@@ -88,6 +103,8 @@ DATASETS = (
 
 
 def _load_dataset(spec: DatasetSpec):
+    """Load a pinned dataset revision using its configured split and subset."""
+
     from datasets import load_dataset
 
     kwargs = {
@@ -101,6 +118,8 @@ def _load_dataset(spec: DatasetSpec):
 
 
 def _identity(row: Mapping[str, object], columns: tuple[str, ...], index: int) -> str:
+    """Build a stable deduplication key from identity columns or row position."""
+
     values = [str(row.get(column, "")).strip() for column in columns]
     if not any(values):
         values = [f"row-{index}"]
@@ -108,13 +127,16 @@ def _identity(row: Mapping[str, object], columns: tuple[str, ...], index: int) -
 
 
 def _document_id(dataset_name: str, index: int) -> str:
+    """Format a stable, dataset-scoped document identifier."""
+
     return f"{dataset_name}-{index:06d}"
 
 
-def prepare_dataset(
-    spec: DatasetSpec, output_root: Path, batch_size: int, max_chars: int | None
-) -> dict[str, object]:
-    dataset = _load_dataset(spec)
+def _select_unique_records(
+    dataset: Iterable[Mapping[str, object]], spec: DatasetSpec
+) -> tuple[list[tuple[str, dict[str, object]]], int]:
+    """Apply one dataset's selection and identity-based deduplication rules."""
+
     selected: list[tuple[str, dict[str, object]]] = []
     seen: set[str] = set()
     duplicate_count = 0
@@ -128,25 +150,47 @@ def prepare_dataset(
             continue
         seen.add(identity)
         text = str(row[spec.text_column]).strip()
-        selected.append((identity, {"row": row, "text": text, "source_index": source_index}))
+        selected.append(
+            (identity, {"row": row, "text": text, "source_index": source_index})
+        )
+    return selected, duplicate_count
 
-    dataset_dir = output_root / spec.name
-    dataset_dir.mkdir(parents=True, exist_ok=True)
-    for old_batch in (*dataset_dir.glob("batch_*.json"), *dataset_dir.glob("labels_batch_*.json")):
-        old_batch.unlink()
 
-    batches = 0
+def _batch_ranges(
+    records: list[tuple[str, dict[str, object]]], batch_size: int, max_chars: int | None
+) -> list[tuple[int, int]]:
+    """Partition selected records by count and optional character limit."""
+
+    ranges: list[tuple[int, int]] = []
     start = 0
-    while start < len(selected):
-        batch_records = []
+    while start < len(records):
         batch_chars = 0
         end = start
-        while end < len(selected) and end - start < batch_size:
-            candidate_chars = len(selected[end][1]["text"])
+        while end < len(records) and end - start < batch_size:
+            candidate_chars = len(str(records[end][1]["text"]))
             if max_chars is not None and end > start and batch_chars + candidate_chars > max_chars:
                 break
             batch_chars += candidate_chars
             end += 1
+        ranges.append((start, end))
+        start = end
+    return ranges
+
+
+def _write_batches(
+    spec: DatasetSpec,
+    dataset_dir: Path,
+    selected: list[tuple[str, dict[str, object]]],
+    batch_size: int,
+    max_chars: int | None,
+) -> int:
+    """Write validated source records to numbered JSON batches."""
+
+    for old_batch in (*dataset_dir.glob("batch_*.json"), *dataset_dir.glob("labels_batch_*.json")):
+        old_batch.unlink()
+    ranges = _batch_ranges(selected, batch_size, max_chars)
+    for batch_number, (start, end) in enumerate(ranges, start=1):
+        batch_records = []
         for offset, (identity, item) in enumerate(selected[start:end], start=1):
             row = item["row"]
             assert isinstance(row, dict)
@@ -156,20 +200,32 @@ def prepare_dataset(
                 if key != spec.text_column and isinstance(value, (str, int, float, bool))
             }
             batch_records.append(
-                {
-                    "id": _document_id(spec.name, start + offset),
-                    "text": item["text"],
-                    "dataset_identity": identity,
-                    "source_index": item["source_index"],
-                    "metadata": metadata,
-                }
+                MuseBatchSource(
+                    id=_document_id(spec.name, start + offset),
+                    text=str(item["text"]),
+                    dataset_identity=identity,
+                    source_index=int(item["source_index"]),
+                    metadata=metadata,
+                ).model_dump()
             )
-        batch_path = dataset_dir / f"batch_{batches + 1:04d}.json"
+        batch_path = dataset_dir / f"batch_{batch_number:04d}.json"
         batch_path.write_text(
             json.dumps(batch_records, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        batches += 1
-        start = end
+    return len(ranges)
+
+
+def prepare_dataset(
+    spec: DatasetSpec, output_root: Path, batch_size: int, max_chars: int | None
+) -> dict[str, object]:
+    """Filter, deduplicate, batch, and summarize one configured source dataset."""
+
+    if batch_size <= 0 or (max_chars is not None and max_chars <= 0):
+        raise ValueError("batch_size and max_chars must be positive when provided")
+    selected, duplicate_count = _select_unique_records(_load_dataset(spec), spec)
+    dataset_dir = output_root / spec.name
+    dataset_dir.mkdir(parents=True, exist_ok=True)
+    batches = _write_batches(spec, dataset_dir, selected, batch_size, max_chars)
 
     all_text = "\n".join(item["text"] for _, item in selected)
     return {
@@ -196,6 +252,8 @@ def prepare_dataset(
 
 
 def main() -> None:
+    """Prepare all configured datasets and write their aggregate manifest."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-root", type=Path, default=Path("data/raw/muse_batches"))
     parser.add_argument("--manifest", type=Path, default=Path("data/raw/muse_manifest.json"))

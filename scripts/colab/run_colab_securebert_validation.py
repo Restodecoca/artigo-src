@@ -34,6 +34,8 @@ MODEL_LABEL_ALIASES = {"VULID": "VUL", "VULNAME": "VUL"}
 
 
 def normalize_gold(raw_entities: list[dict[str, object]]) -> list[tuple[int, int, str]]:
+    """Map dataset gold entity aliases and offsets to the project's label schema."""
+
     spans = []
     for entity in raw_entities:
         label = LABEL_ALIASES.get(str(entity.get("label", "")).strip().lower())
@@ -44,10 +46,14 @@ def normalize_gold(raw_entities: list[dict[str, object]]) -> list[tuple[int, int
 
 
 def normalize_prediction(raw_entities: list[dict[str, object]]) -> list[tuple[int, int, str]]:
+    """Decode token-classification outputs into merged BIO character spans."""
+
     spans = []
     current: list[int | str] | None = None
 
     def flush() -> None:
+        """Append the current decoded span and reset its accumulator."""
+
         nonlocal current
         if current is not None:
             spans.append((int(current[0]), int(current[1]), str(current[2])))
@@ -81,6 +87,8 @@ def normalize_prediction(raw_entities: list[dict[str, object]]) -> list[tuple[in
 def maximum_overlap(
     gold: list[tuple[int, int, str]], predicted: list[tuple[int, int, str]], strict: bool
 ) -> int:
+    """Count one-to-one exact matches or overlaps; partial matches ignore entity labels."""
+
     edges = []
     for prediction in predicted:
         compatible_gold = []
@@ -95,6 +103,8 @@ def maximum_overlap(
     gold_to_prediction: dict[int, int] = {}
 
     def visit(prediction_index: int, visited: set[int]) -> bool:
+        """Augment the matching by searching unassigned compatible gold spans."""
+
         for gold_index in edges[prediction_index]:
             if gold_index in visited:
                 continue
@@ -113,6 +123,8 @@ def score_documents(
     predicted_documents: list[list[tuple[int, int, str]]],
     strict: bool,
 ) -> dict[str, float | int]:
+    """Compute aggregate span precision, recall, F1, and error counts."""
+
     true_positive = sum(
         maximum_overlap(gold, predicted, strict)
         for gold, predicted in zip(gold_documents, predicted_documents, strict=True)
@@ -139,6 +151,8 @@ def score_documents(
 
 
 def select_examples(limit: int, seed: int) -> tuple[list[dict[str, object]], int, str]:
+    """Sample annotated dataset examples deterministically and fingerprint their IDs."""
+
     from datasets import load_dataset
 
     dataset = load_dataset(DATASET, revision=DATASET_REVISION, split="train")
@@ -160,6 +174,8 @@ def run_model(
     revision: str,
     examples: list[dict[str, object]],
 ) -> dict[str, object]:
+    """Run one pinned model on the sample and return aggregate validation metrics."""
+
     import torch
     from transformers import pipeline
 
@@ -195,6 +211,8 @@ def run_model(
 
 
 def main() -> None:
+    """Run the external dataset validation probe and write aggregate model results."""
+
     import datasets as datasets_lib
     import torch
     import transformers

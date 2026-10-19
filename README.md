@@ -33,6 +33,7 @@ Requisitos: Python 3.12+ e [`uv`](https://docs.astral.sh/uv/).
 uv sync --extra dev
 uv run pytest
 uv run ruff check src tests scripts
+uv run pyright
 ```
 
 Para executar inferência/modelos ou fine-tuning, consulte os extras opcionais

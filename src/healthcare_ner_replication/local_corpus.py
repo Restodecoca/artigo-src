@@ -5,16 +5,26 @@ from __future__ import annotations
 import csv
 import re
 from collections.abc import Iterable
-from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
+from typing import Annotated
+
+from pydantic import ConfigDict, Field
+from pydantic.dataclasses import dataclass
+
+from healthcare_ner_replication.protocol import (
+    COLLECTION_PERIOD_END,
+    COLLECTION_PERIOD_START,
+)
 
 
 @dataclass(frozen=True)
 class LocalArticle:
-    """One article from the local two-column export."""
+    """Validated article record from the local two-column export."""
 
-    document_id: str
+    __pydantic_config__ = ConfigDict(extra="forbid")
+
+    document_id: Annotated[str, Field(pattern=r"^\d+$")]
     text: str
 
 
@@ -187,4 +197,6 @@ def is_protocol_date(value: str) -> bool:
         current = date.fromisoformat(value)
     except ValueError:
         return False
-    return date(2023, 1, 1) <= current <= date(2023, 10, 30)
+    return date.fromisoformat(COLLECTION_PERIOD_START) <= current <= date.fromisoformat(
+        COLLECTION_PERIOD_END
+    )

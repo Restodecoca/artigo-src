@@ -7,7 +7,9 @@ import json
 from itertools import pairwise
 from pathlib import Path
 
-LABELS = {"IDTY", "ACT", "VUL", "LOC"}
+from healthcare_ner_replication.labels import ENTITY_TYPES
+
+LABELS = set(ENTITY_TYPES)
 
 
 def validate(source_dir: Path, labels_dir: Path) -> dict[str, int]:
@@ -55,6 +57,8 @@ def validate(source_dir: Path, labels_dir: Path) -> dict[str, int]:
 
 
 def main() -> None:
+    """Validate the adjudicated overlay and print aggregate record counts."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("source_dir", type=Path)
     parser.add_argument("labels_dir", type=Path)

@@ -138,3 +138,8 @@ def test_failed_documents_are_excluded_from_empty_prediction_metrics():
 
 def test_prediction_scores_accept_numeric_backend_values():
     assert _prediction_scores([{"entity_group": "IDTY", "score": Decimal("0.75")}]) == [0.75]
+
+
+def test_prediction_scores_raise_for_invalid_confidence_instead_of_skipping():
+    with pytest.raises(ValueError, match="invalid confidence score"):
+        _prediction_scores([{"entity_group": "IDTY", "score": "not-a-number"}])

@@ -6,6 +6,9 @@ from collections import abc
 from dataclasses import dataclass, field
 from itertools import pairwise
 
+COLLECTION_PERIOD_START = "2023-01-01"
+COLLECTION_PERIOD_END = "2023-10-30"
+
 
 @dataclass(frozen=True)
 class ReproductionProtocol:
@@ -43,7 +46,7 @@ def default_protocol() -> ReproductionProtocol:
         entity_types=("IDTY", "ACT", "VUL", "LOC"),
         evaluation_modes=("strict", "partial"),
         collection_date="2023-10-30",
-        collection_period=("2023-01-01", "2023-10-30"),
+        collection_period=(COLLECTION_PERIOD_START, COLLECTION_PERIOD_END),
         collection_queries=(
             "hospital AND cyberattack",
             "hospital AND cybersecurity AND incident",

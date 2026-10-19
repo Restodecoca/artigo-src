@@ -10,19 +10,19 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-
-from scripts.colab.run_colab_muse_validation import _matching_pairs
+from healthcare_ner_replication.metrics import EntitySpan, score_entities
 
 WORD_RE = re.compile(r"\w", re.UNICODE)
 FILLER_RE = re.compile(r"[\s\W]", re.UNICODE)
 
 
 def _read(path: Path) -> dict[str, Any]:
+    """Load the detailed diagnostic artifact as a JSON object."""
+
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -30,25 +30,35 @@ def _score_document(
     gold: list[tuple[int, int, str]],
     predicted: list[tuple[int, int, str]],
 ) -> dict[str, int]:
-    strict_pairs = _matching_pairs(gold, predicted, strict=True)
-    partial_pairs = _matching_pairs(gold, predicted, strict=False)
-    same_type_pairs = _matching_pairs(gold, predicted, strict=False, same_label=True)
+    """Count strict, partial, and same-type one-to-one matches for a document."""
+
+    gold_spans = [EntitySpan(start, end, label) for start, end, label in gold]
+    predicted_spans = [EntitySpan(start, end, label) for start, end, label in predicted]
+    strict = score_entities(gold_spans, predicted_spans, mode="strict")
+    partial = score_entities(gold_spans, predicted_spans, mode="partial")
+    same_type = score_entities(
+        gold_spans, predicted_spans, mode="partial", same_label=True
+    )
     return {
         "gold": len(gold),
         "predicted": len(predicted),
-        "strict": len(strict_pairs),
-        "partial": len(partial_pairs),
-        "partial_same_type": len(same_type_pairs),
+        "strict": strict.true_positive,
+        "partial": partial.true_positive,
+        "partial_same_type": same_type.true_positive,
     }
 
 
 def _aggregate(scores: list[dict[str, int]]) -> dict[str, float | int]:
+    """Sum document counts and compute corpus-level F1 variants."""
+
     totals = {
         key: sum(score[key] for score in scores)
         for key in ("gold", "predicted", "strict", "partial", "partial_same_type")
     }
 
     def f1(true_positive: int, predicted: int, gold: int) -> float:
+        """Calculate F1 safely for a single set of aggregated counts."""
+
         precision = true_positive / predicted if predicted else 0.0
         recall = true_positive / gold if gold else 0.0
         return 2 * precision * recall / (precision + recall) if precision + recall else 0.0
@@ -63,14 +73,17 @@ def _aggregate(scores: list[dict[str, int]]) -> dict[str, float | int]:
     }
 
 
-def _merge_adjacent(spans: list[dict[str, Any]], text: str) -> list[dict[str, Any]]:
+def _merge_spans(
+    spans: list[dict[str, Any]], text: str, can_merge_gap: Callable[[str], bool]
+) -> list[dict[str, Any]]:
+    """Merge consecutive same-label spans when their intervening gap is allowed."""
     ordered = sorted(spans, key=lambda span: (span["start"], span["end"]))
     merged: list[dict[str, Any]] = []
     for span in ordered:
         previous = merged[-1] if merged else None
         if previous is not None and previous["label"] == span["label"]:
             gap = text[previous["end"] : span["start"]]
-            if gap and not FILLER_RE.fullmatch(gap):
+            if not can_merge_gap(gap):
                 merged.append(span)
                 continue
             overlap = any(
@@ -84,38 +97,33 @@ def _merge_adjacent(spans: list[dict[str, Any]], text: str) -> list[dict[str, An
                 continue
         merged.append(span)
     return merged
+
+
+def _merge_adjacent(spans: list[dict[str, Any]], text: str) -> list[dict[str, Any]]:
+    """Merge same-label spans separated only by whitespace or punctuation."""
+    return _merge_spans(
+        spans,
+        text,
+        lambda gap: not gap or FILLER_RE.fullmatch(gap) is not None,
+    )
 
 
 def _merge_adjacent_words(spans: list[dict[str, Any]], text: str) -> list[dict[str, Any]]:
-    ordered = sorted(spans, key=lambda span: (span["start"], span["end"]))
-    merged: list[dict[str, Any]] = []
-    for span in ordered:
-        previous = merged[-1] if merged else None
-        if previous is not None and previous["label"] == span["label"]:
-            gap = text[previous["end"] : span["start"]]
-            if gap not in {"", " ", "-"}:
-                merged.append(span)
-                continue
-            overlap = any(
-                other["start"] < span["start"] and other["end"] > previous["end"]
-                for other in ordered
-                if other is not previous and other is not span
-            )
-            if not overlap:
-                previous["end"] = span["end"]
-                previous["text"] = text[previous["start"] : previous["end"]]
-                continue
-        merged.append(span)
-    return merged
+    """Merge same-label spans separated by spaces or hyphens, unless overlapping."""
+    return _merge_spans(spans, text, lambda gap: gap in {"", " ", "-"})
 
 
 def _drop_punctuation_only(spans: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Remove predicted spans that contain no word character."""
+
     return [
         span for span in spans if span["text"] is not None and WORD_RE.search(span["text"])
     ]
 
 
 def _drop_tiny(spans: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Remove spans whose stripped text has at most two characters."""
+
     return [
         span
         for span in spans
@@ -126,6 +134,8 @@ def _drop_tiny(spans: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def _expand_word_boundaries(
     spans: list[dict[str, Any]], text: str
 ) -> list[dict[str, Any]]:
+    """Expand span edges through adjacent alphanumeric characters."""
+
     expanded = []
     for span in spans:
         start = span["start"]
@@ -166,6 +176,8 @@ TRANSFORMS = {
 
 
 def main() -> None:
+    """Evaluate configured deterministic post-processing variants offline."""
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("diagnostic", type=Path)
     parser.add_argument("--output", type=Path, required=True)

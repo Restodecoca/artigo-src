@@ -27,6 +27,8 @@ def add_phase(
     primary: str,
     secondary: tuple[str, ...],
 ) -> None:
+    """Draw one numbered phase and its labels on the reproduction diagram."""
+
     ax.add_patch(Circle((x, 1.75), 0.08, facecolor=ACCENT, edgecolor="none", zorder=3))
     ax.text(
         x,
@@ -72,6 +74,8 @@ def add_phase(
 
 
 def build_diagram(output: Path) -> None:
+    """Render the three-stage reproduction diagram to a transparent image."""
+
     fig, ax = plt.subplots(figsize=(15, 3.25), dpi=180)
     fig.patch.set_alpha(0)
     ax.set_xlim(0, 15)
@@ -122,6 +126,8 @@ def build_diagram(output: Path) -> None:
 
 
 def main() -> int:
+    """Parse the output path, generate the diagram, and return a CLI status."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=Path("slides/reproduction_plan_diagram.png"))
     args = parser.parse_args()

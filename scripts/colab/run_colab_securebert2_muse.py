@@ -24,12 +24,16 @@ COMPATIBLE_LABELS = {"Organization": "IDTY", "Vulnerability": "VUL"}
 
 
 def _extract_archive(archive: Path, destination: Path) -> None:
+    """Extract a Muse batch archive into the Colab working directory."""
+
     destination.mkdir(parents=True, exist_ok=True)
     with tarfile.open(archive, "r:gz") as handle:
         handle.extractall(destination, filter="data")
 
 
 def _load_records(root: Path) -> list[dict[str, Any]]:
+    """Read retained documents and labels from extracted dataset batches."""
+
     records: list[dict[str, Any]] = []
     for dataset_dir in sorted(path for path in root.iterdir() if path.is_dir()):
         for batch_path in sorted(dataset_dir.glob("batch_*.json")):
@@ -61,6 +65,8 @@ def _load_records(root: Path) -> list[dict[str, Any]]:
 def _spans(
     entities: list[dict[str, Any]], mapping: dict[str, str] | None = None
 ) -> list[tuple[int, int, str]]:
+    """Normalize model outputs to typed spans, applying an optional label map."""
+
     spans = []
     for entity in entities:
         label = str(entity.get("entity_group", entity.get("entity", "")))
@@ -73,6 +79,8 @@ def _spans(
 
 
 def _gold(record: dict[str, Any], labels: set[str] | None = None) -> list[tuple[int, int, str]]:
+    """Return gold spans, optionally restricted to comparable entity types."""
+
     return [
         (int(entity["start"]), int(entity["end"]), str(entity["label"]))
         for entity in record["entities"]
@@ -86,6 +94,8 @@ def _matching_pairs(
     strict: bool,
     same_label: bool = False,
 ) -> list[tuple[int, int]]:
+    """Pair gold and predicted spans one-to-one under strict or overlap matching."""
+
     edges = [
         [
             index
@@ -100,6 +110,8 @@ def _matching_pairs(
     gold_to_prediction: dict[int, int] = {}
 
     def visit(prediction_index: int, visited: set[int]) -> bool:
+        """Find a compatible gold span, reassigning an earlier match if necessary."""
+
         for gold_index in edges[prediction_index]:
             if gold_index in visited:
                 continue
@@ -123,6 +135,8 @@ def _score(
     predicted: list[list[tuple[int, int, str]]],
     strict: bool,
 ) -> dict[str, float | int]:
+    """Aggregate span counts and precision/recall/F1 across documents."""
+
     true_positive = sum(
         len(_matching_pairs(expected, actual, strict))
         for expected, actual in zip(gold, predicted, strict=True)
@@ -147,6 +161,8 @@ def _score(
 def _serialize_spans(
     spans: list[tuple[int, int, str]], text: str
 ) -> list[dict[str, Any]]:
+    """Serialize spans with offsets, labels, and valid text slices."""
+
     return [
         {
             "start": start,
@@ -159,6 +175,8 @@ def _serialize_spans(
 
 
 def _native_spans(entities: list[dict[str, Any]], text: str) -> list[dict[str, Any]]:
+    """Serialize all native model spans without restricting the label taxonomy."""
+
     spans = []
     for entity in entities:
         label = str(entity.get("entity_group", entity.get("entity", "")))
@@ -178,6 +196,8 @@ def _native_spans(entities: list[dict[str, Any]], text: str) -> list[dict[str, A
 
 
 def main() -> None:
+    """Run SecureBERT 2.0 and report native and compatible-label metrics."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--archive", type=Path, default=Path("/content/muse_batches.tar.gz"))
     parser.add_argument(
@@ -226,16 +246,11 @@ def main() -> None:
         model_limit = int(getattr(tagger.model.config, "max_position_embeddings", 512))
     started = time.perf_counter()
     raw_predictions: list[list[dict[str, Any]]] = []
-    failures: Counter[str] = Counter()
     token_lengths: list[int] = []
     for record in records:
-        try:
-            encoded = tagger.tokenizer(record["text"], truncation=False)
-            token_lengths.append(len(encoded["input_ids"]))
-            raw_predictions.append(tagger(record["text"]))
-        except Exception as error:  # pragma: no cover - remote runtime path
-            failures[type(error).__name__] += 1
-            raw_predictions.append([])
+        encoded = tagger.tokenizer(record["text"], truncation=False)
+        token_lengths.append(len(encoded["input_ids"]))
+        raw_predictions.append(tagger(record["text"]))
     mapped_predictions = [_spans(prediction, COMPATIBLE_LABELS) for prediction in raw_predictions]
     gold = [_gold(record, set(COMPATIBLE_LABELS.values())) for record in records]
     result = {
@@ -249,8 +264,8 @@ def main() -> None:
         "compatibility_warning": "ACT and LOC are not mapped; scores cover only IDTY and VUL.",
         "archive_sha256": hashlib.sha256(args.archive.read_bytes()).hexdigest(),
         "documents_attempted": len(records),
-        "documents_processed": len(records) - sum(failures.values()),
-        "failure_types": dict(failures),
+        "documents_processed": len(records),
+        "failure_types": {},
         "model_max_tokens": model_limit,
         "documents_over_model_limit": sum(length > model_limit for length in token_lengths),
         "token_length_max": max(token_lengths, default=0),

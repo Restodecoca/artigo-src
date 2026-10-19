@@ -8,20 +8,24 @@ import hashlib
 import json
 import time
 import urllib.error
-import urllib.request
 from datetime import date
 from pathlib import Path
 
+from healthcare_ner_replication.article_fetch import fetch_jina_reader_markdown
 from healthcare_ner_replication.local_corpus import (
     clean_article,
     first_tokens,
     is_blocked_response,
     is_protocol_date,
 )
+from healthcare_ner_replication.protocol import (
+    COLLECTION_PERIOD_END,
+    COLLECTION_PERIOD_START,
+)
 
 PORTALS = ("Security Magazine", "Becker's Hospital Review", "JD Supra")
-PERIOD_START = "2023-01-01"
-PERIOD_END = "2023-10-30"
+PERIOD_START = COLLECTION_PERIOD_START
+PERIOD_END = COLLECTION_PERIOD_END
 PORTAL_SLUGS = {
     "Security Magazine": "sec",
     "Becker's Hospital Review": "bhr",
@@ -32,17 +36,12 @@ MIN_WORDS = 40
 
 def fetch_article(url: str) -> str:
     """Fetch one source URL through the public Jina Reader endpoint."""
-
-    reader_url = "https://r.jina.ai/" + url
-    request = urllib.request.Request(
-        reader_url,
-        headers={"User-Agent": "academic-reproduction-probe/1.0"},
-    )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        return response.read().decode("utf-8", errors="replace")
+    return fetch_jina_reader_markdown(url)
 
 
 def main() -> None:
+    """Fetch and save the fixed 20-article sample from each protocol portal."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("metadata_csv", type=Path)
     parser.add_argument("--output", type=Path, default=Path("data/raw/protocol_60_texts.jsonl"))

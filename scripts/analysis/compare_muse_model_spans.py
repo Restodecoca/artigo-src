@@ -9,14 +9,20 @@ from typing import Any
 
 
 def _read(path: Path) -> dict[str, Any]:
+    """Read a diagnostic JSON object from disk."""
+
     return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _overlaps(gold: dict[str, Any], predicted: dict[str, Any]) -> bool:
+    """Test whether two half-open character spans overlap."""
+
     return gold["start"] < predicted["end"] and predicted["start"] < gold["end"]
 
 
 def _context(text: str, start: int, end: int, radius: int = 80) -> str:
+    """Return a whitespace-normalized excerpt surrounding the requested span."""
+
     excerpt = text[max(0, start - radius) : min(len(text), end + radius)]
     return " ".join(excerpt.split())
 
@@ -24,6 +30,8 @@ def _context(text: str, start: int, end: int, radius: int = 80) -> str:
 def _comparison(
     document: dict[str, Any], model: str, compatible_labels: set[str]
 ) -> dict[str, Any]:
+    """Classify gold and predicted spans and attach local text context."""
+
     text = document["text"]
     model_document = document["models"][model]
     gold = document["gold_spans"]
@@ -102,6 +110,8 @@ def _comparison(
 
 
 def main() -> None:
+    """Write a private per-span comparison report for one selected model."""
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("diagnostic", type=Path)
     parser.add_argument("--model", default=None)

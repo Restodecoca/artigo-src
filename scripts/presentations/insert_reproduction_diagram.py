@@ -18,6 +18,8 @@ def insert_diagram(
     y: float,
     width: float,
 ) -> None:
+    """Insert an image at the requested slide position and save a presentation copy."""
+
     presentation = Presentation(input_path)
     if not 1 <= slide_number <= len(presentation.slides):
         raise ValueError(f"Slide {slide_number} is outside the presentation")
@@ -28,6 +30,8 @@ def insert_diagram(
 
 
 def main() -> int:
+    """Parse slide and image options, insert the diagram, and return a CLI status."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)

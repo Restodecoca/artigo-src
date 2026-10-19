@@ -34,12 +34,16 @@ WORD_RE = re.compile(r"\w", re.UNICODE)
 
 
 def _extract_archive(archive: Path, destination: Path) -> None:
+    """Extract a trusted Muse archive into the runtime work directory."""
+
     destination.mkdir(parents=True, exist_ok=True)
     with tarfile.open(archive, "r:gz") as handle:
         handle.extractall(destination, filter="data")
 
 
 def _load_records(root: Path) -> list[dict[str, Any]]:
+    """Load retained source records together with their gold entity labels."""
+
     records: list[dict[str, Any]] = []
     for dataset_dir in sorted(path for path in root.iterdir() if path.is_dir()):
         for batch_path in sorted(dataset_dir.glob("batch_*.json")):
@@ -69,6 +73,8 @@ def _load_records(root: Path) -> list[dict[str, Any]]:
 
 
 def _gold_spans(record: dict[str, Any]) -> list[tuple[int, int, str]]:
+    """Convert a record's gold entities to typed half-open character spans."""
+
     return [
         (int(entity["start"]), int(entity["end"]), str(entity["label"]))
         for entity in record["entities"]
@@ -76,6 +82,8 @@ def _gold_spans(record: dict[str, Any]) -> list[tuple[int, int, str]]:
 
 
 def _prediction_spans(raw_entities: list[dict[str, Any]]) -> list[tuple[int, int, str]]:
+    """Normalize pipeline entity aliases and offsets into supported spans."""
+
     spans = []
     for entity in raw_entities:
         raw_label = str(entity.get("entity_group", entity.get("entity", ""))).upper()
@@ -97,6 +105,8 @@ def _matches(
     strict: bool,
     same_label: bool = False,
 ) -> bool:
+    """Check exact span equality or overlap, optionally requiring equal labels."""
+
     if strict:
         return gold == predicted
     return (
@@ -112,6 +122,8 @@ def _maximum_matching(
     strict: bool,
     same_label: bool = False,
 ) -> int:
+    """Return the count of maximum one-to-one compatible span assignments."""
+
     return len(_matching_pairs(gold, predicted, strict, same_label))
 
 
@@ -121,6 +133,8 @@ def _matching_pairs(
     strict: bool,
     same_label: bool = False,
 ) -> list[tuple[int, int]]:
+    """Return gold/prediction index pairs from a maximum bipartite matching."""
+
     edges = [
         [
             index
@@ -132,6 +146,8 @@ def _matching_pairs(
     gold_to_prediction: dict[int, int] = {}
 
     def visit(prediction_index: int, visited: set[int]) -> bool:
+        """Augment the matching recursively through unassigned gold spans."""
+
         for gold_index in edges[prediction_index]:
             if gold_index in visited:
                 continue
@@ -153,6 +169,8 @@ def _matching_pairs(
 def _serialize_spans(
     spans: list[tuple[int, int, str]], text: str
 ) -> list[dict[str, Any]]:
+    """Serialize spans and include their text slice when offsets are valid."""
+
     return [
         {
             "start": start,
@@ -167,6 +185,8 @@ def _serialize_spans(
 def _window_ranges(
     token_count: int, window_size: int, stride: int
 ) -> list[tuple[int, int]]:
+    """Partition token indexes into fixed-size windows with the requested overlap."""
+
     if token_count <= 0:
         return []
     if window_size <= 0 or stride < 0 or stride >= window_size:
@@ -184,6 +204,8 @@ def _window_ranges(
 
 
 def _is_word_start(offset: tuple[int, int], text: str) -> bool:
+    """Check whether a tokenizer offset begins at a whitespace-delimited word."""
+
     start, _ = offset
     return start == 0 or text[start].isspace() or text[start - 1].isspace()
 
@@ -191,6 +213,8 @@ def _is_word_start(offset: tuple[int, int], text: str) -> bool:
 def _aligned_window_ranges(
     offsets: list[tuple[int, int]], text: str, window_size: int, stride: int
 ) -> list[tuple[int, int]]:
+    """Create overlapping token windows whose boundaries align to word starts."""
+
     if not offsets:
         return []
     ranges = []
@@ -213,6 +237,8 @@ def _aligned_window_ranges(
 def _sliding_window_predictions(
     tagger: Any, text: str, model_limit: int, stride: int
 ) -> tuple[list[tuple[int, int, str]], int]:
+    """Run a tagger on aligned text windows and restore full-text character offsets."""
+
     tokenizer = tagger.tokenizer
     if not tokenizer.is_fast:
         raise RuntimeError("manual sliding windows require a fast tokenizer")
@@ -241,6 +267,8 @@ def _sliding_window_predictions(
 def _postprocess_spans(
     spans: list[tuple[int, int, str]], text: str, policy: str
 ) -> list[tuple[int, int, str]]:
+    """Apply the selected deterministic boundary, merge, and filtering policy."""
+
     if policy == "none":
         return spans
     ordered = sorted(spans)
@@ -280,6 +308,8 @@ def _score(
     strict: bool,
     same_label: bool = False,
 ) -> dict[str, float | int]:
+    """Aggregate one-to-one span matches into precision, recall, and F1 counts."""
+
     true_positive = sum(
         _maximum_matching(gold, predicted, strict, same_label)
         for gold, predicted in zip(gold_documents, predicted_documents, strict=True)
@@ -304,6 +334,8 @@ def _score(
 def _score_by_dataset(
     records: list[dict[str, Any]], predictions: list[list[tuple[int, int, str]]], strict: bool
 ) -> dict[str, dict[str, float | int]]:
+    """Compute span metrics independently for each source dataset."""
+
     result: dict[str, dict[str, float | int]] = {}
     for dataset in sorted({record["dataset"] for record in records}):
         indices = [index for index, record in enumerate(records) if record["dataset"] == dataset]
@@ -318,6 +350,8 @@ def _score_by_dataset(
 def _truncate_record(
     record: dict[str, Any], tokenizer: Any, limit: int
 ) -> tuple[dict[str, Any], int]:
+    """Truncate text to a content-token limit and retain only complete gold spans."""
+
     encoded = tokenizer(
         record["text"],
         add_special_tokens=False,
@@ -349,6 +383,8 @@ def run_model(
     document_diagnostics: list[dict[str, Any]] | None = None,
     detailed_diagnostics: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    """Run one model with overlapping windows and optionally collect diagnostics."""
+
     import torch
     from transformers import AutoTokenizer, pipeline
 
@@ -386,30 +422,22 @@ def run_model(
     token_lengths: list[int] = []
     token_lengths_by_document: list[int | None] = []
     window_counts_by_document: list[int | None] = []
-    failures: Counter[str] = Counter()
     for index, record in enumerate(records, start=1):
-        failure_type: str | None = None
-        try:
-            encoded = tagger.tokenizer(
-                record["text"], add_special_tokens=True, truncation=False, verbose=False
-            )
-            token_length = len(encoded["input_ids"])
-            token_lengths.append(token_length)
-            document_predictions, window_count = _sliding_window_predictions(
-                tagger, record["text"], model_limit, stride
-            )
-            document_predictions = _postprocess_spans(
-                document_predictions, record["text"], span_postprocess
-            )
-            predictions.append(document_predictions)
-            token_lengths_by_document.append(token_length)
-            window_counts_by_document.append(window_count)
-        except Exception as error:  # pragma: no cover - remote runtime path
-            failure_type = type(error).__name__
-            failures[failure_type] += 1
-            token_lengths_by_document.append(None)
-            window_counts_by_document.append(None)
-            predictions.append([])
+        encoded = tagger.tokenizer(
+            record["text"], add_special_tokens=True, truncation=False, verbose=False
+        )
+        token_length = len(encoded["input_ids"])
+        token_lengths.append(token_length)
+        document_predictions, window_count = _sliding_window_predictions(
+            tagger, record["text"], model_limit, stride
+        )
+        document_predictions = _postprocess_spans(
+            document_predictions, record["text"], span_postprocess
+        )
+        predictions.append(document_predictions)
+        token_lengths_by_document.append(token_length)
+        window_counts_by_document.append(window_count)
+        failure_type = None
         if index % 100 == 0:
             print(f"{name}: {index}/{len(records)}", flush=True)
     result: dict[str, Any] = {
@@ -417,8 +445,8 @@ def run_model(
         "repository": repository,
         "revision": revision,
         "documents_attempted": len(records),
-        "documents_processed": len(records) - sum(failures.values()),
-        "failure_types": dict(failures),
+        "documents_processed": len(records),
+        "failure_types": {},
         "model_max_tokens": model_limit,
         "window_stride": stride,
         "aggregation_strategy": aggregation_strategy,
@@ -506,6 +534,8 @@ def run_model(
 
 
 def main() -> None:
+    """Load the archive, run configured models, and write aggregate/private outputs."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--archive", type=Path, default=Path("/content/muse_batches.tar.gz"))
     parser.add_argument(

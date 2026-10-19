@@ -26,10 +26,14 @@ WORD_RE = re.compile(r"\w", re.UNICODE)
 
 
 def _read(path: Path) -> Any:
+    """Parse a UTF-8 JSON artifact from disk."""
+
     return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _sources(directory: Path) -> dict[str, dict[str, Any]]:
+    """Index source records from all batch files by document ID."""
+
     records = {}
     for path in sorted(directory.glob("batch_*.json")):
         for record in _read(path):
@@ -38,6 +42,8 @@ def _sources(directory: Path) -> dict[str, dict[str, Any]]:
 
 
 def _metric(documents: list[dict[str, Any]], model: str) -> dict[str, int | float]:
+    """Aggregate entity counts and partial-match precision/recall for a model."""
+
     model_documents = [document["models"][model] for document in documents]
     gold = sum(len(document["gold_spans"]) for document in documents)
     predicted = sum(len(item["predicted_spans"]) for item in model_documents)
@@ -59,6 +65,8 @@ def _metric(documents: list[dict[str, Any]], model: str) -> dict[str, int | floa
 def _label_metrics(
     documents: list[dict[str, Any]], model: str
 ) -> dict[str, dict[str, int | float]]:
+    """Compute gold counts and match recall separately for each entity type."""
+
     result: dict[str, dict[str, int | float]] = {}
     for label in ("IDTY", "ACT", "VUL", "LOC"):
         gold = 0
@@ -101,6 +109,8 @@ def _label_metrics(
 
 
 def _cuts_word(document: dict[str, Any], span: dict[str, Any]) -> bool:
+    """Return whether either span boundary falls inside an alphanumeric word."""
+
     text = document["text"]
     start = span["start"]
     end = span["end"]
@@ -120,6 +130,8 @@ def _cuts_word(document: dict[str, Any], span: dict[str, Any]) -> bool:
 
 
 def _bins(documents: list[dict[str, Any]], model: str) -> dict[str, dict[str, int | float]]:
+    """Group model metrics by document token-length ranges."""
+
     with_lengths = [
         document
         for document in documents
@@ -148,6 +160,8 @@ def _bins(documents: list[dict[str, Any]], model: str) -> dict[str, dict[str, in
 def _examples(
     documents: list[dict[str, Any]], model: str, key: str, limit: int
 ) -> list[dict[str, Any]]:
+    """Return the highest-error documents with bounded span and text previews."""
+
     ranked = sorted(
         documents,
         key=lambda document: (
@@ -193,6 +207,8 @@ def _examples(
 
 
 def main() -> None:
+    """Analyze diagnostics and print aggregate quality and error summaries."""
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "diagnostic",

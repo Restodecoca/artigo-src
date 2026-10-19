@@ -9,10 +9,14 @@ from typing import Any
 
 
 def _read(path: Path) -> list[dict[str, Any]]:
+    """Read a JSON batch containing source or label records."""
+
     return json.loads(path.read_text(encoding="utf-8"))
 
 
 def chunk_sources(source_dir: Path, chunk_dir: Path, size: int) -> None:
+    """Split each source batch into numbered chunks of at most ``size`` records."""
+
     chunk_dir.mkdir(parents=True, exist_ok=True)
     chunk_number = 1
     for batch_path in sorted(source_dir.glob("batch_*.json")):
@@ -27,6 +31,8 @@ def chunk_sources(source_dir: Path, chunk_dir: Path, size: int) -> None:
 
 
 def merge_labels(source_dir: Path, chunk_dir: Path) -> None:
+    """Reassemble chunk labels in source order and reject duplicate or missing IDs."""
+
     by_id: dict[str, dict[str, Any]] = {}
     for label_path in sorted(chunk_dir.glob("labels_batch_*.json")):
         for label in _read(label_path):
@@ -48,6 +54,8 @@ def merge_labels(source_dir: Path, chunk_dir: Path) -> None:
 
 
 def main() -> None:
+    """Create source chunks or merge their labels according to CLI options."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("source_dir", type=Path)
     parser.add_argument("chunk_dir", type=Path)

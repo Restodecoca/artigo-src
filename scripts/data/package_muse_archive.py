@@ -8,6 +8,8 @@ from pathlib import Path
 
 
 def package(source_dir: Path, output: Path) -> None:
+    """Archive all source and label batch files under a stable dataset path."""
+
     files = sorted(
         path
         for pattern in ("batch_*.json", "labels_batch_*.json")
@@ -23,6 +25,8 @@ def package(source_dir: Path, output: Path) -> None:
 
 
 def main() -> None:
+    """Package one local Muse dataset for transfer to a model runner."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("source", type=Path)
     parser.add_argument("output", type=Path)

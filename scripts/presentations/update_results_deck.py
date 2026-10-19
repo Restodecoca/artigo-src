@@ -16,6 +16,8 @@ DIAGNOSTIC = Path("data/muse_validation_diagnostic.json")
 
 
 def set_run_text(paragraph, text: str) -> None:
+    """Replace paragraph text while preserving its first run's formatting."""
+
     if not paragraph.runs:
         paragraph.add_run().text = text
         return
@@ -25,6 +27,8 @@ def set_run_text(paragraph, text: str) -> None:
 
 
 def set_content(shape, paragraphs: list[str]) -> None:
+    """Fill the selected text slots in a template shape and clear unused slots."""
+
     available = shape.text_frame.paragraphs
     slots = [0, 2, 4] if len(available) >= 5 else list(range(len(available)))
     for index, paragraph in enumerate(available):
@@ -39,6 +43,8 @@ def set_content(shape, paragraphs: list[str]) -> None:
 
 
 def remove_old_diagram(slide) -> None:
+    """Remove a previous reproduction diagram matching the known template bounds."""
+
     for shape in list(slide.shapes):
         if (
             shape.shape_type == 13
@@ -49,6 +55,8 @@ def remove_old_diagram(slide) -> None:
 
 
 def find_text_shape(slide, text: str | tuple[str, ...]):
+    """Find a slide shape whose full text matches one of the requested values."""
+
     candidates = {text} if isinstance(text, str) else set(text)
     for shape in slide.shapes:
         if hasattr(shape, "text_frame") and shape.text.strip() in candidates:
@@ -57,6 +65,8 @@ def find_text_shape(slide, text: str | tuple[str, ...]):
 
 
 def find_shape_with_prefix(slide, prefix: str | tuple[str, ...]):
+    """Find a slide shape whose text starts with one of the requested prefixes."""
+
     candidates = (prefix,) if isinstance(prefix, str) else prefix
     for shape in slide.shapes:
         if hasattr(shape, "text_frame") and shape.text.startswith(candidates):
@@ -65,6 +75,8 @@ def find_shape_with_prefix(slide, prefix: str | tuple[str, ...]):
 
 
 def update_deck(deck_path: Path, results_path: Path, diagnostic_path: Path) -> None:
+    """Update result slides from metrics while preserving the source deck template."""
+
     results = json.loads(results_path.read_text(encoding="utf-8"))
     diagnostic = json.loads(diagnostic_path.read_text(encoding="utf-8"))
     compatible = f"{results['compatible_exact']['f1']:.4f}".replace(".", ",")
@@ -180,6 +192,8 @@ def update_deck(deck_path: Path, results_path: Path, diagnostic_path: Path) -> N
 
 
 def main() -> int:
+    """Update the configured presentation and return a command-line status."""
+
     update_deck(DEFAULT_DECK, RESULTS, DIAGNOSTIC)
     print(f"Updated {DEFAULT_DECK}")
     return 0

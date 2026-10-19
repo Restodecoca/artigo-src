@@ -13,24 +13,34 @@ DRAWING_NS = "http://schemas.openxmlformats.org/drawingml/2006/main"
 
 
 def text_nodes(document: minidom.Document):
+    """Return all DrawingML text nodes from a presentation XML document."""
+
     return document.getElementsByTagName("a:t")
 
 
 def node_text(node) -> str:
+    """Read the text value from a populated XML text node."""
+
     return cast(minidom.Text, node.firstChild).data
 
 
 def set_node_text(node, value: str) -> None:
+    """Replace the text value of an existing XML text node."""
+
     cast(minidom.Text, node.firstChild).data = value
 
 
 def replace_text(document: minidom.Document, old: str, new: str) -> None:
+    """Replace exact matching text-node values throughout a slide document."""
+
     for node in text_nodes(document):
         if node.firstChild is not None and node_text(node) == old:
             set_node_text(node, new)
 
 
 def replace_texts(document: minidom.Document, replacements: dict[str, str]) -> None:
+    """Apply a mapping of exact text substitutions to populated XML nodes."""
+
     for node in text_nodes(document):
         if node.firstChild is not None:
             replacement = replacements.get(node_text(node))
@@ -39,6 +49,8 @@ def replace_texts(document: minidom.Document, replacements: dict[str, str]) -> N
 
 
 def set_footer_page(document: minidom.Document, page: str) -> None:
+    """Set the page number in the template's known footer shape."""
+
     for shape in document.getElementsByTagName("p:sp"):
         offsets = shape.getElementsByTagName("a:off")
         if not offsets or offsets[0].getAttribute("x") != "11292840":
@@ -50,6 +62,8 @@ def set_footer_page(document: minidom.Document, page: str) -> None:
 
 
 def fit_cover_authors(document: minidom.Document) -> None:
+    """Widen the cover author shape when it contains the expected author line."""
+
     target = "Gabriel Rodrigues | Gabriel Machado | Angelo Resplandes"
     for shape in document.getElementsByTagName("p:sp"):
         content = "".join(
@@ -64,14 +78,20 @@ def fit_cover_authors(document: minidom.Document) -> None:
 
 
 def write_document(path: Path, document: minidom.Document) -> None:
+    """Serialize a presentation XML document to UTF-8 at the given path."""
+
     path.write_text(document.toxml(encoding="utf-8").decode("utf-8"), encoding="utf-8")
 
 
 def load_document(path: Path) -> minidom.Document:
+    """Parse an XML presentation part from disk."""
+
     return minidom.parse(str(path))
 
 
 def apply_common_footer(document: minidom.Document) -> None:
+    """Replace known template footer variants with the course footer."""
+
     for old in (
         "TEMPLATE | MODELO EDITÁVEL",
         "TEMPLATE | MDELO EDITÁVEL",
@@ -82,6 +102,8 @@ def apply_common_footer(document: minidom.Document) -> None:
 
 
 def set_bullet_sequence(document: minidom.Document) -> None:
+    """Renumber populated automatic bullets and remove bullets from empty rows."""
+
     number = 1
     for paragraph in document.getElementsByTagName("a:p"):
         auto_numbers = paragraph.getElementsByTagName("a:buAutoNum")
@@ -101,6 +123,8 @@ def set_bullet_sequence(document: minidom.Document) -> None:
 
 
 def format_reference_list(document: minidom.Document) -> None:
+    """Normalize alignment, spacing, and font size in the reference list."""
+
     for paragraph in document.getElementsByTagName("a:p"):
         auto_numbers = paragraph.getElementsByTagName("a:buAutoNum")
         if not auto_numbers:
@@ -131,10 +155,14 @@ def format_reference_list(document: minidom.Document) -> None:
 
 
 def format_methodology_list(document: minidom.Document) -> None:
+    """Increase the methodology slide's designated text size."""
+
     set_font_size(document, "1300", "1900")
 
 
 def set_font_size(document: minidom.Document, old: str, new: str) -> None:
+    """Replace matching DrawingML run and paragraph font-size values."""
+
     for tag in ("a:rPr", "a:endParaRPr"):
         for properties in document.getElementsByTagName(tag):
             if properties.getAttribute("sz") == old:
@@ -142,12 +170,16 @@ def set_font_size(document: minidom.Document, old: str, new: str) -> None:
 
 
 def remove_edit_markers(document: minidom.Document) -> None:
+    """Remove residual ``[EDITAR]`` placeholders from presentation text."""
+
     for node in text_nodes(document):
         if node.firstChild is not None and "[EDITAR]" in node_text(node):
             set_node_text(node, node_text(node).replace("[EDITAR]", "").strip())
 
 
 def edit_slides(slides_dir: Path) -> None:
+    """Apply slide-specific text replacements and template formatting updates."""
+
     replacements: dict[str, dict[str, str]] = {
         "slide1.xml": {
             "[EDITAR] TÍTULO": "TRABALHO DE GRUPO",
@@ -264,6 +296,8 @@ def edit_slides(slides_dir: Path) -> None:
 
 
 def reorder_presentation(unpacked_dir: Path) -> None:
+    """Reorder slide references and update visible page numbers in an unpacked deck."""
+
     presentation_path = unpacked_dir / "ppt" / "presentation.xml"
     rels_path = unpacked_dir / "ppt" / "_rels" / "presentation.xml.rels"
     presentation = load_document(presentation_path)
@@ -327,6 +361,8 @@ def reorder_presentation(unpacked_dir: Path) -> None:
 
 
 def main() -> int:
+    """Edit and reorder an unpacked presentation directory from the CLI."""
+
     if len(sys.argv) != 2:
         print("Usage: update_template_deck.py <unpacked_dir>", file=sys.stderr)
         return 2

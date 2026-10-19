@@ -58,6 +58,8 @@ def validate_probe_limit(limit: int) -> int:
 def _select_text_records(
     rows: Iterable[Mapping[str, object]], text_column: str, limit: int
 ) -> list[tuple[int, str]]:
+    """Select the first non-empty text values while retaining source row indexes."""
+
     records: list[tuple[int, str]] = []
     for source_index, row in enumerate(rows):
         value = row.get(text_column)
@@ -75,6 +77,8 @@ def _select_text_records(
 
 
 def _record_metadata(records: Iterable[tuple[int, str]]) -> dict[str, int | str]:
+    """Summarize lengths and fingerprint selected records without retaining text."""
+
     texts = [text for _, text in records]
     character_counts = [len(text) for text in texts]
     word_counts = [len(text.split()) for text in texts]
@@ -100,6 +104,8 @@ def select_first_nonempty_texts(
 
 
 def _canonical_label(value: object) -> str | None:
+    """Map supported model label aliases to project entity types."""
+
     label = str(value).strip().upper()
     if "-" in label:
         _, label = label.split("-", maxsplit=1)
@@ -111,6 +117,8 @@ def _canonical_label(value: object) -> str | None:
 
 
 def _summarize_prediction(raw_entities: Iterable[Mapping[str, object]]) -> PredictionSummary:
+    """Count supported predicted entities by target label for one document."""
+
     labels = [
         label
         for entity in raw_entities
@@ -129,6 +137,8 @@ def run_model(
     revision: str,
     texts: list[str],
 ) -> dict[str, object]:
+    """Run one pinned token-classification model and return aggregate metrics."""
+
     import torch
     from transformers import pipeline
 
@@ -165,6 +175,8 @@ def run_model(
 
 
 def main() -> None:
+    """Probe the first non-empty dataset records and save aggregate results."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", default=os.environ.get("DATASET"))
     parser.add_argument("--text-column", default=os.environ.get("TEXT_COLUMN"))

@@ -34,6 +34,8 @@ TARGET_LABELS = {"IDTY", "ACT", "LOC", "VULID", "VULNAME"}
 
 
 def _file_sha256(path: Path) -> str:
+    """Compute a streaming SHA-256 checksum for the input corpus file."""
+
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
@@ -42,6 +44,8 @@ def _file_sha256(path: Path) -> str:
 
 
 def _target_documents(outputs: list[list[dict[str, object]]]) -> list[list[tuple[int, int, str]]]:
+    """Normalize each model output to supported entity spans by document."""
+
     documents = []
     for output in outputs:
         document = []
@@ -58,6 +62,8 @@ def _target_documents(outputs: list[list[dict[str, object]]]) -> list[list[tuple
 def _agreement(
     first: list[list[tuple[int, int, str]]], second: list[list[tuple[int, int, str]]]
 ) -> dict[str, float | int]:
+    """Measure strict and same-type partial agreement between model outputs."""
+
     strict = sum(
         sum(any(candidate == other for other in right) for candidate in left)
         for left, right in zip(first, second, strict=True)
@@ -82,6 +88,8 @@ def _agreement(
 
 
 def main() -> None:
+    """Run local inference on selected articles and print aggregate diagnostics."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("input", type=Path)
     parser.add_argument("--limit", type=int, default=60)

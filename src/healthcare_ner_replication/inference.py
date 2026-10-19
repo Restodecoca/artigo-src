@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 
+from healthcare_ner_replication.labels import canonicalize_entity_label
 from healthcare_ner_replication.metrics import EntitySpan
 
 
@@ -29,19 +30,6 @@ MODEL_SPECS = {
         revision="f220a5fbeb8ed9b60a516cf420fc816d9705ce7d",
     ),
 }
-
-
-def canonicalize_entity_label(label: object) -> str | None:
-    """Map checkpoint-specific labels to the paper's four shared entity types."""
-
-    value = str(label).strip().upper()
-    if "-" in value:
-        _, value = value.split("-", maxsplit=1)
-    if value in {"VUL", "VULID", "VULNAME"}:
-        return "VUL"
-    if value in {"IDTY", "ACT", "LOC"}:
-        return value
-    return None
 
 
 def filter_model_entities(raw_entities: Iterable[Mapping[str, object]]) -> list[EntitySpan]:

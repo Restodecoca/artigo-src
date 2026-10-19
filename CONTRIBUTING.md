@@ -11,6 +11,7 @@ Requisitos: Python 3.12+ e `uv`.
 uv sync --extra dev
 uv run pytest
 uv run ruff check src tests scripts
+uv run pyright
 ```
 
 Para recursos específicos, instale apenas os extras necessários (`hf`,
@@ -26,7 +27,7 @@ Para recursos específicos, instale apenas os extras necessários (`hf`,
 5. Atualize a documentação correspondente e descreva limitações e desvios do
    protocolo.
 
-Pull requests executam automaticamente a suíte de testes e Ruff pelo GitHub
+Pull requests executam automaticamente a suíte de testes, Ruff e Pyright pelo GitHub
 Actions. Use o checklist em `.github/pull_request_template.md`.
 
 ## Regras para dados e credenciais

@@ -15,17 +15,21 @@ import subprocess
 import tempfile
 import time
 import urllib.error
-import urllib.request
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from pathlib import Path
 from typing import Any
 
+from healthcare_ner_replication.article_fetch import fetch_jina_reader_markdown
 from healthcare_ner_replication.local_corpus import (
     clean_reader_article,
     is_unusable_reader_response,
     reader_title,
+)
+from healthcare_ner_replication.protocol import (
+    COLLECTION_PERIOD_END,
+    COLLECTION_PERIOD_START,
 )
 
 REPOSITORY = "vinitvek/cybersecurityattacks"
@@ -46,12 +50,14 @@ if os.name == "nt":
 else:
     FIRECRAWL_COMMAND = ("firecrawl",)
 ARTICLE_SCHEMA = Path(__file__).with_name("article_extract_schema.json")
-PERIOD_START = date(2023, 1, 1)
-PERIOD_END = date(2023, 10, 30)
+PERIOD_START = date.fromisoformat(COLLECTION_PERIOD_START)
+PERIOD_END = date.fromisoformat(COLLECTION_PERIOD_END)
 MIN_WORDS = 40
 
 
 def _healthcare_row(row: dict[str, Any]) -> bool:
+    """Return whether incident metadata indicates a healthcare organization."""
+
     industry = str(row.get("affected_industry", "")).casefold()
     organization = str(row.get("affected_organization", "")).casefold()
     return "health" in industry or any(
@@ -60,6 +66,8 @@ def _healthcare_row(row: dict[str, Any]) -> bool:
 
 
 def _event_date(row: dict[str, Any]) -> date | None:
+    """Parse the source event date, returning ``None`` when it is invalid."""
+
     value = str(row.get("event_date", ""))[:10]
     try:
         return date.fromisoformat(value)
@@ -91,13 +99,7 @@ def eligible_rows(dataset: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def fetch_article(url: str, timeout: float = 30.0) -> str:
     """Fetch one source URL through the public Jina Reader endpoint."""
-
-    request = urllib.request.Request(
-        "https://r.jina.ai/" + url,
-        headers={"User-Agent": "academic-reproduction-probe/1.0"},
-    )
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        return response.read().decode("utf-8", errors="replace")
+    return fetch_jina_reader_markdown(url, timeout=timeout)
 
 
 def fetch_firecrawl_article(url: str, timeout: float = 60.0) -> str:
@@ -185,10 +187,14 @@ def fetch_records(
     workers: int,
     checkpoint: Callable[[list[dict[str, Any]], list[dict[str, str]]], None] | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
+    """Fetch up to ``limit`` usable articles and collect per-URL failures."""
+
     records: list[dict[str, Any]] = []
     failures: list[dict[str, str]] = []
 
     def retrieve(row: dict[str, Any]) -> tuple[tuple[str, str] | None, str | None]:
+        """Fetch and normalize one row, returning either content or an error."""
+
         url = str(row["source_url"])
         try:
             if scraper == "firecrawl-json":
@@ -262,6 +268,8 @@ def fetch_records(
 
 
 def load_rows(input_csv: Path | None) -> list[dict[str, Any]]:
+    """Load source rows from a supplied CSV or the pinned Hugging Face dataset."""
+
     if input_csv is not None:
         with input_csv.open(encoding="utf-8-sig", newline="") as handle:
             return [dict(row) for row in csv.DictReader(handle)]
@@ -273,6 +281,8 @@ def load_rows(input_csv: Path | None) -> list[dict[str, Any]]:
 
 
 def load_existing_records(output_root: Path) -> list[dict[str, Any]]:
+    """Restore batch records, preferring a newer resumable checkpoint."""
+
     records: list[dict[str, Any]] = []
     for batch_path in sorted(output_root.glob("batch_*.json")):
         records.extend(json.loads(batch_path.read_text(encoding="utf-8")))
@@ -297,6 +307,8 @@ def write_json_atomic(path: Path, payload: object) -> None:
 
 
 def main() -> None:
+    """Fetch eligible articles, resume if requested, and write batches and manifest."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=60)
     parser.add_argument("--delay", type=float, default=0.5)
@@ -335,6 +347,8 @@ def main() -> None:
     remaining = max(args.limit - len(existing), 0)
 
     def checkpoint(new_records: list[dict[str, Any]], failures: list[dict[str, str]]) -> None:
+        """Atomically persist accumulated records and failures for resumption."""
+
         write_json_atomic(
             checkpoint_path,
             {"records": existing + new_records, "failures": failures},

@@ -6,16 +6,23 @@ import argparse
 import csv
 import json
 from collections import Counter
-from datetime import date
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
-START = date(2023, 1, 1)
-END = date(2023, 10, 30)
+from healthcare_ner_replication.local_corpus import is_protocol_date
+from healthcare_ner_replication.protocol import (
+    COLLECTION_PERIOD_END,
+    COLLECTION_PERIOD_START,
+)
+
+START = COLLECTION_PERIOD_START
+END = COLLECTION_PERIOD_END
 PROTOCOL_SOURCES = {"Security Magazine", "Becker's Hospital Review", "JD Supra"}
 
 
 def normalize_url(value: str) -> str:
+    """Normalize URL host and path while dropping query and fragment components."""
+
     parsed = urlsplit(value.strip())
     return urlunsplit(
         (
@@ -29,14 +36,13 @@ def normalize_url(value: str) -> str:
 
 
 def in_period(value: str) -> bool:
-    try:
-        current = date.fromisoformat(value[:10])
-    except ValueError:
-        return False
-    return START <= current <= END
+    """Check whether an ISO-formatted date falls within the paper's collection period."""
+    return is_protocol_date(value[:10])
 
 
 def read_vinitvek(path: Path) -> list[dict[str, str]]:
+    """Load in-period healthcare events that have a non-empty source URL field."""
+
     with path.open(encoding="utf-8-sig", newline="") as handle:
         return [
             row
@@ -54,11 +60,15 @@ def read_vinitvek(path: Path) -> list[dict[str, str]]:
 
 
 def read_articles(path: Path) -> list[dict[str, str]]:
+    """Load article-corpus rows whose dates fall in the comparison period."""
+
     with path.open(encoding="utf-8-sig", newline="") as handle:
         return [row for row in csv.DictReader(handle) if in_period(row.get("date", ""))]
 
 
 def overlap(left: list[dict[str, str]], right: list[dict[str, str]]) -> dict[str, object]:
+    """Summarize normalized URL overlap, source counts, and sample matches."""
+
     left_by_url = {normalize_url(row["source_url"]): row for row in left}
     right_by_url = {normalize_url(row["url"]): row for row in right}
     shared = sorted(set(left_by_url) & set(right_by_url))
@@ -85,6 +95,8 @@ def overlap(left: list[dict[str, str]], right: list[dict[str, str]]) -> dict[str
 
 
 def main() -> None:
+    """Print URL overlap for all articles and the paper's reported portals."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("vinitvek_csv", type=Path)
     parser.add_argument(
@@ -101,7 +113,7 @@ def main() -> None:
     print(
         json.dumps(
             {
-                "period": {"start": START.isoformat(), "end": END.isoformat()},
+                "period": {"start": START, "end": END},
                 "all_article_corpus": overlap(vinitvek, articles),
                 "reported_portal_corpus": overlap(vinitvek, protocol_articles),
             },

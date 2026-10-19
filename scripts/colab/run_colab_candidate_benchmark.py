@@ -36,6 +36,8 @@ MODELS = {
 def build_dataset_kwargs(
     path: str, name: str | None, split: str, revision: str | None = None
 ) -> dict[str, str | None]:
+    """Build keyword arguments for loading a dataset and its pinned revision."""
+
     kwargs: dict[str, str | None] = {"path": path, "split": split, "revision": revision}
     if name is not None:
         kwargs["name"] = name
@@ -43,12 +45,16 @@ def build_dataset_kwargs(
 
 
 def validate_revision(revision: str | None) -> str:
+    """Require a full 40-character commit hash for reproducible dataset loading."""
+
     if not revision or re.fullmatch(r"[0-9a-fA-F]{40}", revision) is None:
         raise ValueError("dataset revision must be pinned")
     return revision
 
 
 def _value(row: Mapping[str, object], key: str) -> str:
+    """Return a stripped string representation of one row value."""
+
     value = row.get(key)
     if value is None:
         return ""
@@ -56,6 +62,8 @@ def _value(row: Mapping[str, object], key: str) -> str:
 
 
 def _identity(row: Mapping[str, object], column: str, source_index: int) -> str:
+    """Serialize configured identity-column values for deduplication."""
+
     columns = [part.strip() for part in column.split(",") if part.strip()]
     values = [_value(row, part) for part in columns]
     return (
@@ -117,6 +125,8 @@ def select_sample(
 
 
 def candidate_filter(name: str) -> Callable[[Mapping[str, object]], bool] | None:
+    """Return the requested row-eligibility predicate or reject an unknown filter."""
+
     if name == "none":
         return None
     if name == "nonempty":
@@ -124,6 +134,8 @@ def candidate_filter(name: str) -> Callable[[Mapping[str, object]], bool] | None
     if name == "vinitvek-healthcare-2023":
 
         def is_healthcare(row: Mapping[str, object]) -> bool:
+            """Select healthcare incidents dated within the paper's time window."""
+
             industry = _value(row, "affected_industry").casefold()
             organization = _value(row, "affected_organization").casefold()
             event_date = _value(row, "event_date")[:10]
@@ -137,11 +149,15 @@ def candidate_filter(name: str) -> Callable[[Mapping[str, object]], bool] | None
 
 
 def _percentiles(values: Sequence[int | float]) -> dict[str, float | int]:
+    """Summarize numeric values with min, median, upper percentiles, and max."""
+
     if not values:
         return {"min": 0, "median": 0, "p90": 0, "p95": 0, "max": 0}
     ordered = sorted(values)
 
     def percentile_value(fraction: float) -> int | float:
+        """Return the nearest-rank value for a percentile fraction."""
+
         index = max(0, min(len(ordered) - 1, math.ceil(len(ordered) * fraction) - 1))
         return ordered[index]
 
@@ -155,6 +171,8 @@ def _percentiles(values: Sequence[int | float]) -> dict[str, float | int]:
 
 
 def _canonical_label(value: object) -> str | None:
+    """Map model label aliases to the four target types or return ``None``."""
+
     label = str(value).strip().upper()
     if "-" in label:
         _, label = label.split("-", maxsplit=1)
@@ -166,18 +184,26 @@ def _canonical_label(value: object) -> str | None:
 
 
 def _prediction_spans(raw_entities: Iterable[Mapping[str, object]]) -> list[tuple[int, int, str]]:
+    """Convert pipeline entities with supported labels and offsets into spans."""
+
     spans = []
     for entity in raw_entities:
         label = _canonical_label(entity.get("entity_group", entity.get("entity")))
+        if label is None:
+            continue
         start = entity.get("start")
         end = entity.get("end")
-        if label is None or not isinstance(start, int) or not isinstance(end, int):
-            continue
+        if not isinstance(start, int) or not isinstance(end, int):
+            raise ValueError(
+                f"Model entity for label {label!r} must have integer start/end offsets"
+            )
         spans.append((start, end, label))
     return spans
 
 
 def _prediction_scores(raw_entities: Iterable[Mapping[str, object]]) -> list[float]:
+    """Extract valid confidence scores for supported predicted entity types."""
+
     scores = []
     for entity in raw_entities:
         label = _canonical_label(entity.get("entity_group", entity.get("entity")))
@@ -186,18 +212,24 @@ def _prediction_scores(raw_entities: Iterable[Mapping[str, object]]) -> list[flo
             continue
         try:
             scores.append(float(str(score)))
-        except (TypeError, ValueError):
-            continue
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                f"Model entity has invalid confidence score: {score!r}"
+            ) from error
     return scores
 
 
 def _token_lengths(tokenizer: Any, text: str) -> tuple[int, int]:
+    """Return tokenizer and whitespace-token counts for a text sample."""
+
     encoded = tokenizer(text, add_special_tokens=True, truncation=False)
     input_ids = encoded["input_ids"]
     return len(input_ids), len(text.split())
 
 
 def _model_limit(tagger: Any) -> int:
+    """Resolve the effective tokenizer or model maximum input length."""
+
     tokenizer_limit = getattr(tagger.tokenizer, "model_max_length", 512)
     if tokenizer_limit > 100_000:
         tokenizer_limit = getattr(tagger.model.config, "max_position_embeddings", 512)
@@ -207,6 +239,8 @@ def _model_limit(tagger: Any) -> int:
 def _length_bins(
     word_counts: list[int], entity_counts: list[int | None]
 ) -> dict[str, dict[str, int]]:
+    """Aggregate processed documents and entity counts by word-count range."""
+
     bins = {"0-49": [], "50-199": [], "200-499": [], "500+": []}
     for words, entities in zip(word_counts, entity_counts, strict=True):
         if entities is None:
@@ -234,6 +268,8 @@ def _length_bins(
 def _prediction_metrics(
     entity_counts: list[int | None], word_counts: list[int]
 ) -> dict[str, float | int]:
+    """Compute aggregate prediction coverage and entity density statistics."""
+
     processed = [
         (entities, words)
         for entities, words in zip(entity_counts, word_counts, strict=True)
@@ -260,6 +296,8 @@ def run_model(
     revision: str,
     texts: list[str],
 ) -> tuple[dict[str, object], list[set[tuple[int, int, str]] | None], list[bool]]:
+    """Run one model and return aggregate metrics plus in-memory per-row spans/status."""
+
     import torch
     from transformers import pipeline
 
@@ -285,28 +323,21 @@ def run_model(
     label_counts: Counter[str] = Counter()
     span_lengths: list[int] = []
     scores: list[float] = []
-    failures: Counter[str] = Counter()
     for text in texts:
-        try:
-            token_count, _ = _token_lengths(tagger.tokenizer, text)
-            token_counts.append(token_count)
-            if token_count > model_limit:
-                over_limit += 1
-                dropped_tokens += token_count - model_limit
-            raw_entities = tagger(text)
-            spans = set(_prediction_spans(raw_entities))
-            predictions.append(spans)
-            successes.append(True)
-            entity_counts.append(len(spans))
-            for _, _, label in spans:
-                label_counts[label] += 1
-            span_lengths.extend(end - start for start, end, _ in spans)
-            scores.extend(_prediction_scores(raw_entities))
-        except Exception as error:  # pragma: no cover - exercised by remote runtimes
-            predictions.append(None)
-            successes.append(False)
-            entity_counts.append(None)
-            failures[type(error).__name__] += 1
+        token_count, _ = _token_lengths(tagger.tokenizer, text)
+        token_counts.append(token_count)
+        if token_count > model_limit:
+            over_limit += 1
+            dropped_tokens += token_count - model_limit
+        raw_entities = tagger(text)
+        spans = set(_prediction_spans(raw_entities))
+        predictions.append(spans)
+        successes.append(True)
+        entity_counts.append(len(spans))
+        for _, _, label in spans:
+            label_counts[label] += 1
+        span_lengths.extend(end - start for start, end, _ in spans)
+        scores.extend(_prediction_scores(raw_entities))
 
     processed = sum(successes)
     prediction_metrics = _prediction_metrics(entity_counts, word_counts)
@@ -318,7 +349,7 @@ def run_model(
         "documents_attempted": len(texts),
         "documents_processed": processed,
         "documents_failed": len(texts) - processed,
-        "failure_types": dict(failures),
+        "failure_types": {},
         "model_max_tokens": model_limit,
         "token_lengths": _percentiles(token_counts),
         "documents_over_model_limit": over_limit,
@@ -341,6 +372,8 @@ def run_model(
 
 
 def _set_f1(left: set[Any], right: set[Any]) -> float:
+    """Calculate set-based F1, treating two empty sets as full agreement."""
+
     true_positive = len(left & right)
     if not left and not right:
         return 1.0
@@ -357,6 +390,8 @@ def agreement(
     left_success: list[bool],
     right_success: list[bool],
 ) -> dict[str, float | int]:
+    """Compare model prediction sets on records both models processed."""
+
     comparable = [
         index
         for index, (left_ok, right_ok) in enumerate(zip(left_success, right_success, strict=True))
@@ -393,6 +428,8 @@ def agreement(
 
 
 def main() -> None:
+    """Load, sample, benchmark, and report aggregate candidate-model results."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", default=os.environ.get("DATASET"))
     parser.add_argument("--text-column", default=os.environ.get("TEXT_COLUMN"))
@@ -440,21 +477,7 @@ def main() -> None:
     model_successes = []
     started = time.perf_counter()
     for model_name, (repository, revision) in MODELS.items():
-        try:
-            result, predictions, successes = run_model(model_name, repository, revision, texts)
-        except Exception as error:  # pragma: no cover - exercised by remote runtimes
-            result = {
-                "model": model_name,
-                "repository": repository,
-                "revision": revision,
-                "documents_attempted": len(texts),
-                "documents_processed": 0,
-                "documents_failed": len(texts),
-                "initialization_failed": True,
-                "failure_types": {type(error).__name__: 1},
-            }
-            predictions = [None] * len(texts)
-            successes = [False] * len(texts)
+        result, predictions, successes = run_model(model_name, repository, revision, texts)
         model_results.append(result)
         model_predictions.append(predictions)
         model_successes.append(successes)

@@ -6,6 +6,7 @@
 
 - [ ] `uv run pytest`
 - [ ] `uv run ruff check src tests scripts`
+- [ ] `uv run pyright`
 
 ## Dados e reprodução
 

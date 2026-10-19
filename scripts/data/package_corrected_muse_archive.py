@@ -8,6 +8,8 @@ from pathlib import Path
 
 
 def package(source_dir: Path, labels_dir: Path, output: Path) -> None:
+    """Archive each source batch with its corresponding adjudicated labels."""
+
     source_batches = sorted(source_dir.glob("batch_*.json"))
     if not source_batches:
         raise ValueError(f"no source batches found in {source_dir}")
@@ -23,6 +25,8 @@ def package(source_dir: Path, labels_dir: Path, output: Path) -> None:
 
 
 def main() -> None:
+    """Package source and corrected-label directories from CLI arguments."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("source_dir", type=Path)
     parser.add_argument("labels_dir", type=Path)

@@ -7,10 +7,14 @@ import json
 from pathlib import Path
 from typing import Any
 
-ALLOWED_LABELS = frozenset({"IDTY", "ACT", "VUL", "LOC"})
+from healthcare_ner_replication.labels import ENTITY_TYPES
+
+ALLOWED_LABELS = frozenset(ENTITY_TYPES)
 
 
 def _read_json(path: Path) -> Any:
+    """Read UTF-8 JSON, accepting an optional byte-order mark."""
+
     with path.open(encoding="utf-8-sig") as handle:
         return json.load(handle)
 
@@ -139,6 +143,8 @@ def validate_directory(directory: Path) -> tuple[list[str], int, int]:
 
 
 def main() -> int:
+    """Validate one batch directory and return a nonzero status on errors."""
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path)
     args = parser.parse_args()

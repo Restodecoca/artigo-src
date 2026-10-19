@@ -15,6 +15,8 @@ DEFAULT_REVISION = "7f935a4f7db13697580c881e381bb2636dfa779a"
 
 
 def main() -> None:
+    """Compare tokenizer overflow-window behavior for representative long records."""
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, default=DEFAULT_ARCHIVE)
     parser.add_argument("--model", default=DEFAULT_MODEL)

@@ -21,6 +21,8 @@ LABEL_TO_ID = {label: index for index, label in enumerate(LABELS)}
 
 
 def file_sha256(path: Path) -> str:
+    """Compute a streaming SHA-256 digest for an archive file."""
+
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
@@ -29,6 +31,8 @@ def file_sha256(path: Path) -> str:
 
 
 def load_archive(path: Path) -> dict[str, dict[str, Any]]:
+    """Load kept source/label pairs from a Muse tar archive keyed by ID."""
+
     with tarfile.open(path, "r:gz") as archive:
         members = {member.name: member for member in archive.getmembers()}
         source_members = [
@@ -58,6 +62,8 @@ def load_archive(path: Path) -> dict[str, dict[str, Any]]:
 
 
 def split_ids(records: dict[str, dict[str, Any]], seed: int) -> dict[str, list[str]]:
+    """Target a deterministic 60/20/20 split while keeping duplicate texts together."""
+
     groups: dict[str, list[str]] = {}
     for record_id, record in records.items():
         key = hashlib.sha256(record["text"].encode("utf-8")).hexdigest()
@@ -92,6 +98,8 @@ def ros_records(records: list[dict[str, Any]], seed: int) -> list[dict[str, Any]
 
 
 def _collate(features: list[dict[str, list[int]]]) -> dict[str, Any]:
+    """Pad tokenized examples and convert model inputs to PyTorch tensors."""
+
     import torch
 
     length = max(len(row["input_ids"]) for row in features)
@@ -105,6 +113,8 @@ def _collate(features: list[dict[str, list[int]]]) -> dict[str, Any]:
 
 
 def _token_features(tokenizer: Any, records: list[dict[str, Any]]) -> list[dict[str, list[int]]]:
+    """Tokenize records into overlapping windows and align entity BIO labels."""
+
     features: list[dict[str, list[int]]] = []
     for record in records:
         encoded = tokenizer(
@@ -155,6 +165,8 @@ def _token_features(tokenizer: Any, records: list[dict[str, Any]]) -> list[dict[
 def _prediction_spans(
     model: Any, tokenizer: Any, records: list[dict[str, Any]]
 ) -> dict[str, list[tuple[int, int, str]]]:
+    """Decode BIO model outputs into deduplicated document-level character spans."""
+
     import torch
 
     model.eval()
@@ -204,6 +216,8 @@ def _prediction_spans(
 def _matching_count(
     gold: list[tuple[int, int, str]], predicted: list[tuple[int, int, str]], strict: bool
 ) -> int:
+    """Count maximum one-to-one strict or same-type overlapping span matches."""
+
     edges = [
         [
             index
@@ -216,6 +230,8 @@ def _matching_count(
     matched: dict[int, int] = {}
 
     def visit(prediction: int, seen: set[int]) -> bool:
+        """Find an available gold assignment, reassigning earlier matches as needed."""
+
         for target in edges[prediction]:
             if target in seen:
                 continue
@@ -232,6 +248,8 @@ def _matching_count(
 def _score(
     records: list[dict[str, Any]], predictions: dict[str, list[tuple[int, int, str]]], strict: bool
 ) -> dict[str, float | int]:
+    """Calculate corpus-level precision, recall, F1, and confusion counts."""
+
     gold = [
         [(int(e["start"]), int(e["end"]), str(e["label"])) for e in record["entities"]]
         for record in records
@@ -259,6 +277,8 @@ def _score(
 
 
 def _set_seed(seed: int) -> None:
+    """Seed Python, NumPy, and PyTorch random generators for repeatability."""
+
     import numpy as np
     import torch
 
@@ -279,6 +299,8 @@ def train_one(
     method: str,
     weighted_loss: bool,
 ) -> dict[str, Any]:
+    """Train one configured seed/label-layer condition and score held-out splits."""
+
     import torch
     from transformers import AutoModelForTokenClassification, AutoTokenizer
 
@@ -405,12 +427,16 @@ def train_one(
 
 
 def summarize(values: list[float]) -> dict[str, float]:
+    """Return the arithmetic mean and population standard deviation."""
+
     mean = sum(values) / len(values)
     variance = sum((value - mean) ** 2 for value in values) / len(values)
     return {"mean": mean, "std": math.sqrt(variance)}
 
 
 def main() -> None:
+    """Run the paired annotation-layer fine-tuning sensitivity experiment."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--original-archive", type=Path, default=Path("/content/muse_original.tar.gz")
