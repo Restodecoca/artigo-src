@@ -1,51 +1,59 @@
-# Catálogo de scripts
+# Scripts e comandos
 
-Os scripts são entradas de linha de comando. A lógica de domínio reutilizável
-fica em `src/healthcare_ner_replication/`; os scripts remotos permanecem
-autônomos porque `colab exec -f` transfere o corpo do arquivo, não o pacote
-local inteiro.
+`src/healthcare_ner_replication/` contém lógica reutilizável. Os scripts em
+`scripts/colab/` são autônomos: o `colab exec -f` transfere o arquivo ao runtime
+remoto, não o pacote Python inteiro.
 
-## Pipeline
+## Por categoria
 
-- `fetch_protocol_sample.py`: coleta a amostra alinhada ao protocolo.
-- `fetch_vinitvek_articles.py`: recupera artigos completos a partir das URLs.
-- `prepare_muse_batches.py`: prepara lotes para anotação Muse; pode remover
-  lotes antigos no diretório de saída.
-- `chunk_muse_batches.py`: divide lotes longos em chunks privados.
-- `validate_muse_labels.py`: valida labels Muse originais.
-- `validate_corrected_muse_labels.py`: valida o overlay adjudicado.
-- `package_muse_archive.py`: empacota fonte e labels originais.
-- `package_corrected_muse_archive.py`: empacota fonte e labels adjudicados.
+### `scripts/data/`
 
-## T4 e fine-tuning
+- `fetch_protocol_sample.py`: seleciona uma amostra de metadados alinhada ao artigo.
+- `fetch_vinitvek_articles.py`: recupera texto completo a partir das URLs.
+- `prepare_muse_batches.py` e `chunk_muse_batches.py`: preparam lotes locais
+  para anotação; os arquivos podem conter texto protegido e ficam em `data/raw/`.
+- `validate_muse_labels.py` e `validate_corrected_muse_labels.py`: validam as
+  camadas Muse original e adjudicada.
+- `package_muse_archive.py` e `package_corrected_muse_archive.py`: empacotam os
+  dados locais correspondentes.
 
-- `run_colab_muse_validation.py`: validação SecureBERT-NER/APTNER contra Muse.
-- `run_colab_securebert2_muse.py`: compatibilidade SecureBERT 2.0.
-- `run_colab_candidate_probe.py`: sondagem agregada de candidatos.
-- `run_colab_candidate_benchmark.py`: benchmark agregado de candidatos.
-- `run_colab_loraplus_muse_sensitivity.py`: LoRA+, full fine-tuning, CCE
-  ponderada e ROS, sempre em split documental fixo.
+Exemplo de validação local (a saída contém apenas contagens agregadas):
 
-## Análise
+```powershell
+uv run python scripts/data/validate_corrected_muse_labels.py data/raw/vinitvek-articles-2023 data/processed/muse_corrected
+```
 
-Os diagnósticos reproduzíveis ficam em `scripts/analysis/` e consomem os
-artefatos já gerados:
+### `scripts/colab/`
 
-- `analyze_muse_diagnostic.py`: resume diagnósticos privados.
-- `compare_muse_model_spans.py`: compara spans por modelo.
-- `evaluate_span_postprocessing.py`: avalia reparos de spans.
-- `measure_corpus_overlap.py`: mede sobreposição de URLs.
-- `check_colab_windowing.py`: verifica janelas do archive.
+Runners autônomos de validação e fine-tuning:
 
-## Slides
+- `run_colab_muse_validation.py` e `run_colab_securebert_validation.py`;
+- `run_colab_securebert2_muse.py`;
+- `run_colab_candidate_probe.py` e `run_colab_candidate_benchmark.py`;
+- `run_colab_loraplus_muse_sensitivity.py` (LoRA+, Full, CCE e ROS).
 
-Os scripts de `slides/` e os scripts de manutenção de apresentações não fazem
-parte desta limpeza e permanecem intocados.
+Exemplos de envio:
+
+```powershell
+colab exec -f scripts/colab/run_colab_muse_validation.py
+colab exec -f scripts/colab/run_colab_loraplus_muse_sensitivity.py
+```
+
+### `scripts/analysis/`
+
+Ferramentas para resumir diagnósticos, comparar spans, avaliar pós-processamento,
+medir sobreposição de corpus e verificar windowing. Usam artefatos já gerados;
+os diagnósticos por documento continuam privados.
+
+### `scripts/local/` e `scripts/presentations/`
+
+`local/` contém smoke tests locais de modelos. `presentations/` contém utilitários
+para editar/gerar materiais de apresentação; eles não fazem parte do pipeline de
+dados ou avaliação.
 
 ## Segurança
 
-Textos, labels, checkpoints, resultados por documento e caches ficam em
-`data/raw/`, `data/processed/`, `artifacts/`, `checkpoints/` ou `models/`, todos
-fora do commit. O `.env` local pode fornecer `HF_TOKEN` para operações
-explicitamente autorizadas, mas o token nunca deve aparecer em logs, código ou
-artefatos versionados.
+Antes de executar coleta, preparação ou empacotamento, confirme os paths de
+entrada e saída. Não publicar `.env`, tokens, texto de artigos, labels por
+documento, checkpoints ou resultados detalhados. Consulte
+`DATA_AND_ARTIFACT_POLICY.md` e `data/README.md`.

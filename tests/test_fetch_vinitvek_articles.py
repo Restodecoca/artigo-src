@@ -1,6 +1,6 @@
 import json
 
-from scripts.fetch_vinitvek_articles import eligible_rows, write_json_atomic
+from scripts.data.fetch_vinitvek_articles import eligible_rows, write_json_atomic
 
 
 def test_eligible_rows_applies_healthcare_period_and_url_deduplication():

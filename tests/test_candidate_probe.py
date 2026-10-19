@@ -1,11 +1,6 @@
-import sys
-from pathlib import Path
-
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
-
-from run_colab_candidate_probe import (
+from scripts.colab.run_colab_candidate_probe import (
     build_dataset_kwargs,
     select_first_nonempty_texts,
     validate_probe_limit,

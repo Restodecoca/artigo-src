@@ -11,6 +11,8 @@ LABELS = {"IDTY", "ACT", "VUL", "LOC"}
 
 
 def validate(source_dir: Path, labels_dir: Path) -> dict[str, int]:
+    """Validate overlay IDs, offsets, text slices, labels, ordering and overlaps."""
+
     errors: list[str] = []
     records = kept = entities = 0
     for label_path in sorted(labels_dir.glob("labels_batch_*.json")):

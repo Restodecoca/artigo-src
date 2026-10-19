@@ -14,9 +14,9 @@ import sys
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from run_colab_muse_validation import _matching_pairs
+from scripts.colab.run_colab_muse_validation import _matching_pairs
 
 WORD_RE = re.compile(r"\w", re.UNICODE)
 FILLER_RE = re.compile(r"[\s\W]", re.UNICODE)

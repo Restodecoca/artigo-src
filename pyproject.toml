@@ -51,4 +51,4 @@ target-version = "py312"
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 
 [tool.ruff.lint.per-file-ignores]
-"scripts/update_template_deck.py" = ["E501"]
+"scripts/presentations/update_template_deck.py" = ["E501"]

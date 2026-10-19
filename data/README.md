@@ -11,6 +11,24 @@ A camada de labels `Muse` original deve permanecer separada do
 Nenhuma dessas camadas deve ser descrita como as anotações gold manuais do
 artigo.
 
+## Como preparar entradas locais
+
+Os arquivos de artigos, labels e resultados por documento não são distribuídos.
+Para começar uma execução local, consulte os argumentos disponíveis nos
+comandos abaixo; as saídas padrão ficam em `data/raw/`, ignorada pelo Git:
+
+```powershell
+uv run python scripts/data/prepare_muse_batches.py --help
+uv run python scripts/data/fetch_vinitvek_articles.py --help
+```
+
+A recuperação de artigos completos requer URLs autorizadas e o Firecrawl CLI.
+A anotação Muse é uma etapa separada: gere os lotes, realize/revise a anotação
+fora do repositório e valide os arquivos locais com
+`scripts/data/validate_muse_labels.py` ou
+`scripts/data/validate_corrected_muse_labels.py`. Os runners T4 estão em
+`scripts/colab/` e precisam dos arquivos privados preparados localmente.
+
 ## JSONL de anotação
 
 Cada linha representa um documento:

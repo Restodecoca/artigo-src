@@ -1,78 +1,66 @@
-# Spec: Sensibilidade de Labels com LoRA+, Full Fine-Tuning, CCE e ROS
+# Protocolo: sensibilidade às labels com fine-tuning
 
 ## Objetivo
 
-Medir como o SecureBERT-NER se adapta à camada de anotação usada no
-fine-tuning. Comparar receitas idênticas treinadas com os labels Muse
-originais e com `adjudicated_muse_overlay_v1`, avaliando cada modelo contra as
-duas camadas nos mesmos documentos held-out. O protocolo inclui LoRA+, full
-fine-tuning, class-weighted categorical cross-entropy (CCE) e document-level
-repeated oversampling (ROS).
+Medir como o SecureBERT-NER se adapta à camada de anotação usada no treino.
+Comparar LoRA+, fine-tuning completo (*Full*), entropia cruzada categórica
+ponderada (CCE) e sobreamostragem de documentos (ROS). Cada condição é avaliada
+contra as camadas Muse original e overlay adjudicado, nos mesmos documentos
+reservados para teste.
 
-Este protocolo foi executado. É uma `extension`, não uma reprodução fiel nem
-uma avaliação human-gold.
+O protocolo foi executado como uma `extension`; não é reprodução fiel nem
+avaliação contra o gold manual original.
 
-## Protocolo Fixo
+## Configuração fixa
 
-- Model: `CyberPeace-Institute/SecureBERT-NER`, revision
+- Modelo: `CyberPeace-Institute/SecureBERT-NER`, revisão
   `7f935a4f7db13697580c881e381bb2636dfa779a`.
-- Hardware: Colab Tesla T4, FP16, max sequence length 512, window stride 128.
-- Split: divisão determinística de documentos com seed `2024`, aproximadamente
-  60/20/20 train/validation/test; as duas camadas usam a mesma divisão.
-- Training seeds: `42`, `123` e `2024`.
-- Training: cinco epochs, AdamW, encoder LR `2e-5`, LoRA+ B/A LR ratio `8`,
-  fresh classifier LR `1e-3`, weight decay `0.01`, warmup `10%`, gradient
-  clipping `1.0`. Full fine-tuning usa os mesmos encoder/classifier learning
-  rates sem adapters. Weighted CCE usa pesos normalizados de frequência de
-  tokens, inverso da raiz quadrada, calculados somente no training split. ROS
-  usa replacement sampling com class-presence weights limitados a `3x`.
-- PEFT: LoRA em `query` e `value` do RoBERTa, com trainable `classifier` head.
-- Labels: fresh 9-label BIO head (`O`, `B/I-IDTY`, `B/I-ACT`, `B/I-VUL`,
-  `B/I-LOC`) para que as duas camadas tenham o mesmo output space.
-- Evaluation: strict span F1 e partial same-type span F1, com one-to-one
-  matching; resultados por seed e média/std.
-- Status: executado para LoRA+, full fine-tuning, weighted CCE e ROS. ROS não
-  reamostra validation nem test.
+- Hardware: Tesla T4 no Colab, FP16, sequência máxima 512 e `stride=128`.
+- Split documental determinístico: seed `2024`; `179/60/60` documentos para
+  treino/validação/teste. O mesmo split é usado nas duas camadas.
+- Seeds de treino: `42`, `123` e `2024`; cinco épocas.
+- Otimizador AdamW; taxa do encoder `2e-5`, taxa da cabeça classificadora nova
+  `1e-3`, weight decay `0.01`, warmup de 10% e clipping de gradiente `1.0`.
+- LoRA+ usa adaptadores em `query` e `value`, rank 8, alpha 16 e dropout 0.1;
+  razão de learning rate B/A igual a 8.
+- A cabeça de classificação BIO tem nove rótulos: `O` e `B/I` para `IDTY`,
+  `ACT`, `VUL` e `LOC`.
+- CCE ponderada usa pesos por frequência de tokens, inverso da raiz quadrada,
+  calculados somente no split de treino.
+- ROS reamostra documentos de treino com reposição, com pesos de presença de
+  classe limitados a `3x`. Validação e teste nunca são reamostrados.
+- Métricas: Strict span F1 e Partial same-type span F1 com pareamento um-a-um;
+  registrar valores por seed e média/desvio padrão.
 
-## Matriz
+## Matriz de avaliação
 
-| Model trained on | Evaluate against Muse | Evaluate against adjudicated |
-| --- | ---: | ---: |
-| LoRA+ / Muse original | yes | yes |
-| LoRA+ / adjudicated overlay | yes | yes |
-| Full / Muse original | yes | yes |
-| Full / adjudicated overlay | yes | yes |
-| Full + weighted CCE / Muse original | yes | yes |
-| Full + weighted CCE / adjudicated overlay | yes | yes |
-| Full + ROS / Muse original | yes | yes |
-| Full + ROS / adjudicated overlay | yes | yes |
+| Treino | Avaliar contra Muse original | Avaliar contra overlay |
+| --- | --- | --- |
+| LoRA+ / Muse | Sim | Sim |
+| LoRA+ / overlay | Sim | Sim |
+| Full / Muse | Sim | Sim |
+| Full / overlay | Sim | Sim |
+| Full + CCE / Muse | Sim | Sim |
+| Full + CCE / overlay | Sim | Sim |
+| Full + ROS / Muse | Sim | Sim |
+| Full + ROS / overlay | Sim | Sim |
 
-## Artifacts
+## Artefatos
 
-- Runner: `scripts/run_colab_loraplus_muse_sensitivity.py`.
-- Aggregate LoRA+ result: `data/finetune_loraplus_muse_sensitivity_t4_v2.json`.
-- Aggregate full result: `data/finetune_full_muse_sensitivity_t4.json`.
-- Aggregate weighted-CCE result:
-  `data/finetune_full_weighted_cce_muse_sensitivity_t4.json`.
-- Aggregate ROS result: `data/finetune_full_ros_muse_sensitivity_t4.json`.
-- Archive inputs: `data/raw/vinitvek-articles-2023-muse-expanded.tar.gz` e
+- Runner: `scripts/colab/run_colab_loraplus_muse_sensitivity.py`.
+- Resultados agregados: `data/finetune_loraplus_muse_sensitivity_t4_v2.json`,
+  `data/finetune_full_muse_sensitivity_t4.json`,
+  `data/finetune_full_weighted_cce_muse_sensitivity_t4.json` e
+  `data/finetune_full_ros_muse_sensitivity_t4.json`.
+- Archives locais: `data/raw/vinitvek-articles-2023-muse-expanded.tar.gz` e
   `data/processed/muse_corrected.tar.gz`.
 
-## Limites
+## Guardrails
 
-- Não dividir janelas sobrepostas entre train e test.
-- Não selecionar hiperparâmetros usando o test split.
-- Não sobrescrever labels Muse ou adjudicados.
-- Não reportar o resultado como reprodução do artigo nem como prova de que o
+- Não dividir janelas sobrepostas do mesmo documento entre treino e teste.
+- Não selecionar hiperparâmetros com o split de teste.
+- Não sobrescrever a camada Muse original nem o overlay adjudicado.
+- Não interpretar o resultado como reprodução do artigo ou prova de que o
   overlay está objetivamente correto.
-- ROS é uma ablação separada: amostrar documentos de treino com replacement
-  usando class-presence weights limitados a `3x`; nunca reamostrar validation ou
-  test.
-
-## Critérios de sucesso
-
-- As condições de treino completam os três seeds sem NaN, OOM ou checkpoints ausentes.
-- Split e document IDs são idênticos entre as condições.
-- A saída contém métricas por seed e agregadas para os quatro pareamentos de anotação train/test.
-- Runtime T4, checkpoint revision, hashes dos arquivos, configuração de treino e falhas são registrados.
-- O protocolo executado registra os artefatos agregados de LoRA+, full fine-tuning, weighted CCE e ROS.
+- Registrar revisões do modelo, hashes, split, configuração, resultados por
+  seed e falhas de execução.

@@ -1,12 +1,8 @@
-import sys
 from decimal import Decimal
-from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
-
-from run_colab_candidate_benchmark import (
+from scripts.colab.run_colab_candidate_benchmark import (
     _identity,
     _percentiles,
     _prediction_metrics,

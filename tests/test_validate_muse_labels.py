@@ -1,17 +1,13 @@
 import json
-import sys
-from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
-
-from run_colab_muse_validation import (
+from scripts.colab.run_colab_muse_validation import (
     _aligned_window_ranges,
     _postprocess_spans,
     _window_ranges,
 )
-from validate_muse_labels import validate_directory, validate_records
+from scripts.data.validate_muse_labels import validate_directory, validate_records
 
 
 def test_validate_records_accepts_valid_half_open_spans():
