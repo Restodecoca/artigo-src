@@ -85,6 +85,77 @@ def clean_article(markdown: str, title: str) -> str:
     return re.sub(r"\s+", " ", body).strip()
 
 
+def reader_title(markdown: str) -> str:
+    """Return the title exposed in a Jina Reader response, when available."""
+
+    for line in markdown.splitlines():
+        if line.startswith("Title:"):
+            return line.removeprefix("Title:").strip()
+        if line.startswith("# "):
+            return line.removeprefix("# ").strip()
+    return ""
+
+
+def clean_reader_article(markdown: str) -> str:
+    """Extract article text from the metadata-wrapped Jina Reader response."""
+
+    body = markdown.split("Markdown Content:", 1)[-1]
+    title = reader_title(markdown)
+    if body == markdown and title:
+        body = clean_article(markdown, title)
+    elif title and title in body:
+        body = body.split(title, 1)[1]
+    for stop_marker in (
+        "\n## Most Read",
+        "\n## Related",
+        "\n## Briefs",
+        "\n## Share This Story",
+        "\n### Share This Story",
+        "\n# Recommended",
+        "\n- [News Briefs]",
+        "\n\n- [News Briefs]",
+        "\nNews Briefs",
+        " News Briefs",
+        "\nNo previous article",
+        "\nLooking for a reprint",
+        "\nKEYWORDS:",
+        "\n**This article originally",
+        "\nCopyright ©",
+    ):
+        body = body.split(stop_marker, 1)[0]
+    body = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", body)
+    body = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", body)
+    body = re.sub(r"https?://\S+", " ", body)
+    body = re.sub(r"^[>#*_`-]+(?:\s+|$)", "", body, flags=re.MULTILINE)
+    body = re.sub(r"[*_`]", "", body)
+    body = re.sub(r"\s+", " ", body).strip()
+    return f"{title} {body}".strip() if title else body
+
+
+def is_unusable_reader_response(markdown: str) -> bool:
+    """Identify a reader response that is not usable article content."""
+
+    lowered = markdown.casefold()
+    return any(
+        marker in lowered
+        for marker in (
+            "captcha",
+            "access denied",
+            "just a moment",
+            "403 forbidden",
+            "please verify you are human",
+            "enable javascript",
+            "too many requests",
+            "rate limit exceeded",
+            "empty content",
+            "page not found",
+            "page cannot be found",
+            "requiring captcha",
+            "\n429\n",
+        )
+    )
+
+
 def is_blocked_response(markdown: str, title: str) -> bool:
     """Identify reader responses that are not an article body."""
 

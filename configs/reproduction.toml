@@ -1,7 +1,7 @@
 [paper]
 title = "An Analysis of Pre-trained Models to Identify Cybersecurity Incidents Entities in the Healthcare Industry"
 authors = ["Rafael Paim", "Luciano Ignaczak"]
-reproduction_status = "approximate"
+reproduction_status = "extension"
 original_corpus_available = false
 
 [collection]
@@ -35,6 +35,174 @@ manual_documents = 60
 max_tokens_per_document = 400
 seeds = [42, 123, 2024]
 
+[annotation]
+provider = "opencode-go"
+model = "muse-spark-1.3-contributor"
+method = "model-assisted pre-annotation"
+label_status = "silver_muse_review_pass4_pending_human_audit"
+batch_max_documents = 50
+selection_period = "full_available_dataset_period"
+retained_documents_for_primary_scoring = 1627
+retained_documents_minimum_target = 1039
+
+[annotation.adjudicated_overlay]
+method = "independent batch review plus second adjudication pass"
+label_status = "adjudicated_overlay_not_original_manual_gold"
+source_labels_unchanged = true
+records = 314
+retained_documents = 299
+entities = 5111
+labels_directory = "data/processed/muse_corrected"
+archive = "data/processed/muse_corrected.tar.gz"
+validator = "scripts/validate_corrected_muse_labels.py"
+
+[t4_validation]
+cli = "google-colab-cli"
+runner = "scripts/run_colab_muse_validation.py"
+accelerator = "T4"
+documents = 1627
+window_stride = 128
+artifact = "data/muse_validation_t4.json"
+diagnostic_artifact = "data/muse_validation_diagnostic.json"
+status = "completed"
+
+[t4_validation.vinitvek_articles_pilot]
+runner = "scripts/run_colab_muse_validation.py"
+accelerator = "T4"
+requested_documents = 60
+retained_documents = 55
+window_stride = 128
+artifact = "data/muse_validation_vinitvek_60_t4.json"
+status = "completed"
+archive_sha256 = "83fc39ff5b9a04da28f06a1ddea9372fc27552fbbbb59377ad22ed088eb29dee"
+
+[t4_validation.vinitvek_articles_expanded]
+runner = "scripts/run_colab_muse_validation.py"
+accelerator = "T4"
+requested_urls = 329
+extracted_documents = 314
+retained_documents = 299
+failed_extractions = 15
+silver_entities = 2103
+window_stride = 128
+window_policy = "manual_word_aligned_overlapping_windows"
+archive = "data/raw/vinitvek-articles-2023-muse-expanded.tar.gz"
+archive_sha256 = "aebd0c149d1c5ac873fea47dce04acb57b8fea55f35529f5eba12b33d5db94cb"
+artifact = "data/muse_validation_vinitvek_expanded_t4.json"
+diagnostic_artifact = "data/muse_validation_vinitvek_expanded_diagnostic.json"
+status = "completed"
+
+[t4_validation.vinitvek_articles_corrected_overlay]
+runner = "scripts/run_colab_muse_validation.py"
+accelerator = "T4"
+requested_urls = 329
+extracted_documents = 314
+retained_documents = 299
+adjudicated_entities = 5111
+window_stride = 128
+window_policy = "manual_word_aligned_overlapping_windows"
+archive = "data/processed/muse_corrected.tar.gz"
+archive_sha256 = "e2b3732fe64612564bc70ca95055fe9171a60d06e018578ea64bceef730b397d"
+artifact = "data/muse_validation_vinitvek_corrected_t4.json"
+diagnostic_artifact = "data/muse_validation_vinitvek_corrected_diagnostic.json"
+annotation_status = "adjudicated_muse_overlay_v1"
+status = "completed"
+
+[finetuning]
+runner = "scripts/run_colab_loraplus_muse_sensitivity.py"
+model = "CyberPeace-Institute/SecureBERT-NER"
+revision = "7f935a4f7db13697580c881e381bb2636dfa779a"
+accelerator = "T4"
+split_seed = 2024
+split_counts = { train = 179, validation = 60, test = 60 }
+training_seeds = [42, 123, 2024]
+epochs = 5
+max_length = 512
+window_stride = 128
+status = "completed"
+classification_head = "fresh_9_label_BIO"
+primary_method = "full_finetune"
+loraplus_artifact = "data/finetune_loraplus_muse_sensitivity_t4_v2.json"
+full_artifact = "data/finetune_full_muse_sensitivity_t4.json"
+weighted_cce_artifact = "data/finetune_full_weighted_cce_muse_sensitivity_t4.json"
+ros_artifact = "data/finetune_full_ros_muse_sensitivity_t4.json"
+ros_policy = "document replacement sampling; class-presence weights capped at 3x; train only"
+
+[t4_validation.securebert2]
+runner = "scripts/run_colab_securebert2_muse.py"
+model = "cisco-ai/SecureBERT2.0-NER"
+revision = "792db5b533118afee8c3fab86db119d09ab77ff6"
+artifact = "data/securebert2_muse.json"
+documents = 1627
+status = "completed"
+compatibility_mapping = { Organization = "IDTY", Vulnerability = "VUL" }
+compatibility_warning = "ACT and LOC are not mapped; scores cover only IDTY and VUL."
+
+[t4_validation.vinitvek_articles_expanded_securebert2]
+runner = "scripts/run_colab_securebert2_muse.py"
+model = "cisco-ai/SecureBERT2.0-NER"
+revision = "792db5b533118afee8c3fab86db119d09ab77ff6"
+accelerator = "T4"
+archive = "data/raw/vinitvek-articles-2023-muse-expanded.tar.gz"
+archive_sha256 = "aebd0c149d1c5ac873fea47dce04acb57b8fea55f35529f5eba12b33d5db94cb"
+documents = 299
+model_max_tokens = 8192
+artifact = "data/muse_validation_vinitvek_expanded_securebert2_t4.json"
+detailed_artifact = "data/raw/vinitvek-articles-2023-muse-securebert2-detailed.json"
+comparison_artifact = "data/raw/vinitvek-articles-2023-muse-securebert2-comparison.json"
+status = "completed"
+compatibility_mapping = { Organization = "IDTY", Vulnerability = "VUL" }
+compatibility_warning = "ACT and LOC are not mapped; scores cover only IDTY and VUL."
+
+[t4_validation.vinitvek_articles_expanded_sweep]
+runner = "scripts/run_colab_muse_validation.py"
+accelerator = "T4"
+archive = "data/raw/vinitvek-articles-2023-muse-expanded.tar.gz"
+archive_sha256 = "aebd0c149d1c5ac873fea47dce04acb57b8fea55f35529f5eba12b33d5db94cb"
+documents = 299
+baseline_artifact = "data/muse_validation_vinitvek_expanded_t4.json"
+final_cleanup_artifact = "data/muse_validation_vinitvek_expanded_final_t4.json"
+final_cleanup_policy = "expand_words_merge_drop_punctuation_drop_tiny"
+truncated_400_simple_artifact = "data/muse_validation_vinitvek_expanded_trunc400_simple_t4.json"
+truncated_400_first_artifact = "data/muse_validation_vinitvek_expanded_trunc400_first_t4.json"
+postprocessing_artifact = "data/span_postprocessing_vinitvek_expanded.json"
+label_audit = "data/raw/vinitvek-articles-2023-muse-batch-0001-audit.md"
+status = "completed"
+
+[[annotation_dataset]]
+name = "vinitvek-healthcare-all"
+repository = "vinitvek/cybersecurityattacks"
+revision = "92ed82a32fcd6d1bcfae16722e9ff5a7ab50d46b"
+text_column = "description"
+selected_documents = 1621
+retained_documents = 1621
+role = "primary_domain_aligned_extension"
+license = "Unlicense"
+
+[[annotation_dataset]]
+name = "scorton-healthcare-breaches"
+repository = "ScortonAI/Cyber-Security-Breaches"
+revision = "1da6a89a887067a29fa536441d3f32dce0a5879c"
+text_column = "Summary"
+selected_documents = 142
+retained_documents = 6
+role = "secondary_curated_extension"
+license = "MIT"
+keep_rule = "Muse relevance triage; exclude non-cyber physical or administrative breaches"
+
+[[annotation_dataset]]
+name = "gvic-public-health-news"
+repository = "gvic-unb/public-health-news-DF-qa"
+revision = "9944e31a41e6cc1f3ed484b5d95cca363e6dc5ac"
+config = "knowledge_base"
+split = "corpus"
+text_column = "content"
+selected_documents = 1688
+retained_documents = 0
+role = "negative_domain_contrast"
+license = "CC-BY-4.0"
+keep_rule = "Muse relevance triage; retain only explicit healthcare cybersecurity news"
+
 [[model]]
 name = "SecureBERT-NER"
 repository = "CyberPeace-Institute/SecureBERT-NER"
@@ -48,6 +216,14 @@ repository = "Cyber-ThreaD/SecureBERT-APTNER"
 label_encoding = "BIOES"
 revision = "f220a5fbeb8ed9b60a516cf420fc816d9705ce7d"
 label_aliases = { VULID = "VUL", VULNAME = "VUL" }
+
+[[model]]
+name = "SecureBERT2.0-NER"
+repository = "cisco-ai/SecureBERT2.0-NER"
+label_encoding = "BIO"
+revision = "792db5b533118afee8c3fab86db119d09ab77ff6"
+native_entity_types = ["Indicator", "Malware", "Organization", "System", "Vulnerability"]
+compatibility_mapping = { Organization = "IDTY", Vulnerability = "VUL" }
 
 [limitations]
 original_data_missing = true

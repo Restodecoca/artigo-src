@@ -3,10 +3,13 @@ import pytest
 from healthcare_ner_replication.local_corpus import (
     LocalArticle,
     clean_article,
+    clean_reader_article,
     first_tokens,
     is_blocked_response,
     is_protocol_date,
+    is_unusable_reader_response,
     load_pipe_articles,
+    reader_title,
     select_keyword_articles,
 )
 
@@ -94,6 +97,33 @@ def test_clean_article_removes_reader_boilerplate():
     )
 
     assert clean_article(markdown, "Title") == "Body."
+
+
+def test_clean_reader_article_extracts_jina_metadata_wrapped_body():
+    markdown = (
+        "Title: Article title\nURL Source: https://example.test\n"
+        "Markdown Content:\nNavigation links Article title\n"
+        "Body with [a link](https://example.test/link).\n## Related\nSidebar"
+    )
+
+    assert reader_title(markdown) == "Article title"
+    assert clean_reader_article(markdown) == "Article title Body with a link."
+
+
+def test_clean_reader_article_keeps_only_firecrawl_title_and_body():
+    markdown = (
+        "![hero](https://example.test/image.png)\n\n"
+        "# Article title\n\nBody paragraph.\n\n"
+        "- [News Briefs](https://example.test/related)\n\n"
+        "## Author\nAuthor biography"
+    )
+
+    assert clean_reader_article(markdown) == "Article title Body paragraph."
+
+
+def test_unusable_reader_response_does_not_require_a_known_title():
+    assert is_unusable_reader_response("Title: Unknown\nMarkdown Content:\nCAPTCHA")
+    assert not is_unusable_reader_response("Title: Article\nMarkdown Content:\nBody.")
 
 
 def test_block_page_is_rejected_even_when_it_has_many_words():

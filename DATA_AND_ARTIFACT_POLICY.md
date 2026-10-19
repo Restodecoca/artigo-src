@@ -1,33 +1,51 @@
-# Data and Artifact Policy
+# Política de dados e artefatos
 
-## Public repository
+## Repositório público
 
-The repository may contain source code, tests, configuration, documentation,
-dataset metadata, model identifiers, synthetic fixtures, and aggregate results.
+O repositório pode conter código-fonte, testes, configuração, documentação,
+metadados de datasets, identificadores de modelos, fixtures sintéticos e
+resultados agregados.
 
-## Restricted material
+## Material restrito
 
-Do not commit or publish:
+Não faça commit nem publique:
 
-- scraped article text or full news dumps;
-- manual annotations that reproduce protected article content;
-- model caches, checkpoints, or generated outputs without review;
-- API keys, Kaggle tokens, Hugging Face tokens, or `.env` files;
-- per-document results that can reconstruct or identify source articles.
+- texto de artigos coletados ou dumps completos de notícias;
+- anotações manuais que reproduzam conteúdo protegido de artigos;
+- caches de modelos, checkpoints ou saídas geradas sem revisão;
+- API keys, Kaggle tokens, Hugging Face tokens ou arquivos `.env`;
+- resultados por documento que permitam reconstruir ou identificar artigos de
+  origem.
 
-## Reproduction states
+## Estados de reprodução
 
-Every experiment must label itself as `faithful`, `approximate`, or `extension`.
-The public Hugging Face candidates currently registered in the project are
-`reference_only`; they do not contain the original healthcare-news corpus.
+Todo experimento deve ser identificado como `faithful`, `approximate` ou
+`extension`. O estado atual do projeto é `extension`: o corpus original do
+artigo está indisponível, as validações T4 usam as camadas `Muse` original e
+`adjudicated overlay`, e o fine-tuning foi executado com `LoRA+`, `full`, `CCE`
+e `ROS`.
 
-## Publication gate
+Os candidatos públicos do Hugging Face atualmente registrados no projeto são
+`reference_only`; eles não contêm o corpus original de notícias da área da
+saúde. A camada Muse original é silver, e o overlay possui o status técnico
+`adjudicated_overlay_not_original_manual_gold`; nenhum dos dois equivale ao
+conjunto gold manual original.
 
-Before presenting publication claims, the project must record:
+## Gate de publicação
 
-1. data source, license, access date, and permitted redistribution;
-2. exact model revisions and dependency versions;
-3. annotation procedure and inter-annotator agreement;
-4. document-level and entity-level metrics with uncertainty estimates;
-5. all deviations from the original paper;
-6. a review of leakage, duplicates, dead links, and sensitive content.
+Antes de apresentar afirmações de publicação, o projeto deve registrar:
+
+1. fonte dos dados, licença, data de acesso e permissão de redistribuição;
+2. revisões exatas dos modelos e versões das dependências;
+3. procedimento de anotação e concordância entre anotadores;
+4. métricas em nível de documento e de entidade, com estimativas de incerteza;
+5. todos os desvios em relação ao artigo original;
+6. revisão de vazamento, duplicatas, links mortos e conteúdo sensível.
+
+## Hugging Face
+
+O token local em `.env` pode ser lido somente por comandos de publicação
+explicitamente autorizados. Antes de publicar um dataset ou checkpoint, confirme
+nome do repositório, licença, permissões de redistribuição e se o conteúdo não
+contém texto protegido ou resultados que reconstituam artigos. Nunca registre o
+valor de `HF_TOKEN` e nunca o inclua em argumentos, logs ou artefatos.

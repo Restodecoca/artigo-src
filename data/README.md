@@ -1,12 +1,19 @@
-# Local Data Contract
+# Contrato de dados locais
 
-The original article's news corpus and manual annotations are not committed to
-this repository. Store authorized local inputs under `data/raw/` or
-`data/processed/`; both paths are ignored by Git.
+O corpus original de notícias do artigo e suas anotações manuais estão
+indisponíveis e não são distribuídos neste repositório. Armazene entradas locais
+autorizadas em `data/raw/` ou `data/processed/`; ambos os paths são ignorados
+pelo Git.
 
-## Annotation JSONL
+A camada de labels `Muse` original deve permanecer separada do
+`adjudicated overlay`. O overlay é armazenado em
+`data/processed/muse_corrected/`, sem sobrescrever os arquivos Muse originais.
+Nenhuma dessas camadas deve ser descrita como as anotações gold manuais do
+artigo.
 
-Each line represents one document:
+## JSONL de anotação
+
+Cada linha representa um documento:
 
 ```json
 {
@@ -20,10 +27,21 @@ Each line represents one document:
 }
 ```
 
-Offsets are zero-based, half-open character spans into `text`. Labels must be
-one of `IDTY`, `ACT`, `VUL`, or `LOC`. The `source` field is retained so results
-can be reported by portal, as in the paper.
+Os offsets são spans de caracteres zero-based e half-open dentro de `text`. As
+labels devem ser uma de `IDTY`, `ACT`, `VUL` ou `LOC`. O campo `source` é mantido
+para que os resultados possam ser reportados por portal, como no artigo.
 
-Do not use a public substitute with this schema and call it a faithful
-reproduction. Record its repository, license, access date, and deviations in
-the experiment metadata.
+## Organização local
+
+- `data/raw/`: entradas autorizadas, fontes e labels Muse originais.
+- `data/processed/`: overlays, archives e dados derivados locais.
+- `data/*.json`: resultados agregados gerados pelos runners; são ignorados pelo
+  Git e devem ser relacionados no `README.md` ou em `data/SEARCH_LOG.md`.
+
+O arquivo `.env` também é local e ignorado. Ele pode conter `HF_TOKEN` para
+publicações explicitamente autorizadas no Hugging Face; credenciais não devem
+ser copiadas para datasets, logs ou documentação.
+
+Não use um substituto público com este schema e o apresente como reprodução
+`faithful`. Registre nos metadados do experimento o repositório, a licença, a
+data de acesso e os desvios.

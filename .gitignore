@@ -12,9 +12,17 @@ wheels/
 # Restricted or generated research material
 .env
 .kaggle/
-data/raw/
+.firecrawl/
+data/raw/*
+!data/raw/.gitkeep
 data/processed/
+data/*.json
+data/*.tar.gz
+data/*.jsonl
 artifacts/
 checkpoints/
+models/
+outputs/
+.agents/
+skills-lock.json
 *.parquet
-*.jsonl

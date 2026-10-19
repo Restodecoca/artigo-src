@@ -9,6 +9,7 @@ description = "Reproducible evaluation of cybersecurity NER models in healthcare
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "google-colab-cli @ git+https://github.com/googlecolab/google-colab-cli.git@v0.7.0",
     "openpyxl>=3.1,<4",
 ]
 
@@ -26,13 +27,21 @@ models = [
     "seqeval>=1.2,<2",
     "transformers>=4.40,<5",
 ]
+finetune = [
+    "accelerate>=1.1,<2",
+    "peft>=0.17,<1",
+    "torch>=2.2,<3",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/healthcare_ner_replication"]
 
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 
 [tool.ruff]
 line-length = 100
