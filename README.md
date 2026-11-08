@@ -48,6 +48,7 @@ src/healthcare_ner_replication/  lógica reutilizável
 scripts/data/                    coleta, preparação, validação e archives
 scripts/colab/                   runners remotos/autônomos
 scripts/analysis/                análise de artefatos agregados
+scripts/validation/              auditoria humana e concordância das labels Muse
 scripts/local/                   verificações locais de modelos
 scripts/presentations/           utilitários de apresentações
 tests/                           testes automatizados
@@ -64,8 +65,11 @@ dados, credenciais e artefatos está em
 ## Privacidade e limites
 
 Não versionar `.env`, tokens, texto de artigos, labels por documento,
-checkpoints ou saídas detalhadas. O `.env.example` é apenas um modelo sem
-credenciais. Leia `data/README.md` antes de trabalhar com dados locais.
+checkpoints ou saídas detalhadas, exceto os archives privados de validação em
+`data/muse-artifacts/` previstos na exceção operacional de
+`DATA_AND_ARTIFACT_POLICY.md`; eles não podem ser redistribuídos publicamente.
+O `.env.example` é apenas um modelo sem credenciais. Leia `data/README.md` antes
+de trabalhar com dados locais.
 
 O overlay é uma camada adjudicada de uma extensão, não o gold manual original.
 O estado e as decisões sobre fontes estão em `data/SEARCH_LOG.md`; os

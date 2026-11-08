@@ -1,0 +1,3238 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Auditoria das anotações Muse</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --line-strong: #b9c6d8;
+      --brand: #0f766e;
+      --brand-dark: #115e59;
+      --brand-soft: #ccfbf1;
+      --idty: #2563eb;
+      --act: #dc2626;
+      --vul: #d97706;
+      --loc: #059669;
+      --none: #64748b;
+      --ok: #15803d;
+      --ok-soft: #dcfce7;
+      --bad: #b91c1c;
+      --bad-soft: #fee2e2;
+      --warn: #92400e;
+      --warn-soft: #fef3c7;
+      --shadow: 0 12px 30px rgba(23, 32, 51, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font: 15px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, Cantarell, sans-serif;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    button { cursor: pointer; }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    code, kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    kbd {
+      display: inline-block;
+      min-width: 1.5em;
+      padding: 0.08em 0.35em;
+      border: 1px solid var(--line-strong);
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      background: #fff;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+
+    .topbar-main,
+    .topbar-sub {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 10px 22px;
+    }
+
+    .topbar-main { padding-bottom: 4px; }
+
+    .topbar-sub {
+      padding-top: 6px;
+      padding-bottom: 10px;
+      border-top: 1px solid #eef2f7;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 250px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-title {
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: -2px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 36px;
+      padding: 7px 13px;
+      border: 1px solid var(--line-strong);
+      border-radius: 9px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 650;
+      text-decoration: none;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .button:hover:not(:disabled) { background: var(--surface-2); border-color: #93a4ba; }
+    .button:active:not(:disabled) { transform: translateY(1px); }
+
+    .button.primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+
+    .button.primary:hover:not(:disabled) { background: var(--brand-dark); border-color: var(--brand-dark); }
+
+    .button.secondary {
+      background: var(--brand-soft);
+      border-color: #99f6e4;
+      color: var(--brand-dark);
+    }
+
+    .button.ghost {
+      background: transparent;
+      border-color: transparent;
+      color: var(--brand-dark);
+    }
+
+    .button.link {
+      min-height: auto;
+      padding: 3px 5px;
+      border: 0;
+      background: transparent;
+      color: var(--brand-dark);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .button.danger {
+      color: var(--bad);
+      border-color: #fecaca;
+      background: #fff;
+    }
+
+    .field {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .field input[type="text"],
+    .field input[type="search"],
+    .field select {
+      min-height: 34px;
+      padding: 5px 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .field input[type="text"] { width: 150px; }
+    .field input[type="search"] { width: 100%; }
+
+    .reviewer-quick {
+      display: inline-flex;
+      gap: 3px;
+      padding: 2px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--surface-2);
+    }
+
+    .reviewer-quick button {
+      min-height: 28px;
+      padding: 2px 9px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .reviewer-quick button.active {
+      background: #fff;
+      color: var(--brand-dark);
+      box-shadow: 0 1px 4px rgba(23, 32, 51, 0.14);
+    }
+
+    .switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+      user-select: none;
+    }
+
+    .switch input { accent-color: var(--brand); }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .chip-ok { background: var(--ok-soft); color: var(--ok); }
+    .chip-warn { background: var(--warn-soft); color: var(--warn); }
+    .chip-demo { background: #ede9fe; color: #6d28d9; }
+    .chip-neutral { background: #eef2f7; color: var(--muted); }
+
+    .header-progress {
+      margin-left: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .storage-banner {
+      max-width: 1680px;
+      margin: 10px auto 0;
+      padding: 9px 14px;
+      border: 1px solid #fcd34d;
+      border-radius: 10px;
+      background: var(--warn-soft);
+      color: var(--warn);
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .welcome { max-width: 1180px; margin: 0 auto; }
+
+    .hero {
+      padding: 18px 4px 14px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(26px, 3.2vw, 40px);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 2px 7px rgba(23, 32, 51, 0.03);
+      padding: 17px;
+    }
+
+    .panel h2 {
+      margin: 0 0 9px;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .panel p { margin: 0 0 10px; color: var(--muted); }
+    .panel p:last-child { margin-bottom: 0; }
+
+    .panel ul {
+      margin: 7px 0 0;
+      padding-left: 19px;
+      color: var(--muted);
+    }
+
+    .panel li { margin: 5px 0; }
+
+    .welcome-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .notice {
+      margin-top: 12px;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .notice.error {
+      border-color: #fecaca;
+      background: var(--bad-soft);
+      color: var(--bad);
+    }
+
+    .notice.info {
+      border-color: #bae6fd;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .notice.success {
+      border-color: #bbf7d0;
+      background: var(--ok-soft);
+      color: var(--ok);
+    }
+
+    .privacy {
+      margin-top: 14px;
+      border-left: 4px solid var(--brand);
+    }
+
+    .audit {
+      display: grid;
+      grid-template-columns: minmax(260px, 320px) minmax(0, 1fr) minmax(250px, 310px);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .sidebar,
+    .stats {
+      position: sticky;
+      top: 112px;
+      max-height: calc(100vh - 132px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 2px 7px rgba(23, 32, 51, 0.03);
+    }
+
+    .sidebar { display: flex; flex-direction: column; min-height: 420px; }
+
+    .sidebar-head {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-2);
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .sidebar-head select {
+      width: 100%;
+      min-height: 34px;
+      padding: 5px 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .queue-summary {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .queue-list {
+      flex: 1;
+      overflow: auto;
+      min-height: 200px;
+    }
+
+    .queue-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 100%;
+      padding: 8px 12px;
+      border: 0;
+      border-bottom: 1px solid #eef2f7;
+      border-left: 3px solid transparent;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .queue-item:hover { background: var(--surface-2); }
+    .queue-item.current { background: #ecfdf5; border-left-color: var(--brand); }
+    .queue-item.agrees { border-left-color: #86efac; }
+    .queue-item.differs { border-left-color: #fca5a5; }
+    .queue-item.uncertain { background-image: linear-gradient(90deg, #fffbeb 0, #fffbeb 4px, transparent 4px); }
+
+    .qi-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .qi-doc {
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .qi-text {
+      overflow: hidden;
+      font-size: 13px;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .qi-badge {
+      margin-left: auto;
+      padding: 1px 5px;
+      border-radius: 5px;
+      background: #eef2f7;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .badge-idty { background: #dbeafe; color: #1d4ed8; }
+    .badge-act { background: #fee2e2; color: #b91c1c; }
+    .badge-vul { background: #fef3c7; color: #92400e; }
+    .badge-loc { background: #d1fae5; color: #047857; }
+    .badge-none { background: #e5e7eb; color: #4b5563; }
+    .badge-muse { background: #ede9fe; color: #6d28d9; }
+
+    .empty {
+      padding: 28px 16px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .workspace { min-width: 0; }
+
+    .doc-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 2px 3px 10px;
+    }
+
+    .doc-title {
+      font-size: 17px;
+      font-weight: 750;
+      letter-spacing: -0.015em;
+    }
+
+    .doc-sub,
+    .entity-counter {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .entity-counter { text-align: right; white-space: nowrap; }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-body { padding: 18px; }
+
+    .context {
+      padding: 15px 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      background: #fbfdff;
+      color: #243047;
+      font-size: 16px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .context mark,
+    .full-text mark {
+      padding: 0.08em 0.18em;
+      border-radius: 4px;
+      background: #fde68a;
+      color: #111827;
+      box-shadow: 0 0 0 2px #fbbf24;
+    }
+
+    .ellipsis { color: #94a3b8; }
+
+    .full-details {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--surface-2);
+    }
+
+    .full-details summary {
+      padding: 8px 11px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .full-text {
+      max-height: 360px;
+      overflow: auto;
+      padding: 0 12px 12px;
+      color: #334155;
+      font-size: 13px;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .muse-panel { margin-top: 14px; min-height: 42px; }
+
+    .muse-hidden,
+    .muse-line {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+      padding: 9px 11px;
+      border: 1px dashed var(--line-strong);
+      border-radius: 9px;
+      background: #fafbfc;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .muse-line {
+      border-style: solid;
+      border-color: #ddd6fe;
+      background: #faf5ff;
+      color: #4c1d95;
+    }
+
+    .muse-line .button.link { margin-left: auto; color: #6d28d9; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 46px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .label-idty { background: #dbeafe; color: #1d4ed8; }
+    .label-act { background: #fee2e2; color: #b91c1c; }
+    .label-vul { background: #fef3c7; color: #92400e; }
+    .label-loc { background: #d1fae5; color: #047857; }
+    .label-none { background: #e5e7eb; color: #4b5563; }
+
+    .label-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .label-btn {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto;
+      gap: 0 9px;
+      align-items: center;
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--line-strong);
+      border-radius: 9px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .label-btn:hover { background: var(--surface-2); }
+    .label-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+    .label-btn[data-label="IDTY"] { border-left-color: var(--idty); }
+    .label-btn[data-label="ACT"] { border-left-color: var(--act); }
+    .label-btn[data-label="VUL"] { border-left-color: var(--vul); }
+    .label-btn[data-label="LOC"] { border-left-color: var(--loc); }
+    .label-btn[data-label="NONE"] { border-left-color: var(--none); }
+
+    .label-btn.selected {
+      border-color: var(--brand);
+      background: #ecfdf5;
+      box-shadow: 0 0 0 2px #99f6e4 inset;
+    }
+
+    .label-btn kbd { grid-row: 1 / span 2; align-self: center; }
+    .lb-code { font-size: 12px; font-weight: 850; letter-spacing: 0.03em; }
+    .lb-name { color: var(--muted); font-size: 12px; }
+
+    .feedback {
+      margin-top: 12px;
+      padding: 9px 11px;
+      border-radius: 9px;
+      font-size: 13px;
+    }
+
+    .feedback.ok { background: var(--ok-soft); color: var(--ok); }
+    .feedback.bad { background: var(--bad-soft); color: var(--bad); }
+    .feedback.muted { background: var(--surface-2); color: var(--muted); }
+
+    .note-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+      margin-top: 13px;
+    }
+
+    .note-row label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .note-row textarea {
+      width: 100%;
+      min-height: 64px;
+      padding: 9px 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 9px;
+      resize: vertical;
+      color: var(--ink);
+    }
+
+    .note-row textarea:focus,
+    .field input:focus,
+    .field select:focus {
+      outline: 2px solid #99f6e4;
+      outline-offset: 1px;
+      border-color: var(--brand);
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      padding-top: 13px;
+      border-top: 1px solid var(--line);
+    }
+
+    .card-actions .spacer { flex: 1; }
+
+    .auto-advance { margin-right: auto; }
+
+    .stats .panel {
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .stats .panel:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+    .stats .panel:last-child { border-bottom: 0; border-radius: 0 0 var(--radius) var(--radius); }
+
+    .progress {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e2e8f0;
+      margin: 8px 0 12px;
+    }
+
+    .progress > div {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #0f766e, #2dd4bf);
+      transition: width 0.2s ease;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .stat {
+      padding: 8px 9px;
+      border: 1px solid #eef2f7;
+      border-radius: 9px;
+      background: var(--surface-2);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 19px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .stat span { color: var(--muted); font-size: 11px; font-weight: 650; }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .table th,
+    .table td {
+      padding: 5px 3px;
+      border-bottom: 1px solid #eef2f7;
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    .table th:first-child,
+    .table td:first-child { text-align: left; }
+    .table th { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .table tr:last-child td { border-bottom: 0; }
+
+    .kv {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px 10px;
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .kv dt { color: var(--muted); }
+    .kv dd { margin: 0; font-weight: 750; text-align: right; }
+
+    .files-details {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .files-details summary { cursor: pointer; font-weight: 650; }
+    .files-details ul { margin: 5px 0 0; padding-left: 17px; overflow-wrap: anywhere; }
+
+    .warning-box { margin-top: 10px; }
+
+    .warning-box details {
+      border: 1px solid #fcd34d;
+      border-radius: 9px;
+      background: #fffbeb;
+      color: var(--warn);
+      font-size: 12px;
+    }
+
+    .warning-box summary { padding: 7px 9px; cursor: pointer; font-weight: 700; }
+    .warning-box ul { margin: 0; padding: 0 9px 9px 25px; max-height: 160px; overflow: auto; }
+
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      max-width: min(520px, calc(100vw - 44px));
+      padding: 11px 14px;
+      border: 1px solid #99f6e4;
+      border-radius: 11px;
+      background: #f0fdfa;
+      color: var(--brand-dark);
+      box-shadow: 0 16px 36px rgba(23, 32, 51, 0.18);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.show { display: flex; }
+    .toast.error { border-color: #fecaca; background: var(--bad-soft); color: var(--bad); }
+
+    .toast-undo {
+      min-height: 28px;
+      padding: 3px 9px;
+      border: 1px solid currentColor;
+      border-radius: 7px;
+      background: #fff;
+      color: inherit;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    dialog {
+      max-width: min(720px, calc(100vw - 32px));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0;
+      box-shadow: 0 30px 80px rgba(23, 32, 51, 0.32);
+    }
+
+    dialog::backdrop { background: rgba(15, 23, 42, 0.48); }
+
+    .dialog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dialog-head h2 { margin: 0; font-size: 18px; }
+    .dialog-body { padding: 16px 18px 18px; }
+    .dialog-body h3 { margin: 16px 0 6px; font-size: 14px; }
+    .dialog-body h3:first-child { margin-top: 0; }
+    .dialog-body ul { margin: 5px 0; padding-left: 20px; color: var(--muted); }
+    .dialog-body li { margin: 4px 0; }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 1240px) {
+      .audit { grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); }
+      .stats { position: static; grid-column: 1 / -1; max-height: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .stats .panel { border-right: 1px solid var(--line); border-bottom: 0; }
+      .stats .panel:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+      .stats .panel:last-child { border-right: 0; border-radius: 0 var(--radius) var(--radius) 0; }
+    }
+
+    @media (max-width: 860px) {
+      .topbar-main, .topbar-sub { padding-left: 14px; padding-right: 14px; }
+      .brand { min-width: 0; }
+      .brand-sub { display: none; }
+      main { padding: 14px; }
+      .welcome-grid { grid-template-columns: 1fr; }
+      .audit { grid-template-columns: 1fr; }
+      .sidebar { position: static; max-height: 300px; min-height: 0; }
+      .stats { grid-template-columns: 1fr; }
+      .stats .panel { border-right: 0; border-bottom: 1px solid var(--line); border-radius: 0 !important; }
+      .stats .panel:first-child { border-radius: var(--radius) var(--radius) 0 0 !important; }
+      .stats .panel:last-child { border-radius: 0 0 var(--radius) var(--radius) !important; border-bottom: 0; }
+      .label-buttons { grid-template-columns: 1fr; }
+      .note-row { grid-template-columns: 1fr; }
+      .doc-head { flex-direction: column; }
+      .entity-counter { text-align: left; }
+      .context { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-main">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div>
+          <div class="brand-title">Auditoria Muse</div>
+          <div class="brand-sub">validação humana das categorias de entidades</div>
+        </div>
+      </div>
+      <div class="header-progress" id="headerProgress" hidden></div>
+      <div class="topbar-actions">
+        <button type="button" class="button secondary" id="btnImportHeader">Carregar artefatos</button>
+        <button type="button" class="button" id="btnExportJson" disabled>Exportar JSON</button>
+        <button type="button" class="button" id="btnExportCsv" disabled>Exportar CSV</button>
+        <button type="button" class="button ghost" id="btnHelp">Ajuda</button>
+      </div>
+    </div>
+    <div class="topbar-sub">
+      <label class="field" for="reviewerInput">Revisor
+        <input type="text" id="reviewerInput" maxlength="40" autocomplete="off" spellcheck="false" value="dev1">
+      </label>
+      <div class="reviewer-quick" id="reviewerQuick" aria-label="Revisores rápidos">
+        <button type="button" data-reviewer="dev1">dev1</button>
+        <button type="button" data-reviewer="dev2">dev2</button>
+        <button type="button" data-reviewer="dev3">dev3</button>
+      </div>
+      <label class="switch" for="modeToggle">
+        <input type="checkbox" id="modeToggle">
+        Modo assistido
+      </label>
+      <span class="chip chip-ok" id="headerMode">Cego</span>
+      <span class="chip chip-demo" id="headerDemo" hidden>DEMO sintético</span>
+      <span class="chip chip-neutral">dados só neste navegador</span>
+    </div>
+  </header>
+
+  <div class="storage-banner" id="storageBanner" hidden>
+    O armazenamento local do navegador não está disponível. A revisão continua funcionando em memória, mas exporte o JSON com frequência.
+  </div>
+
+  <main>
+    <section id="welcome" class="welcome">
+      <div class="hero">
+        <h1>Validar as categorias que a Muse atribuiu</h1>
+        <p>
+          Ferramenta local para os revisores conferirem, entidade por entidade, a categoria sugerida pela LLM Muse.
+          O texto dos artigos e as respostas nunca saem deste navegador. Cada revisor exporta o próprio JSON para
+          permitir a comparação agregada entre humanos e Muse.
+        </p>
+        <div class="hero-badges">
+          <span class="chip chip-ok">sem servidor</span>
+          <span class="chip chip-ok">sem upload</span>
+          <span class="chip chip-warn">não versionar exports</span>
+        </div>
+      </div>
+
+      <div class="welcome-grid">
+        <section class="panel">
+          <h2>1. Carregar artefatos</h2>
+          <p>
+            Selecione juntos os arquivos <code>batch_*.json</code> e <code>labels_batch_*.json</code> do
+            mesmo conjunto, ou um JSONL consolidado com <code>text</code> e <code>entities</code>.
+          </p>
+          <div class="welcome-actions">
+            <button type="button" class="button primary" id="btnLoadFiles">Selecionar artefatos...</button>
+            <button type="button" class="button" id="btnLoadDemo">Abrir exemplo sintético</button>
+            <button type="button" class="button link" id="btnRestore">Restaurar revisão exportada</button>
+          </div>
+          <p class="small">
+            O exemplo é sintético e serve apenas para testar a interface. Carregue os artefatos privados
+            depois de exportar qualquer teste que queira guardar.
+          </p>
+          <div id="importReport"></div>
+        </section>
+
+        <section class="panel">
+          <h2>2. Revisar</h2>
+          <p>
+            Cada revisor deve usar seu próprio nome no campo <strong>Revisor</strong>. O progresso é salvo
+            separadamente por revisor e conjunto de dados.
+          </p>
+          <ul>
+            <li>O modo cego (padrão) esconde a sugestão Muse até você responder.</li>
+            <li>Use <kbd>1</kbd>–<kbd>4</kbd> para categorizar e <kbd>0</kbd> para “não é entidade”.</li>
+            <li>Use <kbd>M</kbd> para revelar a Muse, quando necessário.</li>
+            <li>Use <kbd>U</kbd> para marcar incerteza e o campo de nota para justificar.</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <h2>3. Exportar</h2>
+          <p>
+            Ao terminar, exporte o JSON. O arquivo tem apenas identificadores, spans, rótulos, incerteza e
+            notas — não contém o texto integral dos artigos.
+          </p>
+          <ul>
+            <li>Envie o JSON para quem consolidará a concordância.</li>
+            <li>O CSV é opcional, para inspeção em planilha.</li>
+            <li>Guarde os exports fora do repositório; eles são dados restritos.</li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="panel privacy">
+        <h2>Privacidade e limites</h2>
+        <p>
+          Esta página não faz requisições de rede. O navegador lê os arquivos escolhidos localmente e guarda
+          o progresso no <code>localStorage</code>. Se o navegador bloquear o armazenamento, use a exportação
+          para não perder trabalho. A ferramenta valida a <strong>categoria</strong> da entidade; ajustes de
+          limite do span, fusão ou divisão de entidades devem ser anotados no campo de observação.
+        </p>
+      </section>
+    </section>
+
+    <section id="audit" class="audit" hidden>
+      <aside class="sidebar" aria-label="Fila de entidades">
+        <div class="sidebar-head">
+          <label class="field" for="searchInput" style="display:block">
+            <input type="search" id="searchInput" placeholder="Buscar documento, entidade ou nota...">
+          </label>
+          <select id="filterSelect" aria-label="Filtro da fila">
+            <option value="pending">Pendentes</option>
+            <option value="all">Todas</option>
+            <option value="disagreements">Discordâncias com a Muse</option>
+            <option value="agreements">Concordâncias com a Muse</option>
+            <option value="uncertain">Marcadas como incertas</option>
+            <option value="notes">Com observação</option>
+            <option value="decided">Já respondidas</option>
+          </select>
+        </div>
+        <div class="queue-summary" id="queueSummary"></div>
+        <div class="queue-list" id="queueList"></div>
+      </aside>
+
+      <section class="workspace" aria-label="Entidade atual">
+        <div class="doc-head">
+          <div>
+            <div class="doc-title" id="docTitle"></div>
+            <div class="doc-sub" id="docSub"></div>
+          </div>
+          <div class="entity-counter" id="entityCounter"></div>
+        </div>
+
+        <div class="card" id="card">
+          <div class="card-body">
+            <div class="context" id="context"></div>
+
+            <details class="full-details" id="fullDetails">
+              <summary>Ver documento completo</summary>
+              <div class="full-text" id="fullText"></div>
+            </details>
+
+            <div class="muse-panel" id="musePanel"></div>
+
+            <div class="label-buttons" id="labelButtons" role="group" aria-label="Categoria da entidade">
+              <button type="button" class="label-btn" data-label="IDTY">
+                <kbd>1</kbd>
+                <span class="lb-code">IDTY</span>
+                <span class="lb-name">Organização ou instituição</span>
+              </button>
+              <button type="button" class="label-btn" data-label="ACT">
+                <kbd>2</kbd>
+                <span class="lb-code">ACT</span>
+                <span class="lb-name">Ação ou tipo de ataque</span>
+              </button>
+              <button type="button" class="label-btn" data-label="VUL">
+                <kbd>3</kbd>
+                <span class="lb-code">VUL</span>
+                <span class="lb-name">Vulnerabilidade</span>
+              </button>
+              <button type="button" class="label-btn" data-label="LOC">
+                <kbd>4</kbd>
+                <span class="lb-code">LOC</span>
+                <span class="lb-name">Localidade geográfica</span>
+              </button>
+              <button type="button" class="label-btn" data-label="NONE">
+                <kbd>0</kbd>
+                <span class="lb-code">NONE</span>
+                <span class="lb-name">Não é entidade / span inválido</span>
+              </button>
+            </div>
+
+            <div class="feedback muted" id="feedback"></div>
+
+            <div class="note-row">
+              <div>
+                <label for="noteInput">Observação (opcional)</label>
+                <textarea id="noteInput" placeholder="Ex.: o span inclui um verbo; sugiro dividir em duas entidades; caso ambíguo entre ACT e VUL."></textarea>
+              </div>
+              <label class="switch" for="uncertainInput">
+                <input type="checkbox" id="uncertainInput">
+                Incerta
+              </label>
+            </div>
+
+            <div class="card-actions">
+              <label class="switch auto-advance" for="autoAdvance">
+                <input type="checkbox" id="autoAdvance" checked>
+                Avançar após escolher
+              </label>
+              <button type="button" class="button danger" id="btnClear">Limpar resposta</button>
+              <button type="button" class="button" id="btnPrev">← Anterior</button>
+              <button type="button" class="button primary" id="btnNext">Próxima →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="stats" aria-label="Estatísticas da revisão">
+        <section class="panel">
+          <h2>Progresso</h2>
+          <div class="small muted" id="progressText"></div>
+          <div class="progress"><div id="progressBar"></div></div>
+          <div class="stat-grid">
+            <div class="stat"><strong id="statReviewed">0</strong><span>revisadas</span></div>
+            <div class="stat"><strong id="statPending">0</strong><span>pendentes</span></div>
+            <div class="stat"><strong id="statAgreements">0</strong><span>concordam</span></div>
+            <div class="stat"><strong id="statDisagreements">0</strong><span>discordam</span></div>
+            <div class="stat"><strong id="statUncertain">0</strong><span>incertas</span></div>
+            <div class="stat"><strong id="statNotes">0</strong><span>com nota</span></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Por categoria</h2>
+          <table class="table">
+            <thead>
+              <tr><th>Categoria</th><th>Muse</th><th>Você</th><th>Erros Muse</th></tr>
+            </thead>
+            <tbody id="labelTableBody"></tbody>
+          </table>
+          <p class="small muted" style="margin-top:8px">“Erros Muse” = itens em que a sugestão era esta categoria e você escolheu outra.</p>
+        </section>
+
+        <section class="panel">
+          <h2>Conjunto carregado</h2>
+          <div id="datasetInfo"></div>
+          <div class="warning-box" id="warningBox"></div>
+          <div style="display:flex; flex-direction:column; gap:7px; margin-top:12px">
+            <button type="button" class="button" id="btnRestoreAudit">Restaurar revisão exportada</button>
+            <button type="button" class="button danger" id="btnClearReview">Limpar revisão deste revisor</button>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <input type="file" id="fileInput" accept=".json,.jsonl,application/json" multiple hidden>
+  <input type="file" id="restoreInput" accept=".json,application/json" hidden>
+
+  <dialog id="helpDialog">
+    <div class="dialog-head">
+      <h2>Ajuda e atalhos</h2>
+      <form method="dialog"><button type="submit" class="button" id="btnCloseHelp">Fechar</button></form>
+    </div>
+    <div class="dialog-body">
+      <h3>Atalhos</h3>
+      <ul>
+        <li><kbd>1</kbd> IDTY · <kbd>2</kbd> ACT · <kbd>3</kbd> VUL · <kbd>4</kbd> LOC · <kbd>0</kbd> não é entidade</li>
+        <li><kbd>←</kbd> anterior · <kbd>→</kbd> ou <kbd>Enter</kbd> próxima</li>
+        <li><kbd>M</kbd> revelar/ocultar a sugestão Muse · <kbd>U</kbd> marcar incerteza · <kbd>?</kbd> esta ajuda</li>
+      </ul>
+
+      <h3>Categorias do protocolo</h3>
+      <ul>
+        <li><strong>IDTY</strong> — organização ou instituição (empresa, hospital, órgão, grupo).</li>
+        <li><strong>ACT</strong> — ação, incidente ou tipo de ataque (ransomware, phishing, exfiltração).</li>
+        <li><strong>VUL</strong> — vulnerabilidade, falha, CVE, zero-day ou configuração explorável.</li>
+        <li><strong>LOC</strong> — localidade geográfica (país, estado, cidade, região).</li>
+        <li><strong>NONE</strong> — o trecho não deveria ser uma entidade ou o span está claramente inválido.</li>
+      </ul>
+
+      <h3>Independência</h3>
+      <p class="muted">
+        Para medir concordância entre humanos, prefira o modo cego desde o início. Se você revelar a sugestão
+        Muse antes de responder, registre isso no campo de observação e avise quem for consolidar os resultados.
+      </p>
+
+      <h3>Privacidade</h3>
+      <p class="muted">
+        Nenhum dado é enviado para servidores. O JSON exportado contém apenas identificadores, spans, rótulos,
+        incerteza e notas. Ainda assim, trate os exports como material restrito e não os versione.
+      </p>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    "use strict";
+
+    const STORAGE_PREFIX = "muse-audit:v1";
+    const TOOL_NAME = "muse-annotation-audit";
+    const SCHEMA_VERSION = 1;
+    const ENTITY_LABELS = ["IDTY", "ACT", "VUL", "LOC"];
+    const ALL_LABELS = [...ENTITY_LABELS, "NONE"];
+
+    const LABEL_INFO = {
+      IDTY: { name: "Organização ou instituição" },
+      ACT: { name: "Ação ou tipo de ataque" },
+      VUL: { name: "Vulnerabilidade" },
+      LOC: { name: "Localidade geográfica" },
+      NONE: { name: "Não é entidade" },
+    };
+
+    const FILTER_LABELS = {
+      pending: "pendentes",
+      all: "no total",
+      disagreements: "discordâncias",
+      agreements: "concordâncias",
+      uncertain: "incertas",
+      notes: "com observação",
+      decided: "respondidas",
+    };
+
+    const state = {
+      reviewer: "dev1",
+      mode: "blind",
+      modes: {},
+      autoAdvance: true,
+      docs: [],
+      items: [],
+      itemByKey: new Map(),
+      decisions: {},
+      drafts: {},
+      current: 0,
+      filter: "pending",
+      search: "",
+      revealCurrent: false,
+      museSeenKeys: new Set(),
+      datasetKey: "",
+      datasetSummary: null,
+      demo: false,
+      warnings: [],
+      pendingReview: null,
+      advanceTimer: null,
+      saveTimer: null,
+      storageOk: true,
+      storageErrorShown: false,
+    };
+
+    let dom = {};
+    let toastTimer = null;
+    let searchTimer = null;
+
+    function byId(id) {
+      return document.getElementById(id);
+    }
+
+    function cacheDom() {
+      const ids = [
+        "welcome", "audit", "fileInput", "restoreInput", "btnLoadFiles", "btnLoadDemo",
+        "btnRestore", "btnImportHeader", "btnExportJson", "btnExportCsv", "btnHelp",
+        "helpDialog", "btnCloseHelp", "importReport", "reviewerInput", "reviewerQuick", "modeToggle",
+        "autoAdvance", "headerProgress", "headerMode", "headerDemo", "searchInput",
+        "filterSelect", "queueSummary", "queueList", "docTitle", "docSub",
+        "entityCounter", "context", "fullDetails", "fullText", "musePanel", "feedback",
+        "labelButtons", "noteInput", "uncertainInput", "btnPrev", "btnNext", "btnClear",
+        "btnClearReview", "btnRestoreAudit", "progressText", "progressBar", "statReviewed", "statAgreements",
+        "statDisagreements", "statUncertain", "statNotes", "statPending", "labelTableBody",
+        "datasetInfo", "warningBox", "storageBanner", "toast",
+      ];
+      dom = Object.fromEntries(ids.map((id) => [id, byId(id)]));
+    }
+
+    function init() {
+      cacheDom();
+      state.storageOk = storageAvailable();
+      loadPrefs();
+      bindEvents();
+      renderReviewerControls();
+      renderHeader();
+      if (!state.storageOk) {
+        dom.storageBanner.hidden = false;
+      }
+    }
+
+    function storageAvailable() {
+      try {
+        const key = `${STORAGE_PREFIX}:test`;
+        localStorage.setItem(key, "1");
+        localStorage.removeItem(key);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function loadPrefs() {
+      try {
+        const raw = localStorage.getItem(`${STORAGE_PREFIX}:prefs`);
+        if (!raw) return;
+        const prefs = JSON.parse(raw);
+        if (prefs && typeof prefs.reviewer === "string") {
+          state.reviewer = normalizeReviewer(prefs.reviewer);
+        }
+        if (prefs && prefs.modes && typeof prefs.modes === "object") {
+          for (const [reviewer, mode] of Object.entries(prefs.modes)) {
+            if (mode === "assisted" || mode === "blind") {
+              state.modes[reviewer] = mode;
+            }
+          }
+        }
+        state.mode = state.modes[state.reviewer]
+          || (prefs && prefs.mode === "assisted" ? "assisted" : "blind");
+        if (prefs && typeof prefs.autoAdvance === "boolean") {
+          state.autoAdvance = prefs.autoAdvance;
+        }
+      } catch (error) {
+        // Preferências corrompidas não impedem a auditoria.
+      }
+    }
+
+    function savePrefs() {
+      try {
+        localStorage.setItem(`${STORAGE_PREFIX}:prefs`, JSON.stringify({
+          reviewer: state.reviewer,
+          mode: state.mode,
+          modes: { ...state.modes, [state.reviewer]: state.mode },
+          autoAdvance: state.autoAdvance,
+        }));
+      } catch (error) {
+        // O armazenamento é opcional; os exports continuam disponíveis.
+      }
+    }
+
+    function normalizeReviewer(value) {
+      const clean = String(value ?? "").replace(/\s+/g, " ").trim().slice(0, 40);
+      return clean || "dev1";
+    }
+
+    function reviewKey(datasetKey, reviewer) {
+      return `${STORAGE_PREFIX}:review:${datasetKey}:${encodeURIComponent(reviewer)}`;
+    }
+
+    function positionKey(datasetKey, reviewer) {
+      return `${STORAGE_PREFIX}:position:${datasetKey}:${encodeURIComponent(reviewer)}`;
+    }
+
+    function loadReviewState(datasetKey, reviewer, validKeys) {
+      try {
+        const raw = localStorage.getItem(reviewKey(datasetKey, reviewer));
+        if (!raw) return { decisions: {}, drafts: {}, museSeen: new Set() };
+        const saved = JSON.parse(raw);
+        const decisions = {};
+        const drafts = {};
+        const museSeen = new Set();
+        if (saved && saved.decisions && typeof saved.decisions === "object") {
+          for (const [key, value] of Object.entries(saved.decisions)) {
+            if (!validKeys.has(key) || !value || typeof value !== "object") continue;
+            if (!ALL_LABELS.includes(value.human_label)) continue;
+            decisions[key] = {
+              human_label: value.human_label,
+              uncertain: Boolean(value.uncertain),
+              muse_revealed: Boolean(value.muse_revealed),
+              note: typeof value.note === "string" ? value.note : "",
+              reviewed_at: typeof value.reviewed_at === "string" ? value.reviewed_at : new Date().toISOString(),
+            };
+          }
+        }
+        if (saved && saved.drafts && typeof saved.drafts === "object") {
+          for (const [key, value] of Object.entries(saved.drafts)) {
+            if (!validKeys.has(key) || !value || typeof value !== "object") continue;
+            drafts[key] = {
+              note: typeof value.note === "string" ? value.note : "",
+              uncertain: Boolean(value.uncertain),
+            };
+          }
+        }
+        if (saved && Array.isArray(saved.muse_seen)) {
+          for (const key of saved.muse_seen) {
+            if (typeof key === "string" && validKeys.has(key)) museSeen.add(key);
+          }
+        }
+        return { decisions, drafts, museSeen };
+      } catch (error) {
+        return { decisions: {}, drafts: {}, museSeen: new Set() };
+      }
+    }
+
+    function loadPosition(datasetKey, reviewer, max) {
+      try {
+        const raw = localStorage.getItem(positionKey(datasetKey, reviewer));
+        if (raw === null) return null;
+        const index = Number(raw);
+        return Number.isInteger(index) && index >= 0 && index < max ? index : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function saveReviewState() {
+      if (!state.datasetKey) return false;
+      try {
+        localStorage.setItem(reviewKey(state.datasetKey, state.reviewer), JSON.stringify({
+          version: 1,
+          reviewer: state.reviewer,
+          dataset_key: state.datasetKey,
+          decisions: state.decisions,
+          drafts: state.drafts,
+          muse_seen: [...state.museSeenKeys],
+          updated_at: new Date().toISOString(),
+        }));
+        localStorage.setItem(positionKey(state.datasetKey, state.reviewer), String(state.current));
+        state.storageOk = true;
+        state.storageErrorShown = false;
+        dom.storageBanner.hidden = true;
+        return true;
+      } catch (error) {
+        state.storageOk = false;
+        dom.storageBanner.hidden = false;
+        if (!state.storageErrorShown) {
+          state.storageErrorShown = true;
+          showToast(
+            "Não foi possível salvar no navegador. Exporte a revisão agora para não perder trabalho.",
+            { error: true, duration: 12000 }
+          );
+        }
+        return false;
+      }
+    }
+
+    function savePosition() {
+      if (!state.datasetKey) return false;
+      try {
+        localStorage.setItem(positionKey(state.datasetKey, state.reviewer), String(state.current));
+        return true;
+      } catch (error) {
+        // A posição é apenas conveniência; não interrompe o fluxo.
+        return false;
+      }
+    }
+
+    function scheduleSave() {
+      clearTimeout(state.saveTimer);
+      state.saveTimer = setTimeout(saveReviewState, 350);
+    }
+
+    function bindEvents() {
+      dom.btnLoadFiles.addEventListener("click", () => dom.fileInput.click());
+      dom.btnImportHeader.addEventListener("click", () => dom.fileInput.click());
+      dom.btnRestore.addEventListener("click", () => dom.restoreInput.click());
+      dom.btnRestoreAudit.addEventListener("click", () => dom.restoreInput.click());
+      dom.btnLoadDemo.addEventListener("click", loadDemo);
+      dom.btnExportJson.addEventListener("click", exportJson);
+      dom.btnExportCsv.addEventListener("click", exportCsv);
+      dom.btnHelp.addEventListener("click", openHelp);
+      dom.btnCloseHelp.addEventListener("click", () => {
+        if (typeof dom.helpDialog.close === "function") dom.helpDialog.close();
+        else dom.helpDialog.removeAttribute("open");
+      });
+
+      dom.fileInput.addEventListener("change", async () => {
+        const files = [...dom.fileInput.files];
+        dom.fileInput.value = "";
+        await handleArtifactFiles(files);
+      });
+
+      dom.restoreInput.addEventListener("change", async () => {
+        const files = [...dom.restoreInput.files];
+        dom.restoreInput.value = "";
+        await handleRestoreFiles(files);
+      });
+
+      dom.labelButtons.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-label]");
+        if (button) choose(button.dataset.label);
+      });
+
+      dom.btnPrev.addEventListener("click", prevItem);
+      dom.btnNext.addEventListener("click", nextItem);
+      dom.btnClear.addEventListener("click", clearCurrentDecision);
+      dom.btnClearReview.addEventListener("click", clearReview);
+
+      dom.noteInput.addEventListener("focus", () => {
+        cancelAdvance();
+        if (searchTimer) {
+          clearTimeout(searchTimer);
+          searchTimer = null;
+          dom.searchInput.value = state.search;
+        }
+      });
+      dom.noteInput.addEventListener("input", onNoteInput);
+      dom.uncertainInput.addEventListener("focus", cancelAdvance);
+      dom.uncertainInput.addEventListener("change", onUncertainChange);
+
+      dom.searchInput.addEventListener("input", () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+          searchTimer = null;
+          cancelAdvance();
+          state.search = dom.searchInput.value;
+          ensureCurrentVisible();
+          renderSidebar();
+          renderCard();
+          renderStats();
+        }, 180);
+      });
+
+      dom.filterSelect.addEventListener("change", () => {
+        cancelAdvance();
+        state.filter = dom.filterSelect.value;
+        ensureCurrentVisible();
+        renderSidebar();
+        renderCard();
+        renderStats();
+      });
+
+      dom.reviewerInput.addEventListener("change", () => setReviewer(dom.reviewerInput.value));
+      dom.reviewerInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          dom.reviewerInput.blur();
+          setReviewer(dom.reviewerInput.value);
+        }
+      });
+
+      dom.reviewerQuick.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-reviewer]");
+        if (button) {
+          dom.reviewerInput.value = button.dataset.reviewer;
+          setReviewer(button.dataset.reviewer);
+        }
+      });
+
+      dom.modeToggle.addEventListener("change", () => setMode(dom.modeToggle.checked));
+      dom.autoAdvance.addEventListener("change", () => {
+        state.autoAdvance = dom.autoAdvance.checked;
+        if (!state.autoAdvance) cancelAdvance();
+        savePrefs();
+      });
+
+      dom.musePanel.addEventListener("click", (event) => {
+        const action = event.target.closest("[data-action]")?.dataset.action;
+        if (action === "reveal") {
+          state.revealCurrent = true;
+          renderCard();
+        } else if (action === "accept") {
+          const item = currentItem();
+          if (item) choose(item.entity.label);
+        }
+      });
+
+      dom.fullDetails.addEventListener("toggle", () => {
+        if (dom.fullDetails.open) renderFullText();
+      });
+
+      dom.queueList.addEventListener("click", (event) => {
+        const button = event.target.closest(".queue-item");
+        if (button) goTo(Number(button.dataset.index));
+      });
+
+      window.addEventListener("keydown", handleKeydown);
+      window.addEventListener("pagehide", () => {
+        clearTimeout(state.saveTimer);
+        saveReviewState();
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          clearTimeout(state.saveTimer);
+          saveReviewState();
+        }
+      });
+    }
+
+    function openHelp() {
+      if (typeof dom.helpDialog.showModal === "function") {
+        dom.helpDialog.showModal();
+      } else {
+        dom.helpDialog.setAttribute("open", "");
+      }
+    }
+
+    async function handleArtifactFiles(files) {
+      if (!files || files.length === 0) return;
+      setBusy(true, files.length);
+      try {
+        const parsed = [];
+        for (const file of files) {
+          const text = await file.text();
+          const payload = parseArtifactText(file.name, text);
+          const classified = classifyPayload(payload, file.name);
+          parsed.push({ name: file.name, ...classified });
+        }
+
+        const reviewEntries = parsed.filter((entry) => entry.kind === "review");
+        if (reviewEntries.length > 0) {
+          if (reviewEntries.length !== parsed.length) {
+            throw new Error("Selecione apenas revisões exportadas ou apenas artefatos de anotação, não os dois tipos juntos.");
+          }
+          applyReviewImports(reviewEntries.map((entry) => entry.review));
+          return;
+        }
+
+        if (state.items.length > 0 && Object.keys(state.decisions).length > 0) {
+          const ok = confirm(
+            `Substituir o conjunto atual (${state.datasetSummary?.documents ?? state.docs.length} documentos) pelas novas seleções?\n\n` +
+            "As respostas já dadas continuam salvas no navegador por revisor e conjunto."
+          );
+          if (!ok) return;
+        }
+
+        const dataset = buildDataset(parsed);
+        activateDataset(dataset, { demo: false });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        showImportReport(message, "error");
+        showToast(message, { error: true, duration: 10000 });
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function handleRestoreFiles(files) {
+      if (!files || files.length === 0) return;
+      try {
+        const reviews = [];
+        for (const file of files) {
+          const text = await file.text();
+          const payload = parseArtifactText(file.name, text);
+          const classified = classifyPayload(payload, file.name);
+          if (classified.kind !== "review") {
+            throw new Error(`${file.name}: não é um arquivo de revisão exportado por esta ferramenta.`);
+          }
+          reviews.push(classified.review);
+        }
+        if (reviews.length !== 1) {
+          throw new Error("Selecione um arquivo de revisão exportada por vez.");
+        }
+        if (!state.items.length) {
+          state.pendingReview = reviews[0];
+          const reviewer = normalizeReviewer(reviews[0].reviewer || state.reviewer);
+          showImportReport(
+            `Revisão de "${reviewer}" carregada. Agora selecione os artefatos de anotação; ` +
+            "as decisões serão aplicadas automaticamente depois da leitura.",
+            "success"
+          );
+          showToast(`Revisão de ${reviewer} pronta para ser aplicada ao carregar os artefatos.`);
+          return;
+        }
+        applyReviewImports(reviews);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        showImportReport(message, "error");
+        showToast(message, { error: true, duration: 10000 });
+      }
+    }
+
+    function parseArtifactText(fileName, text) {
+      const clean = String(text).replace(/^\uFEFF/, "");
+      if (!clean.trim()) {
+        throw new Error(`${fileName}: arquivo vazio.`);
+      }
+      try {
+        return JSON.parse(clean);
+      } catch (jsonError) {
+        const lines = clean.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+        if (lines.length > 1) {
+          return lines.map((line, index) => {
+            try {
+              return JSON.parse(line);
+            } catch (lineError) {
+              throw new Error(`${fileName}, linha ${index + 1}: JSON inválido.`);
+            }
+          });
+        }
+        throw new Error(`${fileName}: JSON inválido.`);
+      }
+    }
+
+    function classifyPayload(payload, fileName) {
+      if (isPlainObject(payload)) {
+        if (Array.isArray(payload.decisions) && payload.schema_version) {
+          return { kind: "review", review: payload };
+        }
+        if (Array.isArray(payload.sources) && Array.isArray(payload.labels)) {
+          return { kind: "paired", sources: payload.sources, labels: payload.labels };
+        }
+        if (Array.isArray(payload.documents)) {
+          return { kind: "merged", records: payload.documents };
+        }
+        if (typeof payload.text === "string" && Array.isArray(payload.entities)) {
+          return { kind: "merged", records: [payload] };
+        }
+        if (typeof payload.text === "string" && (payload.id || payload.document_id)) {
+          return { kind: "source", records: [payload] };
+        }
+        throw new Error(`${fileName}: objeto JSON não reconhecido como artefato de anotação.`);
+      }
+
+      if (Array.isArray(payload)) {
+        const records = payload.filter(isPlainObject);
+        if (records.length === 0) {
+          return { kind: "empty" };
+        }
+        const hasText = records.some((record) => typeof record.text === "string");
+        const hasEntities = records.some((record) => Array.isArray(record.entities));
+        const hasKeep = records.some((record) => Object.prototype.hasOwnProperty.call(record, "keep"));
+        if (hasText && hasEntities) return { kind: "merged", records };
+        if (hasText) return { kind: "source", records };
+        if (hasEntities || hasKeep) return { kind: "labels", records };
+        throw new Error(`${fileName}: lista JSON não reconhecida como batch, labels ou documento consolidado.`);
+      }
+
+      throw new Error(`${fileName}: formato JSON não suportado.`);
+    }
+
+    function buildDataset(parsed) {
+      const entries = [...parsed].sort((a, b) =>
+        a.name.localeCompare(b.name, "pt-BR", { numeric: true })
+      );
+      const docsById = new Map();
+      const order = [];
+      const warnings = [];
+      let skippedEntities = 0;
+      let docsWithoutLabels = 0;
+      let keepFalse = 0;
+      let sawLabels = false;
+
+      function docFor(id, fileName) {
+        let doc = docsById.get(id);
+        if (!doc) {
+          doc = {
+            id,
+            text: null,
+            textFile: null,
+            rawEntities: null,
+            labelFile: null,
+            keep: null,
+            meta: { title: "", source: "", date: "", url: "" },
+          };
+          docsById.set(id, doc);
+          order.push(id);
+        }
+        return doc;
+      }
+
+      function consumeSource(record, fileName, index) {
+        const id = extractId(record);
+        if (!id) throw new Error(`${fileName}: registro ${index + 1} sem id/document_id.`);
+        if (typeof record.text !== "string") {
+          throw new Error(`${fileName}: documento ${id} sem campo text.`);
+        }
+        const doc = docFor(id, fileName);
+        if (doc.text !== null && doc.text !== record.text) {
+          throw new Error(
+            `O documento ${id} aparece com textos diferentes (${doc.textFile} e ${fileName}). ` +
+            "Carregue apenas um conjunto/camada por vez."
+          );
+        }
+        if (doc.text === null) {
+          doc.text = record.text;
+          doc.textFile = fileName;
+        }
+        mergeMeta(doc.meta, extractMeta(record));
+      }
+
+      function consumeLabels(record, fileName, index) {
+        const id = extractId(record);
+        if (!id) throw new Error(`${fileName}: registro ${index + 1} sem id/document_id.`);
+        if (!Array.isArray(record.entities)) {
+          throw new Error(`${fileName}: documento ${id} sem lista entities.`);
+        }
+        sawLabels = true;
+        const doc = docFor(id, fileName);
+        if (doc.rawEntities !== null) {
+          throw new Error(
+            `O documento ${id} aparece com labels em mais de um arquivo (${doc.labelFile} e ${fileName}). ` +
+            "Carregue apenas uma camada por vez."
+          );
+        }
+        doc.rawEntities = record.entities;
+        doc.labelFile = fileName;
+        if (typeof record.keep === "boolean") {
+          doc.keep = record.keep;
+          if (!record.keep) keepFalse += 1;
+        }
+        mergeMeta(doc.meta, extractMeta(record));
+      }
+
+      function consumeMerged(record, fileName, index) {
+        const id = extractId(record);
+        if (!id) throw new Error(`${fileName}: registro ${index + 1} sem id/document_id.`);
+        if (typeof record.text !== "string") {
+          throw new Error(`${fileName}: documento ${id} sem campo text.`);
+        }
+        if (!Array.isArray(record.entities)) {
+          throw new Error(`${fileName}: documento ${id} sem lista entities.`);
+        }
+        consumeSource(record, fileName, index);
+        consumeLabels(record, fileName, index);
+      }
+
+      for (const entry of entries) {
+        if (entry.kind === "empty") {
+          warnings.push(`${entry.name}: arquivo sem registros; ignorado.`);
+          continue;
+        }
+        if (entry.kind === "source") {
+          entry.records.forEach((record, index) => consumeSource(record, entry.name, index));
+        } else if (entry.kind === "labels") {
+          entry.records.forEach((record, index) => consumeLabels(record, entry.name, index));
+        } else if (entry.kind === "merged") {
+          entry.records.forEach((record, index) => consumeMerged(record, entry.name, index));
+        } else if (entry.kind === "paired") {
+          entry.sources.forEach((record, index) => consumeSource(record, entry.name, index));
+          entry.labels.forEach((record, index) => consumeLabels(record, entry.name, index));
+        } else {
+          throw new Error(`${entry.name}: tipo de artefato não suportado.`);
+        }
+      }
+
+      if (!sawLabels) {
+        throw new Error(
+          "Nenhum arquivo de labels foi carregado. Selecione também os labels_batch_*.json " +
+          "correspondentes aos batch_*.json."
+        );
+      }
+
+      const docs = [];
+      const items = [];
+      let documentsWithText = 0;
+      for (const id of order) {
+        const raw = docsById.get(id);
+        if (raw.text === null) {
+          warnings.push(`${id}: documento sem texto; ignorado.`);
+          continue;
+        }
+        documentsWithText += 1;
+        if (raw.rawEntities === null) {
+          docsWithoutLabels += 1;
+          continue;
+        }
+        const normalized = normalizeEntities(raw, warnings);
+        skippedEntities += normalized.skipped;
+        if (normalized.entities.length === 0) {
+          continue;
+        }
+        if (raw.keep === false) {
+          warnings.push(`${id}: Muse marcou keep=false, mas há ${normalized.entities.length} entidade(s); revisar mesmo assim.`);
+        }
+        const doc = {
+          id,
+          text: raw.text,
+          meta: raw.meta,
+          keep: raw.keep,
+          entities: normalized.entities,
+          sourceFile: raw.textFile,
+          labelFile: raw.labelFile,
+        };
+        docs.push(doc);
+        for (const entity of doc.entities) {
+          items.push({
+            key: `${doc.id}::${entity.index}::${entity.start}-${entity.end}`,
+            doc,
+            entity,
+          });
+        }
+      }
+
+      if (items.length === 0) {
+        throw new Error(
+          "Nenhuma entidade válida encontrada. Verifique se os labels correspondem aos textos e se os offsets são válidos."
+        );
+      }
+
+      const museLabelCounts = emptyLabelCounts();
+      for (const item of items) museLabelCounts[item.entity.label] += 1;
+
+      const signature = [...docs]
+        .sort((left, right) => left.id.localeCompare(right.id, "pt-BR", { numeric: true }))
+        .map((doc) =>
+          `${doc.id}:${hashString(doc.text)}:${doc.entities.map((entity) => `${entity.start}-${entity.end}-${entity.label}`).join(",")}`
+        )
+        .join("|");
+
+      return {
+        docs,
+        items,
+        warnings,
+        key: `d${docs.length}e${items.length}h${hashString(signature)}`,
+        summary: {
+          documents: documentsWithText,
+          documents_with_entities: docs.length,
+          documents_without_labels: docsWithoutLabels,
+          entities: items.length,
+          skipped_entities: skippedEntities,
+          keep_false: keepFalse,
+          files: entries.map((entry) => entry.name),
+          muse_label_counts: museLabelCounts,
+        },
+      };
+    }
+
+    function normalizeEntities(raw, warnings) {
+      const entities = [];
+      const utf16Map = buildCodePointMap(raw.text);
+      const codePointLength = utf16Map ? utf16Map.length - 1 : raw.text.length;
+      let skipped = 0;
+      for (let index = 0; index < raw.rawEntities.length; index += 1) {
+        const candidate = raw.rawEntities[index];
+        if (!isPlainObject(candidate)) {
+          skipped += 1;
+          warnings.push(`${raw.id}: entidade ${index + 1} ignorada (formato inválido).`);
+          continue;
+        }
+        const label = canonicalLabel(candidate.label);
+        if (!label) {
+          skipped += 1;
+          warnings.push(`${raw.id}: entidade ${index + 1} ignorada (label inválido).`);
+          continue;
+        }
+        const start = candidate.start;
+        const end = candidate.end;
+        if (!Number.isInteger(start) || !Number.isInteger(end)) {
+          skipped += 1;
+          warnings.push(`${raw.id}: entidade ${index + 1} ignorada (start/end não inteiros).`);
+          continue;
+        }
+        if (start < 0 || end <= start || start >= codePointLength || end > codePointLength) {
+          skipped += 1;
+          warnings.push(`${raw.id}: entidade ${index + 1} ignorada (offsets fora do texto).`);
+          continue;
+        }
+        const utf16Start = utf16Map ? utf16Map[start] : start;
+        const utf16End = utf16Map ? utf16Map[end] : end;
+        if (!Number.isInteger(utf16Start) || !Number.isInteger(utf16End)) {
+          skipped += 1;
+          warnings.push(`${raw.id}: entidade ${index + 1} ignorada (offset não mapeável).`);
+          continue;
+        }
+        const text = raw.text.slice(utf16Start, utf16End);
+        if (!text.trim()) {
+          skipped += 1;
+          warnings.push(`${raw.id}: entidade ${index + 1} ignorada (span só com espaços).`);
+          continue;
+        }
+        entities.push({
+          start,
+          end,
+          utf16Start,
+          utf16End,
+          label,
+          text,
+          originalIndex: index,
+        });
+      }
+      entities.sort((a, b) =>
+        a.start - b.start || a.end - b.end || a.originalIndex - b.originalIndex
+      );
+      entities.forEach((entity, index) => {
+        entity.index = index;
+      });
+      return { entities, skipped };
+    }
+
+    function buildCodePointMap(text) {
+      let hasAstral = false;
+      for (let index = 0; index < text.length; index += 1) {
+        const code = text.charCodeAt(index);
+        if (code >= 0xD800 && code <= 0xDBFF) {
+          const next = text.charCodeAt(index + 1);
+          if (next >= 0xDC00 && next <= 0xDFFF) {
+            hasAstral = true;
+            break;
+          }
+        }
+      }
+      if (!hasAstral) return null;
+      const map = [0];
+      let utf16Offset = 0;
+      for (const character of text) {
+        utf16Offset += character.length;
+        map.push(utf16Offset);
+      }
+      return map;
+    }
+
+    function canonicalLabel(value) {
+      if (typeof value !== "string") return null;
+      let label = value.trim().toUpperCase();
+      if (label.includes("-")) {
+        label = label.split("-").slice(1).join("-");
+      }
+      if (label === "VULID" || label === "VULNAME") label = "VUL";
+      return ENTITY_LABELS.includes(label) ? label : null;
+    }
+
+    function extractId(record) {
+      const value = record.document_id ?? record.id;
+      if (typeof value === "string" && value.trim()) return value.trim();
+      if (typeof value === "number" && Number.isFinite(value)) return String(value);
+      return null;
+    }
+
+    function extractMeta(record) {
+      const metadata = isPlainObject(record.metadata) ? record.metadata : {};
+      return {
+        title: firstText(record.title, metadata.title, metadata.name),
+        source: firstText(record.source, metadata.source, metadata.portal, metadata.publication),
+        date: firstText(record.published_date, record.date, metadata.published_date, metadata.date),
+        url: firstText(record.url, metadata.url, metadata.source_url),
+      };
+    }
+
+    function mergeMeta(target, source) {
+      for (const key of ["title", "source", "date", "url"]) {
+        if (!target[key] && source[key]) target[key] = source[key];
+      }
+    }
+
+    function firstText(...values) {
+      for (const value of values) {
+        if (typeof value === "string" && value.trim()) return value.trim();
+      }
+      return "";
+    }
+
+    function emptyLabelCounts() {
+      return Object.fromEntries(ALL_LABELS.map((label) => [label, 0]));
+    }
+
+    function activateDataset(dataset, options = {}) {
+      cancelAdvance();
+      if (state.datasetKey) {
+        const savedState = saveReviewState();
+        const hasWork = Object.keys(state.decisions).length > 0
+          || Object.keys(state.drafts).length > 0;
+        if (!savedState && hasWork) {
+          const ok = confirm(
+            "Não foi possível salvar a revisão atual no navegador. " +
+            "Carregar outro conjunto pode perder respostas ou notas não exportadas. Continuar?"
+          );
+          if (!ok) return false;
+        }
+      }
+      state.docs = dataset.docs;
+      state.items = dataset.items;
+      state.itemByKey = new Map(dataset.items.map((item) => [item.key, item]));
+      state.datasetKey = dataset.key;
+      state.datasetSummary = dataset.summary;
+      state.warnings = dataset.warnings;
+      state.demo = Boolean(options.demo);
+
+      const validKeys = new Set(state.items.map((item) => item.key));
+      const saved = loadReviewState(state.datasetKey, state.reviewer, validKeys);
+      state.decisions = saved.decisions;
+      state.drafts = saved.drafts;
+      state.museSeenKeys = saved.museSeen;
+
+      const pending = firstPendingIndex();
+      const savedPosition = loadPosition(state.datasetKey, state.reviewer, state.items.length);
+      const savedItem = savedPosition === null ? null : state.items[savedPosition];
+      state.current = savedItem && !state.decisions[savedItem.key] ? savedPosition : pending;
+
+      state.filter = "pending";
+      state.search = "";
+      state.revealCurrent = false;
+      dom.filterSelect.value = "pending";
+      dom.searchInput.value = "";
+      showScreen("audit");
+      renderAll();
+
+      const reviewed = countReviewed();
+      showToast(
+        `${dataset.summary.documents_with_entities} documentos e ${dataset.summary.entities} entidades carregados` +
+        (reviewed > 0 ? ` · ${reviewed} resposta(s) restaurada(s)` : "") + "."
+      );
+      if (state.pendingReview) {
+        const pending = state.pendingReview;
+        state.pendingReview = null;
+        try {
+          applyReviewImports([pending]);
+        } catch (error) {
+          showToast(
+            error instanceof Error ? error.message : String(error),
+            { error: true, duration: 12000 }
+          );
+        }
+      }
+      return true;
+    }
+
+    function loadDemo() {
+      try {
+        const dataset = buildDemoDataset();
+        if (state.items.length > 0 && Object.keys(state.decisions).length > 0) {
+          const ok = confirm("Substituir o conjunto atual pelo exemplo sintético? As respostas atuais continuam salvas por revisor e conjunto.");
+          if (!ok) return;
+        }
+        activateDataset(dataset, { demo: true });
+      } catch (error) {
+        showImportReport(error instanceof Error ? error.message : String(error), "error");
+      }
+    }
+
+    function buildDemoDataset() {
+      const specs = [
+        {
+          title: "Ataque a hospital em Austin",
+          text: "In March 2024, a ransomware attack forced Riverside Community Hospital in Austin to divert patients. The attackers exploited an unpatched VPN appliance, according to the hospital.",
+          spans: [
+            ["ransomware attack", "ACT"],
+            ["Riverside Community Hospital", "IDTY"],
+            ["Austin", "LOC"],
+            ["unpatched VPN appliance", "VUL"],
+          ],
+        },
+        {
+          title: "Vazamento em plano de saúde",
+          text: "The Clop group breached Northwind Health Plan after exploiting a MOVEit vulnerability, exposing patient records in Ohio.",
+          spans: [
+            ["Clop group", "IDTY"],
+            ["Northwind Health Plan", "IDTY"],
+            ["MOVEit vulnerability", "VUL"],
+            ["Ohio", "LOC"],
+          ],
+        },
+        {
+          title: "Campanha de phishing",
+          text: "A phishing campaign targeted staff at Lakeside Clinic in Denver; the organization reset credentials after the incident.",
+          spans: [
+            ["phishing campaign", "ACT"],
+            ["Lakeside Clinic", "IDTY"],
+            ["Denver", "LOC"],
+          ],
+        },
+        {
+          title: "Grupo de ransomware assume ataque",
+          text: "The ALPHV ransomware group claimed responsibility for an attack on Mercy General Hospital in Dallas, Texas.",
+          spans: [
+            ["ALPHV ransomware group", "IDTY"],
+            ["attack", "ACT"],
+            ["Mercy General Hospital", "IDTY"],
+            ["Dallas", "LOC"],
+            ["Texas", "LOC"],
+          ],
+        },
+      ];
+
+      const records = specs.map((spec, index) => {
+        const entities = spec.spans.map(([needle, label]) => {
+          const start = spec.text.indexOf(needle);
+          if (start < 0) throw new Error(`Exemplo sintético inválido: ${needle}`);
+          return { start, end: start + needle.length, label };
+        });
+        return {
+          document_id: `demo-${String(index + 1).padStart(3, "0")}`,
+          text: spec.text,
+          entities,
+          metadata: {
+            title: `[DEMO] ${spec.title}`,
+            source: "Exemplo sintético",
+            date: "2024-01-01",
+          },
+        };
+      });
+
+      return buildDataset([{ name: "demo-sintetico.json", kind: "merged", records }]);
+    }
+
+    function applyReviewImports(reviews) {
+      cancelAdvance();
+      if (!state.items.length) {
+        throw new Error("Carregue primeiro os artefatos de anotação; o arquivo exportado contém apenas as decisões.");
+      }
+      if (reviews.length !== 1) {
+        throw new Error("Selecione um arquivo de revisão exportada por vez.");
+      }
+      const review = reviews[0];
+      const reviewer = normalizeReviewer(review.reviewer || state.reviewer);
+
+      if (typeof review.dataset_key !== "string" || !review.dataset_key) {
+        throw new Error("O arquivo de revisão não tem dataset_key; não é possível garantir que pertence a este conjunto.");
+      }
+      if (review.dataset_key !== state.datasetKey) {
+        throw new Error(
+          "O arquivo pertence a outro conjunto de dados. " +
+          "Carregue os mesmos artefatos usados na exportação antes de restaurar."
+        );
+      }
+      if (reviewer !== state.reviewer) {
+        const ok = confirm(`O arquivo foi exportado por "${reviewer}". Carregar as decisões para esse revisor?`);
+        if (!ok) return;
+        if (!setReviewer(reviewer, { silent: true })) return;
+      }
+
+      const rows = Array.isArray(review.decisions) ? review.decisions : [];
+      let applied = 0;
+      let missing = 0;
+      let invalid = 0;
+      let keptNewer = 0;
+      for (const row of rows) {
+        if (!isPlainObject(row) || !ALL_LABELS.includes(row.human_label)) {
+          invalid += 1;
+          continue;
+        }
+        const key = typeof row.item_key === "string" && row.item_key
+          ? row.item_key
+          : `${row.document_id}::${row.entity_index}::${row.start}-${row.end}`;
+        if (!state.itemByKey.has(key)) {
+          missing += 1;
+          continue;
+        }
+        const incomingReviewedAt = typeof row.reviewed_at === "string"
+          ? row.reviewed_at
+          : new Date().toISOString();
+        const existing = state.decisions[key];
+        if (existing && isNewerDecision(existing, incomingReviewedAt)) {
+          keptNewer += 1;
+          continue;
+        }
+        state.decisions[key] = {
+          human_label: row.human_label,
+          uncertain: Boolean(row.uncertain),
+          muse_revealed: Boolean(row.muse_revealed),
+          note: typeof row.note === "string" ? row.note : "",
+          reviewed_at: incomingReviewedAt,
+        };
+        applied += 1;
+      }
+      if (Array.isArray(review.muse_seen)) {
+        for (const key of review.muse_seen) {
+          if (typeof key === "string" && state.itemByKey.has(key)) {
+            state.museSeenKeys.add(key);
+          }
+        }
+      }
+      state.current = firstPendingIndex();
+      state.revealCurrent = false;
+      const saved = saveReviewState();
+      renderAll();
+      showToast(
+        `${applied} decisão(ões) restaurada(s)` +
+        (missing > 0 ? ` · ${missing} sem correspondência` : "") +
+        (invalid > 0 ? ` · ${invalid} inválida(s)` : "") +
+        (keptNewer > 0 ? ` · ${keptNewer} resposta(s) local(is) mais recente(s) mantida(s)` : "") +
+        (saved ? "." : " · falha ao salvar no navegador; exporte agora."),
+        { error: !saved, duration: saved ? 5000 : 12000 }
+      );
+    }
+
+    function isNewerDecision(existing, incomingReviewedAt) {
+      if (!existing.reviewed_at || !incomingReviewedAt) return false;
+      const existingTime = Date.parse(existing.reviewed_at);
+      const incomingTime = Date.parse(incomingReviewedAt);
+      return Number.isFinite(existingTime)
+        && Number.isFinite(incomingTime)
+        && existingTime > incomingTime;
+    }
+
+    function setReviewer(value, options = {}) {
+      cancelAdvance();
+      const reviewer = normalizeReviewer(value);
+      if (reviewer === state.reviewer) {
+        renderReviewerControls();
+        return true;
+      }
+      if (state.datasetKey) {
+        const savedState = saveReviewState();
+        const hasWork = Object.keys(state.decisions).length > 0
+          || Object.keys(state.drafts).length > 0;
+        if (!savedState && hasWork) {
+          const ok = confirm(
+            "Não foi possível salvar a revisão atual no navegador. " +
+            "Se você já exportou, pode trocar mesmo assim; as respostas atuais sairão da memória. Continuar?"
+          );
+          if (!ok) {
+            renderReviewerControls();
+            return false;
+          }
+        }
+      }
+      state.reviewer = reviewer;
+      state.mode = state.modes[reviewer] || "blind";
+      state.revealCurrent = false;
+      if (state.datasetKey) {
+        const validKeys = new Set(state.items.map((item) => item.key));
+        const saved = loadReviewState(state.datasetKey, reviewer, validKeys);
+        state.decisions = saved.decisions;
+        state.drafts = saved.drafts;
+        state.museSeenKeys = saved.museSeen;
+        const savedPosition = loadPosition(state.datasetKey, reviewer, state.items.length);
+        const savedItem = savedPosition === null ? null : state.items[savedPosition];
+        state.current = savedItem && !state.decisions[savedItem.key]
+          ? savedPosition
+          : firstPendingIndex();
+      }
+      savePrefs();
+      renderAll();
+      if (!options.silent) {
+        showToast(`Revisor: ${reviewer} · modo ${state.mode === "assisted" ? "assistido" : "cego"}`);
+      }
+      return true;
+    }
+
+    function setMode(assisted) {
+      cancelAdvance();
+      state.mode = assisted ? "assisted" : "blind";
+      state.modes[state.reviewer] = state.mode;
+      state.revealCurrent = false;
+      savePrefs();
+      renderReviewerControls();
+      renderHeader();
+      if (state.items.length > 0) {
+        renderSidebar();
+        renderCard();
+      }
+      showToast(
+        state.mode === "assisted"
+          ? "Modo assistido: a sugestão Muse aparece antes da resposta."
+          : "Modo cego ativado: a sugestão Muse fica oculta até a resposta.",
+        { duration: 5000 }
+      );
+    }
+
+    function showScreen(name) {
+      dom.welcome.hidden = name !== "welcome";
+      dom.audit.hidden = name !== "audit";
+      document.body.classList.toggle("is-auditing", name === "audit");
+    }
+
+    function setBusy(busy, count = 0) {
+      for (const button of [dom.btnLoadFiles, dom.btnLoadDemo, dom.btnRestore, dom.btnImportHeader]) {
+        button.disabled = busy;
+      }
+      if (busy) {
+        dom.btnLoadFiles.textContent = "Lendo arquivos...";
+        if (count > 0) showImportReport(`Lendo ${count} arquivo(s) no navegador...`, "info");
+      } else {
+        dom.btnLoadFiles.textContent = "Selecionar artefatos...";
+      }
+    }
+
+    function currentItem() {
+      return state.items[state.current] || null;
+    }
+
+    function countReviewed() {
+      let reviewed = 0;
+      for (const item of state.items) {
+        if (state.decisions[item.key]) reviewed += 1;
+      }
+      return reviewed;
+    }
+
+    function firstPendingIndex() {
+      const index = state.items.findIndex((item) => !state.decisions[item.key]);
+      return index === -1 ? 0 : index;
+    }
+
+    function getVisibleItems(options = {}) {
+      const includeCurrent = Boolean(options.includeCurrent);
+      const query = state.search.trim().toLocaleLowerCase("pt-BR");
+      const visible = [];
+      for (let index = 0; index < state.items.length; index += 1) {
+        const item = state.items[index];
+        const decision = state.decisions[item.key];
+        if (!matchesFilter(item, decision)) continue;
+        if (query && !matchesSearch(item, decision, query)) continue;
+        visible.push(index);
+      }
+      if (includeCurrent && state.items[state.current] && !visible.includes(state.current)) {
+        visible.push(state.current);
+        visible.sort((a, b) => a - b);
+      }
+      return visible;
+    }
+
+    function matchesFilter(item, decision) {
+      switch (state.filter) {
+        case "pending": return !decision;
+        case "decided": return Boolean(decision);
+        case "agreements": return Boolean(decision && decision.human_label === item.entity.label);
+        case "disagreements": return Boolean(decision && decision.human_label !== item.entity.label);
+        case "uncertain": return Boolean(decision && decision.uncertain);
+        case "notes": return Boolean(decision && decision.note);
+        case "all": return true;
+        default: return true;
+      }
+    }
+
+    function matchesSearch(item, decision, query) {
+      if (item.doc.id.toLocaleLowerCase("pt-BR").includes(query)) return true;
+      if (item.doc.meta.title && item.doc.meta.title.toLocaleLowerCase("pt-BR").includes(query)) return true;
+      if (item.doc.meta.source && item.doc.meta.source.toLocaleLowerCase("pt-BR").includes(query)) return true;
+      if (item.entity.text.toLocaleLowerCase("pt-BR").includes(query)) return true;
+      if (decision) {
+        if (decision.human_label.toLocaleLowerCase("pt-BR").includes(query)) return true;
+        if (decision.note && decision.note.toLocaleLowerCase("pt-BR").includes(query)) return true;
+      }
+      return false;
+    }
+
+    function ensureCurrentVisible() {
+      const visible = getVisibleItems();
+      if (visible.length === 0) return;
+      if (!visible.includes(state.current)) {
+        state.current = visible[0];
+        state.revealCurrent = false;
+        savePosition();
+      }
+    }
+
+    function renderAll() {
+      renderHeader();
+      renderReviewerControls();
+      if (state.items.length === 0) return;
+      renderSidebar();
+      renderCard();
+      renderStats();
+    }
+
+    function renderHeader() {
+      const total = state.items.length;
+      const reviewed = countReviewed();
+      dom.headerProgress.hidden = total === 0;
+      dom.headerProgress.textContent = total > 0
+        ? `${reviewed} / ${total} · ${formatPercent(total > 0 ? reviewed / total : 0)}`
+        : "";
+      dom.btnExportJson.disabled = total === 0;
+      dom.btnExportCsv.disabled = total === 0;
+      dom.btnClearReview.disabled = total === 0 || reviewed === 0;
+      dom.headerDemo.hidden = !state.demo;
+      dom.headerMode.textContent = state.mode === "assisted" ? "Assistido" : "Cego";
+      dom.headerMode.className = `chip ${state.mode === "assisted" ? "chip-warn" : "chip-ok"}`;
+    }
+
+    function renderReviewerControls() {
+      if (document.activeElement !== dom.reviewerInput) {
+        dom.reviewerInput.value = state.reviewer;
+      }
+      for (const button of dom.reviewerQuick.querySelectorAll("button[data-reviewer]")) {
+        button.classList.toggle("active", button.dataset.reviewer === state.reviewer);
+      }
+      dom.modeToggle.checked = state.mode === "assisted";
+      dom.autoAdvance.checked = state.autoAdvance;
+    }
+
+    function renderSidebar() {
+      const visible = getVisibleItems({ includeCurrent: true });
+      const proper = getVisibleItems();
+      dom.queueSummary.textContent = `${proper.length} ${FILTER_LABELS[state.filter] || "itens"} · ${countReviewed()} revisadas`;
+
+      if (proper.length === 0) {
+        dom.queueList.replaceChildren();
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = state.filter === "pending"
+          ? "Tudo revisado neste filtro. Exporte o JSON para finalizar."
+          : "Nenhum item neste filtro.";
+        dom.queueList.append(empty);
+        return;
+      }
+
+      const max = 600;
+      let start = 0;
+      const position = visible.indexOf(state.current);
+      if (visible.length > max) {
+        start = position >= 0 ? Math.max(0, Math.min(position - Math.floor(max / 3), visible.length - max)) : 0;
+        dom.queueSummary.textContent += ` · mostrando ${start + 1}–${Math.min(start + max, visible.length)}`;
+      }
+
+      const fragment = document.createDocumentFragment();
+      let seenAdded = false;
+      for (const index of visible.slice(start, start + max)) {
+        const item = state.items[index];
+        const decision = state.decisions[item.key];
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "queue-item";
+        button.dataset.index = String(index);
+        if (index === state.current) {
+          button.classList.add("current");
+          button.setAttribute("aria-current", "true");
+        }
+        if (decision) {
+          button.classList.add(decision.human_label === item.entity.label ? "agrees" : "differs");
+          if (decision.uncertain) button.classList.add("uncertain");
+        }
+
+        const top = document.createElement("span");
+        top.className = "qi-top";
+        const doc = document.createElement("span");
+        doc.className = "qi-doc";
+        doc.textContent = truncate(item.doc.meta.title || item.doc.id, 36);
+        const badge = document.createElement("span");
+        badge.className = "qi-badge";
+        if (decision) {
+          badge.textContent = decision.human_label;
+          badge.classList.add(`badge-${decision.human_label.toLowerCase()}`);
+        } else if (state.mode === "assisted") {
+          badge.textContent = item.entity.label;
+          badge.classList.add("badge-muse");
+          if (!state.museSeenKeys.has(item.key)) {
+            state.museSeenKeys.add(item.key);
+            seenAdded = true;
+          }
+        }
+        top.append(doc, badge);
+
+        const text = document.createElement("span");
+        text.className = "qi-text";
+        text.textContent = truncate(item.entity.text, 78);
+
+        button.append(top, text);
+        fragment.append(button);
+      }
+      dom.queueList.replaceChildren(fragment);
+      if (seenAdded) scheduleSave();
+    }
+
+    function renderCard() {
+      const item = currentItem();
+      if (!item) return;
+      const decision = state.decisions[item.key];
+      const draft = state.drafts[item.key] || {};
+      const doc = item.doc;
+
+      dom.docTitle.textContent = doc.meta.title || "Documento sem título";
+      dom.docSub.textContent = [doc.meta.source, doc.meta.date, doc.id].filter(Boolean).join(" · ");
+      dom.entityCounter.textContent = `Entidade ${item.entity.index + 1} de ${doc.entities.length} · ${doc.id}`;
+      dom.context.innerHTML = buildHighlightedHtml(
+        doc.text,
+        item.entity.utf16Start,
+        item.entity.utf16End,
+        420
+      );
+
+      if (document.activeElement !== dom.noteInput) {
+        dom.noteInput.value = decision ? decision.note : (draft.note || "");
+      }
+      dom.uncertainInput.checked = decision ? Boolean(decision.uncertain) : Boolean(draft.uncertain);
+
+      for (const button of dom.labelButtons.querySelectorAll("button[data-label]")) {
+        const active = Boolean(decision && decision.human_label === button.dataset.label);
+        button.classList.toggle("selected", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      }
+
+      renderMusePanel(item, decision);
+      renderFeedback(item, decision);
+      updateNavigationButtons();
+
+      dom.fullDetails.open = false;
+      dom.fullDetails.dataset.rendered = "";
+      dom.fullText.replaceChildren();
+    }
+
+    function renderMusePanel(item, decision) {
+      const visible = state.mode === "assisted" || state.revealCurrent || Boolean(decision);
+      if (!visible) {
+        dom.musePanel.innerHTML = `
+          <div class="muse-hidden">
+            <span>Sugestão Muse oculta para manter a revisão independente.</span>
+            <button type="button" class="button link" data-action="reveal">Mostrar sugestão (M)</button>
+          </div>`;
+        return;
+      }
+      if (!decision) {
+        const wasSeen = state.museSeenKeys.has(item.key);
+        state.museSeenKeys.add(item.key);
+        if (!wasSeen) scheduleSave();
+      }
+      const label = item.entity.label;
+      const labelName = LABEL_INFO[label]?.name || label;
+      let html = `
+        <div class="muse-line">
+          <span class="pill label-${label.toLowerCase()}">${escapeHtml(label)}</span>
+          <span><strong>${escapeHtml(labelName)}</strong> <span class="muted">· sugestão Muse</span></span>`;
+      if (!decision) {
+        html += `<button type="button" class="button link" data-action="accept">Usar sugestão</button>`;
+      }
+      html += `</div>`;
+      if (state.mode === "blind" && state.revealCurrent && !decision) {
+        html += `<p class="small muted" style="margin:7px 2px 0">Você revelou a sugestão antes de responder; registre isso se for medir independência.</p>`;
+      }
+      dom.musePanel.innerHTML = html;
+    }
+
+    function renderFeedback(item, decision) {
+      if (!decision) {
+        dom.feedback.className = "feedback muted";
+        dom.feedback.textContent = state.mode === "blind" && !state.revealCurrent
+          ? "Responda sem ver a sugestão Muse."
+          : "Sem resposta ainda.";
+        return;
+      }
+      const agrees = decision.human_label === item.entity.label;
+      dom.feedback.className = `feedback ${agrees ? "ok" : "bad"}`;
+      if (agrees) {
+        dom.feedback.innerHTML = `Concorda com a Muse: <strong>${escapeHtml(labelTitle(decision.human_label))}</strong>.`;
+      } else {
+        dom.feedback.innerHTML =
+          `Discorda da Muse: você marcou <strong>${escapeHtml(labelTitle(decision.human_label))}</strong>; ` +
+          `a Muse sugeriu <strong>${escapeHtml(labelTitle(item.entity.label))}</strong>.`;
+      }
+    }
+
+    function updateNavigationButtons() {
+      const visible = getVisibleItems();
+      const position = visible.indexOf(state.current);
+      const hasPrev = position >= 0
+        ? position > 0
+        : visible.some((index) => index < state.current);
+      const hasNext = position >= 0
+        ? position < visible.length - 1
+        : visible.length > 0;
+      dom.btnPrev.disabled = !hasPrev;
+      dom.btnNext.disabled = !hasNext;
+    }
+
+    function renderFullText() {
+      const item = currentItem();
+      if (!item) return;
+      if (dom.fullDetails.dataset.rendered === item.key) return;
+      const text = item.doc.text;
+      dom.fullText.innerHTML =
+        escapeHtml(text.slice(0, item.entity.utf16Start)) +
+        "<mark>" + escapeHtml(text.slice(item.entity.utf16Start, item.entity.utf16End)) + "</mark>" +
+        escapeHtml(text.slice(item.entity.utf16End));
+      dom.fullDetails.dataset.rendered = item.key;
+    }
+
+    function renderStats() {
+      const total = state.items.length;
+      const reviewed = countReviewed();
+      let agreements = 0;
+      let disagreements = 0;
+      let uncertain = 0;
+      let notes = 0;
+      let none = 0;
+      let revealed = 0;
+
+      for (const item of state.items) {
+        const decision = state.decisions[item.key];
+        if (!decision) continue;
+        if (decision.human_label === item.entity.label) agreements += 1;
+        else disagreements += 1;
+        if (decision.uncertain) uncertain += 1;
+        if (decision.note) notes += 1;
+        if (decision.human_label === "NONE") none += 1;
+        if (decision.muse_revealed) revealed += 1;
+      }
+
+      dom.progressText.textContent = `${reviewed} de ${total} entidades revisadas · ${formatPercent(total ? reviewed / total : 0)}` +
+        (revealed > 0 ? ` · ${revealed} com Muse revelada antes` : "");
+      dom.progressBar.style.width = `${total ? (reviewed / total) * 100 : 0}%`;
+      dom.statReviewed.textContent = String(reviewed);
+      dom.statPending.textContent = String(Math.max(total - reviewed, 0));
+      dom.statAgreements.textContent = String(agreements);
+      dom.statDisagreements.textContent = String(disagreements);
+      dom.statUncertain.textContent = String(uncertain);
+      dom.statNotes.textContent = String(notes);
+
+      const rows = ENTITY_LABELS.map((label) => {
+        const muse = state.items.filter((item) => item.entity.label === label).length;
+        const human = state.items.filter((item) => state.decisions[item.key]?.human_label === label).length;
+        const errors = state.items.filter((item) =>
+          state.decisions[item.key] && state.decisions[item.key].human_label !== label && item.entity.label === label
+        ).length;
+        return `<tr>
+          <td><span class="pill label-${label.toLowerCase()}">${label}</span></td>
+          <td>${muse}</td>
+          <td>${human}</td>
+          <td>${errors}</td>
+        </tr>`;
+      }).join("");
+      dom.labelTableBody.innerHTML = rows + `<tr>
+        <td><span class="pill label-none">NONE</span></td>
+        <td>0</td>
+        <td>${none}</td>
+        <td>—</td>
+      </tr>`;
+
+      renderDatasetInfo();
+      dom.btnClearReview.disabled = reviewed === 0;
+    }
+
+    function renderDatasetInfo() {
+      const summary = state.datasetSummary;
+      dom.datasetInfo.replaceChildren();
+      if (!summary) return;
+
+      const rows = [
+        ["Documentos", summary.documents],
+        ["Com entidades", summary.documents_with_entities],
+        ["Entidades", summary.entities],
+        ["Sem labels", summary.documents_without_labels || 0],
+        ["Marcados keep=false", summary.keep_false || 0],
+        ["Ignoradas", summary.skipped_entities || 0],
+      ];
+      const dl = document.createElement("dl");
+      dl.className = "kv";
+      for (const [name, value] of rows) {
+        const dt = document.createElement("dt");
+        dt.textContent = name;
+        const dd = document.createElement("dd");
+        dd.textContent = Number(value).toLocaleString("pt-BR");
+        dl.append(dt, dd);
+      }
+      dom.datasetInfo.append(dl);
+
+      if (summary.files && summary.files.length > 0) {
+        const details = document.createElement("details");
+        details.className = "files-details";
+        const summaryEl = document.createElement("summary");
+        summaryEl.textContent = `${summary.files.length} arquivo(s) carregado(s)`;
+        const list = document.createElement("ul");
+        for (const name of summary.files) {
+          const li = document.createElement("li");
+          li.textContent = name;
+          list.append(li);
+        }
+        details.append(summaryEl, list);
+        dom.datasetInfo.append(details);
+      }
+
+      dom.warningBox.replaceChildren();
+      if (state.warnings.length > 0) {
+        const details = document.createElement("details");
+        const summaryEl = document.createElement("summary");
+        summaryEl.textContent = `${state.warnings.length} aviso(s) de leitura`;
+        const list = document.createElement("ul");
+        for (const warning of state.warnings.slice(0, 200)) {
+          const li = document.createElement("li");
+          li.textContent = warning;
+          list.append(li);
+        }
+        if (state.warnings.length > 200) {
+          const li = document.createElement("li");
+          li.textContent = `… e mais ${state.warnings.length - 200} aviso(s).`;
+          list.append(li);
+        }
+        details.append(summaryEl, list);
+        dom.warningBox.append(details);
+      }
+    }
+
+    function choose(label) {
+      if (!ALL_LABELS.includes(label)) return;
+      const item = currentItem();
+      if (!item) return;
+      cancelAdvance();
+      const previous = state.decisions[item.key] ? { ...state.decisions[item.key] } : null;
+      const advancedFrom = state.current;
+
+      state.decisions[item.key] = {
+        human_label: label,
+        uncertain: dom.uncertainInput.checked,
+        muse_revealed: state.mode === "assisted" || state.museSeenKeys.has(item.key) || Boolean(previous),
+        note: dom.noteInput.value.trim(),
+        reviewed_at: new Date().toISOString(),
+      };
+      delete state.drafts[item.key];
+      const saved = saveReviewState();
+
+      renderHeader();
+      renderSidebar();
+      renderCard();
+      renderStats();
+
+      const agrees = label === item.entity.label;
+      showToast(
+        saved
+          ? `${labelTitle(label)} salva · ${agrees ? "concorda com a Muse" : "discorda da Muse"}.`
+          : `${labelTitle(label)} registrada apenas na memória. O navegador não salvou; exporte o JSON agora.`,
+        {
+          undo: () => undoDecision(item.key, previous, advancedFrom),
+          error: !saved,
+          duration: saved ? 5000 : 12000,
+        }
+      );
+
+      if (state.autoAdvance && hasNextVisible()) {
+        state.advanceTimer = setTimeout(() => {
+          state.advanceTimer = null;
+          if (state.current === advancedFrom) nextItem();
+        }, 550);
+      }
+    }
+
+    function undoDecision(key, previous, index) {
+      cancelAdvance();
+      if (previous) state.decisions[key] = previous;
+      else delete state.decisions[key];
+      state.current = index;
+      state.revealCurrent = false;
+      state.museSeenKeys.add(key);
+      const saved = saveReviewState();
+      if (!getVisibleItems().includes(state.current)) {
+        state.filter = "all";
+        dom.filterSelect.value = "all";
+      }
+      renderAll();
+      showToast(
+        saved ? "Resposta desfeita." : "Resposta desfeita em memória; falha ao salvar no navegador.",
+        { error: !saved }
+      );
+    }
+
+    function clearCurrentDecision() {
+      const item = currentItem();
+      if (!item) return;
+      const hadDecision = Boolean(state.decisions[item.key]);
+      cancelAdvance();
+      delete state.decisions[item.key];
+      delete state.drafts[item.key];
+      dom.noteInput.value = "";
+      dom.uncertainInput.checked = false;
+      state.revealCurrent = false;
+      if (hadDecision) state.museSeenKeys.add(item.key);
+      const saved = saveReviewState();
+      renderAll();
+      showToast(
+        saved
+          ? "Resposta removida."
+          : "Resposta removida da memória, mas o navegador não confirmou. Exporte o JSON agora.",
+        { error: !saved, duration: saved ? 4500 : 12000 }
+      );
+    }
+
+    function clearReview() {
+      if (!state.items.length) return;
+      const ok = confirm(`Apagar todas as respostas de "${state.reviewer}" para este conjunto?`);
+      if (!ok) return;
+      const really = confirm("Esta ação não pode ser desfeita. Exporte antes se precisar guardar. Continuar?");
+      if (!really) return;
+      cancelAdvance();
+      state.decisions = {};
+      state.drafts = {};
+      state.current = 0;
+      state.revealCurrent = false;
+      state.museSeenKeys = new Set();
+      const saved = saveReviewState();
+      renderAll();
+      showToast(
+        saved
+          ? "Revisão apagada."
+          : "Revisão apagada da memória, mas o navegador não confirmou. Exporte o JSON agora.",
+        { error: !saved, duration: saved ? 4500 : 12000 }
+      );
+    }
+
+    function hasNextVisible() {
+      const visible = getVisibleItems();
+      const position = visible.indexOf(state.current);
+      return position >= 0
+        ? position < visible.length - 1
+        : visible.length > 0;
+    }
+
+    function nextItem() {
+      cancelAdvance();
+      const visible = getVisibleItems();
+      if (visible.length === 0) {
+        showToast(state.filter === "pending"
+          ? "Revisão concluída neste filtro. Exporte o JSON para finalizar."
+          : "Nenhum item neste filtro.");
+        return;
+      }
+      const position = visible.indexOf(state.current);
+      const target = position >= 0
+        ? visible[position + 1]
+        : (visible.find((index) => index > state.current) ?? visible[0]);
+      if (target === undefined) {
+        showToast("Fim da fila neste filtro.");
+        return;
+      }
+      goTo(target);
+    }
+
+    function prevItem() {
+      cancelAdvance();
+      const visible = getVisibleItems();
+      if (visible.length === 0) {
+        showToast("Nenhum item neste filtro.");
+        return;
+      }
+      const position = visible.indexOf(state.current);
+      let target;
+      if (position >= 0) {
+        target = visible[position - 1];
+      } else {
+        const before = visible.filter((index) => index < state.current);
+        target = before[before.length - 1];
+      }
+      if (target === undefined) {
+        showToast("Início da fila neste filtro.");
+        return;
+      }
+      goTo(target);
+    }
+
+    function goTo(index) {
+      if (!Number.isInteger(index) || index < 0 || index >= state.items.length) return;
+      cancelAdvance();
+      if (index !== state.current) {
+        state.revealCurrent = false;
+      }
+      state.current = index;
+      savePosition();
+      renderHeader();
+      renderSidebar();
+      renderCard();
+      renderStats();
+    }
+
+    function cancelAdvance() {
+      if (state.advanceTimer) {
+        clearTimeout(state.advanceTimer);
+        state.advanceTimer = null;
+      }
+    }
+
+    function onNoteInput() {
+      const item = currentItem();
+      if (!item) return;
+      cancelAdvance();
+      const value = dom.noteInput.value;
+      const decision = state.decisions[item.key];
+      if (decision) {
+        decision.note = value.trim();
+      } else {
+        const draft = state.drafts[item.key] || { note: "", uncertain: false };
+        draft.note = value;
+        state.drafts[item.key] = draft;
+      }
+      scheduleSave();
+    }
+
+    function onUncertainChange() {
+      const item = currentItem();
+      if (!item) return;
+      cancelAdvance();
+      const decision = state.decisions[item.key];
+      if (decision) {
+        decision.uncertain = dom.uncertainInput.checked;
+      } else {
+        const draft = state.drafts[item.key] || { note: "", uncertain: false };
+        draft.uncertain = dom.uncertainInput.checked;
+        state.drafts[item.key] = draft;
+      }
+      saveReviewState();
+      renderStats();
+    }
+
+    function handleKeydown(event) {
+      if (state.items.length === 0) return;
+      if (dom.helpDialog.open) return;
+      if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;
+      const target = event.target;
+      if (target && target.isContentEditable) return;
+      if (target && ["TEXTAREA", "SELECT"].includes(target.tagName)) return;
+      if (target && target.tagName === "INPUT") {
+        const type = String(target.type || "").toLowerCase();
+        if (["text", "search", "number", "email", "password", "url", "tel"].includes(type)) {
+          return;
+        }
+      }
+      if (target && event.key === "Enter" && target.closest && target.closest("button[data-label]")) {
+        const item = currentItem();
+        if (item && state.decisions[item.key]) {
+          event.preventDefault();
+          nextItem();
+          return;
+        }
+      }
+      if (
+        (event.key === "Enter" || event.key === " ")
+        && target
+        && ["BUTTON", "A", "SUMMARY", "INPUT"].includes(target.tagName)
+      ) {
+        return;
+      }
+
+      if (event.key === "1") { event.preventDefault(); choose("IDTY"); }
+      else if (event.key === "2") { event.preventDefault(); choose("ACT"); }
+      else if (event.key === "3") { event.preventDefault(); choose("VUL"); }
+      else if (event.key === "4") { event.preventDefault(); choose("LOC"); }
+      else if (event.key === "0") { event.preventDefault(); choose("NONE"); }
+      else if (event.key === "ArrowRight" || event.key === "Enter") { event.preventDefault(); nextItem(); }
+      else if (event.key === "ArrowLeft") { event.preventDefault(); prevItem(); }
+      else if (event.key.toLowerCase() === "m") {
+        event.preventDefault();
+        state.revealCurrent = !state.revealCurrent;
+        renderCard();
+      } else if (event.key.toLowerCase() === "u") {
+        event.preventDefault();
+        dom.uncertainInput.checked = !dom.uncertainInput.checked;
+        onUncertainChange();
+      } else if (event.key === "?") {
+        event.preventDefault();
+        openHelp();
+      }
+    }
+
+    function exportJson() {
+      if (!state.items.length) return;
+      const payload = buildExportPayload();
+      download(
+        `auditoria_muse_${sanitizeFilename(state.reviewer)}_${dateStamp()}.json`,
+        JSON.stringify(payload, null, 2),
+        "application/json"
+      );
+      showToast("JSON exportado. Guarde o arquivo fora do repositório.");
+    }
+
+    function exportCsv() {
+      if (!state.items.length) return;
+      const payload = buildExportPayload();
+      const header = [
+        "item_key", "document_id", "entity_index", "start", "end", "muse_label",
+        "human_label", "concorda", "incerto", "muse_revelada", "nota", "reviewed_at", "revisor",
+      ];
+      const lines = [header.join(";")];
+      for (const row of payload.decisions) {
+        lines.push([
+          row.item_key,
+          row.document_id,
+          row.entity_index,
+          row.start,
+          row.end,
+          row.muse_label,
+          row.human_label,
+          row.human_label === row.muse_label ? "sim" : "não",
+          row.uncertain ? "sim" : "não",
+          row.muse_revealed ? "sim" : "não",
+          row.note,
+          row.reviewed_at,
+          row.reviewer,
+        ].map(csvCell).join(";"));
+      }
+      download(
+        `auditoria_muse_${sanitizeFilename(state.reviewer)}_${dateStamp()}.csv`,
+        "\uFEFF" + lines.join("\r\n"),
+        "text/csv;charset=utf-8"
+      );
+      showToast("CSV exportado.");
+    }
+
+    function buildExportPayload() {
+      const decisions = [];
+      for (const item of state.items) {
+        const decision = state.decisions[item.key];
+        if (!decision) continue;
+        decisions.push({
+          item_key: item.key,
+          document_id: item.doc.id,
+          entity_index: item.entity.index,
+          start: item.entity.start,
+          end: item.entity.end,
+          muse_label: item.entity.label,
+          human_label: decision.human_label,
+          uncertain: Boolean(decision.uncertain),
+          muse_revealed: Boolean(decision.muse_revealed),
+          note: decision.note || "",
+          reviewed_at: decision.reviewed_at,
+          reviewer: state.reviewer,
+        });
+      }
+      const museCounts = emptyLabelCounts();
+      for (const item of state.items) museCounts[item.entity.label] += 1;
+      return {
+        schema_version: SCHEMA_VERSION,
+        tool: TOOL_NAME,
+        reviewer: state.reviewer,
+        dataset_key: state.datasetKey,
+        exported_at: new Date().toISOString(),
+        dataset: {
+          documents: state.datasetSummary?.documents ?? state.docs.length,
+          documents_with_entities: state.docs.length,
+          entities: state.items.length,
+          reviewed: decisions.length,
+          muse_label_counts: museCounts,
+          synthetic_demo: state.demo,
+        },
+        muse_seen: [...state.museSeenKeys].filter((key) => state.itemByKey.has(key)),
+        decisions,
+      };
+    }
+
+    function download(fileName, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = fileName;
+      document.body.append(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function sanitizeFilename(value) {
+      return String(value).normalize("NFKD").replace(/[^\w.-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40) || "revisor";
+    }
+
+    function dateStamp() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function csvCell(value) {
+      let text = String(value ?? "");
+      if (/^[=+\-@\t\r]/.test(text)) {
+        text = `'${text}`;
+      }
+      return `"${text.replace(/"/g, '""')}"`;
+    }
+
+    function showImportReport(message, kind = "info") {
+      dom.importReport.replaceChildren();
+      const box = document.createElement("div");
+      box.className = `notice ${kind}`;
+      box.textContent = message;
+      dom.importReport.append(box);
+    }
+
+    function showToast(message, options = {}) {
+      const { undo = null, error = false, duration = 4500 } = options;
+      dom.toast.replaceChildren();
+      dom.toast.className = `toast show${error ? " error" : ""}`;
+      const text = document.createElement("span");
+      text.textContent = message;
+      dom.toast.append(text);
+      if (undo) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "toast-undo";
+        button.textContent = "Desfazer";
+        button.addEventListener("click", () => {
+          dom.toast.classList.remove("show");
+          undo();
+        });
+        dom.toast.append(button);
+      }
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => dom.toast.classList.remove("show"), duration);
+    }
+
+    function buildHighlightedHtml(text, start, end, radius) {
+      let windowStart = Math.max(0, start - radius);
+      let windowEnd = Math.min(text.length, end + radius);
+      if (windowStart > 0) {
+        const space = text.lastIndexOf(" ", windowStart);
+        if (space !== -1 && windowStart - space < 80) windowStart = space + 1;
+      }
+      if (windowEnd < text.length) {
+        const space = text.indexOf(" ", windowEnd);
+        if (space !== -1 && space - windowEnd < 80) windowEnd = space;
+      }
+      return (
+        (windowStart > 0 ? '<span class="ellipsis">…</span>' : "") +
+        escapeHtml(text.slice(windowStart, start)) +
+        "<mark>" + escapeHtml(text.slice(start, end)) + "</mark>" +
+        escapeHtml(text.slice(end, windowEnd)) +
+        (windowEnd < text.length ? '<span class="ellipsis">…</span>' : "")
+      );
+    }
+
+    function labelTitle(label) {
+      return LABEL_INFO[label] ? `${LABEL_INFO[label].name} (${label})` : label;
+    }
+
+    function formatPercent(value) {
+      if (!Number.isFinite(value)) return "0%";
+      return `${(value * 100).toFixed(1).replace(".", ",")}%`;
+    }
+
+    function truncate(value, max) {
+      const text = String(value ?? "");
+      return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+    }
+
+    function hashString(value) {
+      let hash = 2166136261;
+      for (let index = 0; index < value.length; index += 1) {
+        hash ^= value.charCodeAt(index);
+        hash = Math.imul(hash, 16777619);
+      }
+      return (hash >>> 0).toString(16).padStart(8, "0");
+    }
+
+    function escapeHtml(value) {
+      const escapes = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;",
+      };
+      return String(value).replace(/[&<>"']/g, (character) => escapes[character]);
+    }
+
+    function isPlainObject(value) {
+      return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+    }
+
+    init();
+  </script>
+</body>
+</html>

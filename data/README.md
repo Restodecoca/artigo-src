@@ -1,21 +1,26 @@
 # Contrato de dados locais
 
 O corpus original de notícias do artigo e suas anotações manuais estão
-indisponíveis e não são distribuídos neste repositório. Armazene entradas locais
-autorizadas em `data/raw/` ou `data/processed/`; ambos os paths são ignorados
-pelo Git.
+indisponíveis. Neste repositório privado, os archives das camadas Muse original
+e overlay adjudicado para validação em pares ficam em `data/muse-artifacts/`;
+consulte a exceção operacional em `DATA_AND_ARTIFACT_POLICY.md`. Entradas locais
+adicionais devem ir para `data/raw/` ou `data/processed/`; ambos os paths são
+ignorados pelo Git.
 
 A camada de labels `Muse` original deve permanecer separada do
-`adjudicated overlay`. O overlay é armazenado em
-`data/processed/muse_corrected/`, sem sobrescrever os arquivos Muse originais.
-Nenhuma dessas camadas deve ser descrita como as anotações gold manuais do
-artigo.
+`adjudicated overlay`. O overlay é arquivado em
+`data/muse-artifacts/processed/muse_corrected.tar.gz` e, quando extraído
+localmente, fica em `data/processed/muse_corrected/`, sem sobrescrever os
+arquivos Muse originais. Nenhuma dessas camadas deve ser descrita como as
+anotações gold manuais do artigo.
 
 ## Como preparar entradas locais
 
-Os arquivos de artigos, labels e resultados por documento não são distribuídos.
-Para começar uma execução local, consulte os argumentos disponíveis nos
-comandos abaixo; as saídas padrão ficam em `data/raw/`, ignorada pelo Git:
+Os arquivos de artigos, labels e resultados por documento não são distribuídos
+publicamente; os archives privados autorizados para validação em pares estão em
+`data/muse-artifacts/`. Para começar uma execução local, consulte os argumentos
+disponíveis nos comandos abaixo; as saídas padrão ficam em `data/raw/`, ignorada
+pelo Git:
 
 ```powershell
 uv run python scripts/data/prepare_muse_batches.py --help
@@ -52,7 +57,10 @@ para que os resultados possam ser reportados por portal, como no artigo.
 ## Organização local
 
 - `data/raw/`: entradas autorizadas, fontes e labels Muse originais.
-- `data/processed/`: overlays, archives e dados derivados locais.
+- `data/muse-artifacts/`: archives privados das camadas Muse original e overlay
+  adjudicado, mantidos para validação em pares; ver o README local.
+- `data/processed/`: overlays, archives, exports da auditoria humana e dados
+  derivados locais.
 - `data/*.json`: resultados agregados gerados pelos runners; são ignorados pelo
   Git e devem ser relacionados no `README.md` ou em `data/SEARCH_LOG.md`.
 

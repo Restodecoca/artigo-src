@@ -21,9 +21,12 @@ wheels/
 data/raw/*
 !data/raw/.gitkeep
 data/processed/
+data/muse-artifacts/extracted/
 data/*.json
 data/*.tar.gz
 data/*.jsonl
+auditoria_muse_*.json
+auditoria_muse_*.csv
 artifacts/
 checkpoints/
 models/

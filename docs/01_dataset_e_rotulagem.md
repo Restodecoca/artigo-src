@@ -47,6 +47,12 @@ malformados/sobrepostos. Essa verificação não estabelece, por si só, a corre
 semântica das anotações. O overlay também não é o gold manual original do
 artigo.
 
+A auditoria humana da camada Muse pode ser feita com
+`scripts/validation/muse_audit.html`; os exports de cada revisor são
+consolidados por `scripts/validation/compare_audits.py`. Os archives privados
+das duas camadas estão em `data/muse-artifacts/`, e o procedimento e as métricas
+de concordância estão em `scripts/validation/README.md`.
+
 ## Referência
 
 Paim, R.; Ignaczak, L. *An Analysis of Pre-trained Models to Identify

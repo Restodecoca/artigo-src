@@ -45,6 +45,17 @@ Ferramentas para resumir diagnósticos, comparar spans, avaliar pós-processamen
 medir sobreposição de corpus e verificar windowing. Usam artefatos já gerados;
 os diagnósticos por documento continuam privados.
 
+### `scripts/validation/`
+
+- `muse_audit.html`: interface local para os revisores validarem a categoria de
+  cada entidade da camada Muse, com modo cego, retomada por revisor e exportação
+  em JSON/CSV.
+- `compare_audits.py`: consolida os exports em métricas agregadas de concordância
+  (acurácia, Cohen's kappa e Fleiss' kappa), sem incluir texto ou notas.
+
+Uso, formatos aceitos e extração dos archives em `data/muse-artifacts/` estão em
+`scripts/validation/README.md`.
+
 ### `scripts/local/` e `scripts/presentations/`
 
 `local/` contém smoke tests locais de modelos. `presentations/` contém utilitários
