@@ -21,9 +21,10 @@ dados ou resultados do artigo.
 | SecureBERT-APTNER, inferência | 0,0507 | 0,2933 / 0,2891 |
 | Full fine-tuning, teste de 60 docs | 0,4336 ± 0,0056 | 0,5528 ± 0,0018 (same-type) |
 
-Resultados e limitações estão detalhados em [`docs/`](docs/README.md). Labels
-por documento, texto integral dos artigos e diagnósticos detalhados permanecem
-locais.
+Resultados e limitações estão detalhados em [`docs/`](docs/README.md). Os
+artefatos restritos de anotação Muse usados na validação em pares estão em
+[`data/muse-artifacts/`](data/muse-artifacts/README.md) neste repositório
+privado; eles não devem ser redistribuídos publicamente.
 
 ## Começar
 

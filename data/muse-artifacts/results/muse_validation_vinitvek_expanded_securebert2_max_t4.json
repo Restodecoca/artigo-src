@@ -1,0 +1,57 @@
+{
+  "experiment_status": "extension",
+  "annotation_status": "silver_muse_review_pass4",
+  "model": "cisco-ai/SecureBERT2.0-NER",
+  "revision": "792db5b533118afee8c3fab86db119d09ab77ff6",
+  "aggregation_strategy": "max",
+  "model_taxonomy": [
+    "Indicator",
+    "Malware",
+    "Organization",
+    "System",
+    "Vulnerability"
+  ],
+  "compatibility_mapping": {
+    "Organization": "IDTY",
+    "Vulnerability": "VUL"
+  },
+  "compatibility_warning": "ACT and LOC are not mapped; scores cover only IDTY and VUL.",
+  "archive_sha256": "aebd0c149d1c5ac873fea47dce04acb57b8fea55f35529f5eba12b33d5db94cb",
+  "documents_attempted": 299,
+  "documents_processed": 299,
+  "failure_types": {},
+  "model_max_tokens": 8192,
+  "documents_over_model_limit": 0,
+  "token_length_max": 2800,
+  "native_label_counts": {
+    "Organization": 10618,
+    "Indicator": 6069,
+    "Vulnerability": 2147,
+    "System": 1731,
+    "Malware": 350
+  },
+  "compatible_exact": {
+    "true_positive": 114,
+    "false_positive": 12651,
+    "false_negative": 698,
+    "precision": 0.008930669800235018,
+    "recall": 0.14039408866995073,
+    "f1": 0.016793105988068057
+  },
+  "compatible_partial": {
+    "true_positive": 564,
+    "false_positive": 12201,
+    "false_negative": 248,
+    "precision": 0.04418331374853114,
+    "recall": 0.6945812807881774,
+    "f1": 0.08308168225675776
+  },
+  "runtime": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "gpu": "Tesla T4",
+    "seconds": 25.87,
+    "peak_gpu_memory_mib": 727.7
+  }
+}

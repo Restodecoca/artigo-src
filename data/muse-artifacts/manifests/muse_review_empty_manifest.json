@@ -1,0 +1,32 @@
+{
+  "empty_remaining": 58,
+  "entities_added": 151,
+  "pass": 4,
+  "pass4_reviewed": [
+    "vinitvek-healthcare-all-000402",
+    "vinitvek-healthcare-all-000850",
+    "vinitvek-healthcare-all-000901",
+    "vinitvek-healthcare-all-000926",
+    "vinitvek-healthcare-all-000936",
+    "vinitvek-healthcare-all-001507",
+    "vinitvek-healthcare-all-001540"
+  ],
+  "per_dataset": {
+    "gvic-public-health-news": {
+      "empty_remaining": 0,
+      "entities_added": 0,
+      "records_reviewed": 0
+    },
+    "scorton-healthcare-breaches": {
+      "empty_remaining": 58,
+      "entities_added": 28,
+      "records_reviewed": 69
+    },
+    "vinitvek-healthcare-all": {
+      "empty_remaining": 0,
+      "entities_added": 123,
+      "records_reviewed": 67
+    }
+  },
+  "records_reviewed": 136
+}

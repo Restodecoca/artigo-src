@@ -1,0 +1,158 @@
+{
+  "experiment_status": "extension",
+  "annotation_status": "silver_muse_review_pass4",
+  "dataset_source": "local_muse_batches_archive",
+  "archive_sha256": "aebd0c149d1c5ac873fea47dce04acb57b8fea55f35529f5eba12b33d5db94cb",
+  "documents": 299,
+  "document_counts": {
+    "vinitvek-articles-2023": 299
+  },
+  "gold_label_counts": {
+    "IDTY": 616,
+    "ACT": 934,
+    "LOC": 357,
+    "VUL": 196
+  },
+  "runtime": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "transformers": "5.16.1",
+    "datasets": "4.8.5",
+    "gpu": "Tesla T4"
+  },
+  "models": [
+    {
+      "model": "SecureBERT-NER",
+      "repository": "CyberPeace-Institute/SecureBERT-NER",
+      "revision": "7f935a4f7db13697580c881e381bb2636dfa779a",
+      "documents_attempted": 299,
+      "documents_processed": 299,
+      "failure_types": {},
+      "model_max_tokens": 512,
+      "window_stride": 128,
+      "inference_overflow_policy": "manual_word_aligned_overlapping_windows",
+      "documents_over_model_limit": 174,
+      "token_length_max": 2848,
+      "predicted_entities": 4206,
+      "predicted_label_counts": {
+        "IDTY": 2872,
+        "LOC": 963,
+        "ACT": 278,
+        "VUL": 93
+      },
+      "strict": {
+        "true_positive": 142,
+        "false_positive": 4064,
+        "false_negative": 1961,
+        "precision": 0.03376129339039467,
+        "recall": 0.06752258678078935,
+        "f1": 0.045015057853859564
+      },
+      "partial": {
+        "true_positive": 483,
+        "false_positive": 3723,
+        "false_negative": 1620,
+        "precision": 0.11483594864479316,
+        "recall": 0.2296718972895863,
+        "f1": 0.15311459819305756
+      },
+      "partial_same_type": {
+        "true_positive": 459,
+        "false_positive": 3747,
+        "false_negative": 1644,
+        "precision": 0.10912981455064194,
+        "recall": 0.21825962910128388,
+        "f1": 0.14550641940085593
+      },
+      "strict_by_dataset": {
+        "vinitvek-articles-2023": {
+          "true_positive": 142,
+          "false_positive": 4064,
+          "false_negative": 1961,
+          "precision": 0.03376129339039467,
+          "recall": 0.06752258678078935,
+          "f1": 0.045015057853859564
+        }
+      },
+      "partial_by_dataset": {
+        "vinitvek-articles-2023": {
+          "true_positive": 483,
+          "false_positive": 3723,
+          "false_negative": 1620,
+          "precision": 0.11483594864479316,
+          "recall": 0.2296718972895863,
+          "f1": 0.15311459819305756
+        }
+      },
+      "seconds": 21.22,
+      "peak_gpu_memory_mib": 501.2
+    },
+    {
+      "model": "SecureBERT-APTNER",
+      "repository": "Cyber-ThreaD/SecureBERT-APTNER",
+      "revision": "f220a5fbeb8ed9b60a516cf420fc816d9705ce7d",
+      "documents_attempted": 299,
+      "documents_processed": 299,
+      "failure_types": {},
+      "model_max_tokens": 512,
+      "window_stride": 128,
+      "inference_overflow_policy": "manual_word_aligned_overlapping_windows",
+      "documents_over_model_limit": 174,
+      "token_length_max": 2848,
+      "predicted_entities": 3523,
+      "predicted_label_counts": {
+        "IDTY": 2337,
+        "LOC": 927,
+        "ACT": 224,
+        "VUL": 35
+      },
+      "strict": {
+        "true_positive": 91,
+        "false_positive": 3432,
+        "false_negative": 2012,
+        "precision": 0.025830258302583026,
+        "recall": 0.0432715168806467,
+        "f1": 0.0323498044792037
+      },
+      "partial": {
+        "true_positive": 568,
+        "false_positive": 2955,
+        "false_negative": 1535,
+        "precision": 0.16122622764689185,
+        "recall": 0.2700903471231574,
+        "f1": 0.20191965872733733
+      },
+      "partial_same_type": {
+        "true_positive": 557,
+        "false_positive": 2966,
+        "false_negative": 1546,
+        "precision": 0.158103888731195,
+        "recall": 0.2648597242035188,
+        "f1": 0.1980092428012798
+      },
+      "strict_by_dataset": {
+        "vinitvek-articles-2023": {
+          "true_positive": 91,
+          "false_positive": 3432,
+          "false_negative": 2012,
+          "precision": 0.025830258302583026,
+          "recall": 0.0432715168806467,
+          "f1": 0.0323498044792037
+        }
+      },
+      "partial_by_dataset": {
+        "vinitvek-articles-2023": {
+          "true_positive": 568,
+          "false_positive": 2955,
+          "false_negative": 1535,
+          "precision": 0.16122622764689185,
+          "recall": 0.2700903471231574,
+          "f1": 0.20191965872733733
+        }
+      },
+      "seconds": 19.86,
+      "peak_gpu_memory_mib": 501.3
+    }
+  ]
+}

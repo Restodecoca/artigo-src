@@ -1,0 +1,32 @@
+{
+  "dataset": "muse_batches second review",
+  "batches_reviewed": 70,
+  "records_reviewed": 3451,
+  "keep_true": 1627,
+  "keep_false": 1824,
+  "entities_total": 18595,
+  "review_pass": 2,
+  "per_dataset": {
+    "vinitvek-healthcare-all": {
+      "records": 1621,
+      "keep_true": 1621,
+      "keep_false": 0,
+      "entities": 3093,
+      "batches": 33
+    },
+    "scorton-healthcare-breaches": {
+      "records": 142,
+      "keep_true": 6,
+      "keep_false": 136,
+      "entities": 113,
+      "batches": 3
+    },
+    "gvic-public-health-news": {
+      "records": 1688,
+      "keep_true": 0,
+      "keep_false": 1688,
+      "entities": 15389,
+      "batches": 34
+    }
+  }
+}
