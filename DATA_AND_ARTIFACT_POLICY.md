@@ -17,6 +17,11 @@ Não faça commit nem publique:
 - resultados por documento que permitam reconstruir ou identificar artigos de
   origem.
 
+Exceção operacional: somente neste repositório privado, os archives de anotação
+em `data/muse-artifacts/` podem ser versionados para validação em pares. Eles
+não podem ser redistribuídos publicamente e devem ser removidos do histórico
+antes de qualquer abertura do repositório.
+
 ## Estados de reprodução
 
 Todo experimento deve ser identificado como `faithful`, `approximate` ou

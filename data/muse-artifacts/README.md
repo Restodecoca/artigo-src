@@ -1,7 +1,8 @@
 # Artefatos de anotação Muse
 
-Branch **privada** para validação em pares das camadas de anotação do projeto.
-Ela não é uma reprodução fiel do artigo e não contém o gold manual original.
+Diretório **privado** para validação em pares das camadas de anotação do
+projeto. Ele não é uma reprodução fiel do artigo e não contém o gold manual
+original.
 
 > Material restrito. Não redistribuir publicamente, não citar trechos dos
 > artigos e não tratar estas labels como gold humano. Os textos continuam
@@ -25,7 +26,7 @@ As duas camadas usam offsets de caractere zero-based e half-open, labels
 `IDTY`, `ACT`, `VUL` e `LOC`, e o campo `keep` para documentos retidos ou
 rejeitados. O overlay não sobrescreve a camada Muse original.
 
-## Conteúdo da branch
+## Conteúdo
 
 - `raw/`: archive da camada Muse original.
 - `processed/`: archive do overlay adjudicado.
@@ -43,7 +44,7 @@ muse_batches/vinitvek-healthcare-corrected/   # overlay
 
 ## Como validar
 
-A partir do branch `master` do repositório principal:
+A partir da raiz deste repositório:
 
 ```bash
 mkdir -p /tmp/muse/{original,overlay}
@@ -86,4 +87,4 @@ source_records=314 label_records=314 errors=0
 - Os resultados em `results/` são sensibilidade e diagnóstico, não reprodução
   fiel dos números do artigo.
 - Antes de qualquer publicação, consulte `DATA_AND_ARTIFACT_POLICY.md` e
-  `data/SEARCH_LOG.md` no branch `master`.
+  `data/SEARCH_LOG.md` na raiz do repositório.
