@@ -7,7 +7,10 @@ estudo sobre NER em notícias de cibersegurança na área da saúde.
 2. [Avaliação dos modelos](02_avaliacao_modelos.md)
 3. [Fine-tuning, resultados e verificações](03_finetuning_e_verificacoes.md)
 
-A apresentação do marco está em
-`marco3_apresentacao_com_resumo_e_conclusao.pptx`. Os textos de artigos,
-labels por documento e diagnósticos detalhados permanecem locais e não fazem
-parte destes relatórios.
+A apresentação do Marco 3 está em
+`marco3_apresentacao_com_resumo_e_conclusao.pptx`. A continuação do Marco 4,
+com artefatos, ferramenta de auditoria e concordância, está em
+`marco4_apresentacao.pptx` (PDF de apoio em `marco4_apresentacao.pdf`); o
+roteiro dividido entre três apresentadores está em
+`marco4_roteiro_apresentacao.md`. Os textos de artigos, labels por documento
+e diagnósticos detalhados permanecem locais e não fazem parte destes relatórios.
