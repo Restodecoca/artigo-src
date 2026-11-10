@@ -1148,11 +1148,11 @@
           <div class="small muted" id="progressText"></div>
           <div class="progress"><div id="progressBar"></div></div>
           <div class="stat-grid">
-            <div class="stat"><strong id="statReviewed">0</strong><span>revisadas</span></div>
-            <div class="stat"><strong id="statPending">0</strong><span>pendentes</span></div>
-            <div class="stat"><strong id="statAgreements">0</strong><span>concordam</span></div>
-            <div class="stat"><strong id="statDisagreements">0</strong><span>discordam</span></div>
-            <div class="stat"><strong id="statUncertain">0</strong><span>incertas</span></div>
+            <div class="stat"><strong id="statReviewed">0</strong><span id="statReviewedLabel">revisadas</span></div>
+            <div class="stat"><strong id="statPending">0</strong><span id="statPendingLabel">pendentes</span></div>
+            <div class="stat"><strong id="statAgreements">0</strong><span id="statAgreementsLabel">concordam</span></div>
+            <div class="stat"><strong id="statDisagreements">0</strong><span id="statDisagreementsLabel">discordam</span></div>
+            <div class="stat"><strong id="statUncertain">0</strong><span id="statUncertainLabel">incertas</span></div>
             <div class="stat"><strong id="statNotes">0</strong><span>com nota</span></div>
           </div>
         </section>
@@ -1292,8 +1292,10 @@
         "filterSelect", "queueSummary", "queueList", "docTitle", "docSub",
         "entityCounter", "context", "fullDetails", "fullText", "musePanel", "feedback",
         "labelButtons", "noteInput", "uncertainInput", "btnPrev", "btnNext", "btnClear",
-        "btnClearReview", "btnRestoreAudit", "progressText", "progressBar", "statReviewed", "statAgreements",
-        "statDisagreements", "statUncertain", "statNotes", "statPending", "labelTableBody",
+        "btnClearReview", "btnRestoreAudit", "progressText", "progressBar", "statReviewed",
+        "statReviewedLabel", "statAgreements", "statAgreementsLabel", "statDisagreements",
+        "statDisagreementsLabel", "statUncertain", "statUncertainLabel", "statNotes",
+        "statPending", "statPendingLabel", "labelTableBody",
         "datasetInfo", "warningBox", "storageBanner", "toast",
       ];
       dom = Object.fromEntries(ids.map((id) => [id, byId(id)]));
@@ -2682,11 +2684,17 @@
       dom.progressText.textContent = `${reviewed} de ${total} entidades revisadas · ${formatPercent(total ? reviewed / total : 0)}` +
         (revealed > 0 ? ` · ${revealed} com Muse revelada antes` : "");
       dom.progressBar.style.width = `${total ? (reviewed / total) * 100 : 0}%`;
+      const pending = Math.max(total - reviewed, 0);
       dom.statReviewed.textContent = String(reviewed);
-      dom.statPending.textContent = String(Math.max(total - reviewed, 0));
+      dom.statReviewedLabel.textContent = reviewed === 1 ? "revisada" : "revisadas";
+      dom.statPending.textContent = String(pending);
+      dom.statPendingLabel.textContent = pending === 1 ? "pendente" : "pendentes";
       dom.statAgreements.textContent = String(agreements);
+      dom.statAgreementsLabel.textContent = agreements === 1 ? "concorda" : "concordam";
       dom.statDisagreements.textContent = String(disagreements);
+      dom.statDisagreementsLabel.textContent = disagreements === 1 ? "discorda" : "discordam";
       dom.statUncertain.textContent = String(uncertain);
+      dom.statUncertainLabel.textContent = uncertain === 1 ? "incerta" : "incertas";
       dom.statNotes.textContent = String(notes);
 
       const rows = ENTITY_LABELS.map((label) => {
