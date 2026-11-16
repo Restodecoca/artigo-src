@@ -458,3 +458,40 @@ def test_load_review_rejects_invalid_labels(tmp_path: Path):
 
     with pytest.raises(ValueError, match="invalid human_label"):
         load_review(path)
+
+
+def test_load_review_accepts_custom_origin_without_muse_label(tmp_path: Path):
+    payload = {
+        "schema_version": 1,
+        "tool": "muse-annotation-audit",
+        "reviewer": "dev1",
+        "dataset_key": "d1",
+        "dataset": {"entities": 2, "custom_entities": 1},
+        "custom_entities": [
+            {"doc_id": "doc-1", "start": 8, "end": 12, "label": "VUL"},
+        ],
+        "decisions": [
+            {
+                "item_key": "doc-1::0::0-4",
+                "muse_label": "IDTY",
+                "human_label": "IDTY",
+            },
+            {
+                "item_key": "doc-1::1::8-12",
+                "origin": "custom",
+                "muse_label": "",
+                "human_label": "VUL",
+            },
+        ],
+    }
+    path = tmp_path / "review.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    review = load_review(path)
+    assert review["decisions"]["doc-1::1::8-12"]["origin"] == "custom"
+    metrics = human_vs_muse(review)
+    assert metrics["reviewed"] == 2
+    assert metrics["custom_added"] == 1
+    assert metrics["accuracy"] == 1.0
+    assert metrics["cohen_kappa"] == pytest.approx(1.0)
+    assert "custom" not in {row for row in metrics["confusion"]}

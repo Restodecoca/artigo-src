@@ -1,0 +1,15 @@
+\begin{table}[ht]
+\centering
+\caption{ Comparação entre camadas de anotação (F1). ``Parcial ST'' denota partial same-type.}
+\label{tab:layers}
+\begin{tabular}{l|c|c|c}
+\hline
+\textbf{Camada / modelo} & \textbf{Strict} & \textbf{Parcial} & \textbf{Parcial ST} \\
+\hline
+Muse / SecureBERT-NER & 0,0450 & 0,1531 & 0,1455 \\
+Muse / SecureBERT-APTNER & 0,0323 & 0,2019 & 0,1980 \\
+Overlay / SecureBERT-NER & \textbf{0,0809} & 0,2617 & 0,2486 \\
+Overlay / SecureBERT-APTNER & 0,0507 & \textbf{0,2933} & \textbf{0,2891} \\
+\hline
+\end{tabular}
+\end{table}

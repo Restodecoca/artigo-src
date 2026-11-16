@@ -1,0 +1,18 @@
+\section{Corpus e anotações}
+\label{sec:corpus}
+
+\subsection{Construção do corpus}
+
+As URLs foram obtidas do conjunto público \texttt{vinitvek/cybersecurityattacks} e filtradas para notícias do setor de saúde publicadas em 2023. Para cada URL selecionada, recuperou-se o texto completo da página de origem. A Tabela~\ref{tab:corpus} resume as etapas. Foram 15 falhas de extração e 15 páginas descartadas na triagem. Os textos integrais são mantidos localmente por restrições de direito autoral e privacidade; o repositório público descreve o protocolo, mas não redistribui esse conteúdo.
+
+\input{tables/corpus}
+
+\subsection{Protocolo e camadas de anotação}
+
+O protocolo adota quatro categorias: \texttt{IDTY} (organização ou instituição), \texttt{ACT} (ação, incidente ou tipo de ataque), \texttt{VUL} (vulnerabilidade, falha ou CVE) e \texttt{LOC} (localidade geográfica). Duas camadas independentes foram construídas sobre os mesmos 299 documentos. A camada Muse é uma pré-anotação \textit{silver} gerada por modelo de linguagem, com 2.103 entidades, preservada como registro do método original. O \textit{overlay} adjudicado resultou da revisão em sete lotes e de uma segunda etapa de adjudicação, totalizando 5.111 entidades, com contagem por categoria de IDTY~=~2.627, ACT~=~1.747, LOC~=~672 e VUL~=~65. O \textit{overlay} não sobrescreve a camada Muse: as duas camadas coexistem para permitir análise de sensibilidade.
+
+A validação automática verificou estrutura, esquema, offsets e spans malformados ou sobrepostos, mas não estabelece correção semântica. Para complementá-la, foi desenvolvida uma ferramenta de auditoria executada inteiramente no navegador: cada revisor categoria as entidades da fila, registra incerteza e observações e exporta um JSON com identificadores, spans e rótulos. A ferramenta permite também \textbf{adicionar novos spans} selecionados no texto ou informados manualmente, marcados como \texttt{origin=custom} na exportação e separados das sugestões Muse no cálculo de concordância. Assim, omissões da pré-anotação não exigem alteração dos artefatos originais.
+
+\subsection{Considerações de privacidade}
+
+Informações pessoais identificáveis não são incluídas nos artefatos distribuídos: os arquivos contêm apenas identificadores de documento, offsets, rótulos e metadados agregados. Os exports da auditoria são tratados como material restrito e não são versionados.

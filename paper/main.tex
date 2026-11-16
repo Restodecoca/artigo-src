@@ -1,0 +1,48 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx,url}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{etoolbox}
+
+% Fallback simples: o pacote orcidlink conflita com o babel nesta versão do TeX Live.
+\newcommand{\orcidlink}[1]{\textsuperscript{ORCID: #1}}
+
+\sloppy
+
+% Short paper (4 pages) -- WCAMA 2026 / formato SBC.
+% Ajuste autores e afiliação antes da submissão.
+\title{Conjunto de Dados de NER de Cibersegurança em Notícias de Saúde: Construção, Camadas de Anotação e Avaliação}
+
+\author{Gabriel S. Rodrigues\inst{1} \orcidlink{0009-0000-3577-5277}
+}
+
+\address{Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA) \\
+ Marabá - Pará - Brasil
+ \email{gabriel.s\_r@unifesspa.edu.br}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{resumo}
+  Notícias sobre incidentes cibernéticos em instituições de saúde são uma fonte relevante, porém ruidosa, para reconhecimento de entidades nomeadas (NER). Este trabalho apresenta um conjunto de dados para apoiar a reconstrução metodológica de um estudo sobre NER em cibersegurança na área da saúde. De 329 URLs públicas filtradas pelo setor de saúde e pelo ano de 2023, obtiveram-se 314 textos extraídos e 299 notícias retidas. O recurso organiza duas camadas independentes sobre os mesmos documentos: uma pré-anotação \textit{silver} por modelo de linguagem (Muse), com 2.103 entidades, e um \textit{overlay} adjudicado, com 5.111 entidades nas categorias IDTY, ACT, VUL e LOC. A avaliação com checkpoints públicos de SecureBERT mostra que o desempenho varia conforme a camada e a métrica: no \textit{overlay}, o SecureBERT-NER atinge 0,0809 de F1 estrito e 0,2617 de F1 parcial, contra 0,4336~$\pm$~0,0056 do ajuste fino completo. Resultados cruzados indicam sensibilidade à política de anotação. Uma ferramenta local de auditoria permite revisão independente e inclusão de entidades omitidas pela pré-anotação.
+  \textbf{Palavras-chave:} conjunto de dados; reconhecimento de entidades nomeadas; cibersegurança; notícias de saúde; anotação assistida.
+\end{resumo}
+
+\begin{abstract}
+  News reports about cybersecurity incidents in healthcare are a noisy but valuable source for named entity recognition (NER). We present a dataset supporting the methodological reconstruction of a study on NER in healthcare cybersecurity. From 329 public URLs filtered by healthcare domain and year 2023, we extracted 314 texts and retained 299 news articles. The resource provides two independent annotation layers over the same documents: a silver LLM-generated layer (Muse) with 2,103 entities, and an adjudicated overlay with 5,111 entities in the IDTY, ACT, VUL and LOC categories. Evaluation with public SecureBERT checkpoints shows that performance depends on the annotation layer and metric definition: on the overlay, SecureBERT-NER reaches 0.0809 strict F1 and 0.2617 partial F1, versus 0.4336~$\pm$~0.0056 for full fine-tuning. Cross-layer experiments reveal sensitivity to the annotation policy. A local audit tool supports independent review and addition of entities missed by the silver layer.
+  \textbf{Keywords:} dataset; named entity recognition; cybersecurity; healthcare news; assisted annotation.
+\end{abstract}
+
+\input{sections/intro}
+\input{sections/corpus}
+\input{sections/experimentos}
+\input{sections/conclusao}
+
+\bibliographystyle{sbc}
+\bibliography{references}
+
+\end{document}

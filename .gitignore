@@ -34,3 +34,11 @@ outputs/
 .agents/
 skills-lock.json
 *.parquet
+
+# LaTeX build artifacts (short paper)
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.pdf

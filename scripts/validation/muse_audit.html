@@ -570,6 +570,24 @@
     }
 
     .ellipsis { color: #94a3b8; }
+    .ellipsis::before { content: "…"; }
+
+    .selection-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      padding: 8px 11px;
+      border: 1px solid #99f6e4;
+      border-radius: 9px;
+      background: #f0fdfa;
+      color: var(--brand-dark);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .selection-hint .button.link { margin-left: auto; color: var(--brand-dark); }
+    .selection-hint strong { color: var(--brand); }
 
     .full-details {
       margin-top: 12px;
@@ -903,6 +921,59 @@
     .dialog-body ul { margin: 5px 0; padding-left: 20px; color: var(--muted); }
     .dialog-body li { margin: 4px 0; }
 
+    .add-field { margin-bottom: 13px; }
+    .add-field > label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .add-field select,
+    .add-field textarea {
+      width: 100%;
+      min-height: 36px;
+      padding: 7px 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 9px;
+      background: #fff;
+      color: var(--ink);
+    }
+    .add-field textarea { min-height: 62px; resize: vertical; }
+    .add-field select:focus,
+    .add-field textarea:focus {
+      outline: 2px solid #99f6e4;
+      outline-offset: 1px;
+      border-color: var(--brand);
+    }
+    .add-hint { margin-top: 5px; color: var(--muted); font-size: 12px; }
+    .add-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 13px;
+      border-top: 1px solid var(--line);
+    }
+    .add-error {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      background: var(--bad-soft);
+      color: var(--bad);
+      font-size: 13px;
+    }
+
+    .custom-line {
+      border-style: solid;
+      border-color: #a5f3fc;
+      background: #ecfeff;
+      color: #0e7490;
+    }
+    .custom-line .button.link { margin-left: auto; color: #0e7490; }
+    .badge-custom { background: #cffafe; color: #0e7490; }
+
     [hidden] { display: none !important; }
 
     @media (max-width: 1240px) {
@@ -1020,6 +1091,8 @@
             <li>Use <kbd>1</kbd>–<kbd>4</kbd> para categorizar e <kbd>0</kbd> para “não é entidade”.</li>
             <li>Use <kbd>M</kbd> para revelar a Muse, quando necessário.</li>
             <li>Use <kbd>U</kbd> para marcar incerteza e o campo de nota para justificar.</li>
+            <li>Selecione um trecho no texto e clique em <kbd>1</kbd>–<kbd>4</kbd> para criar uma entidade com aquele tipo.</li>
+            <li>Ou use <kbd>A</kbd> / "Adicionar entidade" para informar o texto manualmente.</li>
           </ul>
         </section>
 
@@ -1042,7 +1115,7 @@
         <p>
           Esta página não faz requisições de rede. O navegador lê os arquivos escolhidos localmente e guarda
           o progresso no <code>localStorage</code>. Se o navegador bloquear o armazenamento, use a exportação
-          para não perder trabalho. A ferramenta valida a <strong>categoria</strong> da entidade; ajustes de
+          para não perder trabalho. A ferramenta valida a <strong>categoria</strong> das entidades da fila e permite <strong>adicionar novos spans</strong> que a Muse não marcou (exportados como <code>origin=custom</code>); ajustes de
           limite do span, fusão ou divisão de entidades devem ser anotados no campo de observação.
         </p>
       </section>
@@ -1062,6 +1135,7 @@
             <option value="uncertain">Marcadas como incertas</option>
             <option value="notes">Com observação</option>
             <option value="decided">Já respondidas</option>
+            <option value="custom">Adicionadas pelo revisor</option>
           </select>
         </div>
         <div class="queue-summary" id="queueSummary"></div>
@@ -1087,6 +1161,11 @@
             </details>
 
             <div class="muse-panel" id="musePanel"></div>
+
+            <div class="selection-hint" id="selectionHint" hidden>
+              <span>Trecho selecionado: <strong id="selectionHintText"></strong>. Clique em IDTY/ACT/VUL/LOC para criá-lo.</span>
+              <button type="button" class="button link" id="btnClearSelection">Limpar seleção</button>
+            </div>
 
             <div class="label-buttons" id="labelButtons" role="group" aria-label="Categoria da entidade">
               <button type="button" class="label-btn" data-label="IDTY">
@@ -1135,6 +1214,8 @@
                 Avançar após escolher
               </label>
               <button type="button" class="button danger" id="btnClear">Limpar resposta</button>
+              <button type="button" class="button secondary" id="btnAddEntity">+ Adicionar entidade</button>
+              <button type="button" class="button" id="btnRemoveCustom" hidden>Remover entidade adicionada</button>
               <button type="button" class="button" id="btnPrev">← Anterior</button>
               <button type="button" class="button primary" id="btnNext">Próxima →</button>
             </div>
@@ -1195,7 +1276,16 @@
         <li><kbd>1</kbd> IDTY · <kbd>2</kbd> ACT · <kbd>3</kbd> VUL · <kbd>4</kbd> LOC · <kbd>0</kbd> não é entidade</li>
         <li><kbd>←</kbd> anterior · <kbd>→</kbd> ou <kbd>Enter</kbd> próxima</li>
         <li><kbd>M</kbd> revelar/ocultar a sugestão Muse · <kbd>U</kbd> marcar incerteza · <kbd>?</kbd> esta ajuda</li>
+        <li><kbd>A</kbd> adicionar uma nova entidade a partir de um trecho do documento</li>
       </ul>
+
+      <h3>Entidades adicionadas</h3>
+      <p class="muted">
+        Use "+ Adicionar entidade" (ou <kbd>A</kbd>) para registrar um trecho relevante que a Muse não marcou.
+        Selecione o texto no documento completo ou digite o trecho, escolha a ocorrência e a categoria. A entidade
+        entra na fila com a categoria escolhida, fica identificada como <code>origin=custom</code> na exportação
+        e é salva por revisor. O filtro "Adicionadas pelo revisor" permite revisá-las depois.
+      </p>
 
       <h3>Categorias do protocolo</h3>
       <ul>
@@ -1217,6 +1307,43 @@
         Nenhum dado é enviado para servidores. O JSON exportado contém apenas identificadores, spans, rótulos,
         incerteza e notas. Ainda assim, trate os exports como material restrito e não os versione.
       </p>
+    </div>
+  </dialog>
+
+  <dialog id="addEntityDialog">
+    <div class="dialog-head">
+      <h2>Adicionar entidade</h2>
+      <form method="dialog"><button type="submit" class="button" id="btnCloseAddEntity">Cancelar</button></form>
+    </div>
+    <div class="dialog-body">
+      <p class="small muted">
+        Inclua um trecho do documento que você considera uma entidade relevante e que não aparece na fila.
+        Selecione o texto no documento completo antes de abrir esta janela, ou digite/cole o trecho abaixo.
+      </p>
+      <div class="add-field">
+        <label for="addDocSelect">Documento</label>
+        <select id="addDocSelect"></select>
+      </div>
+      <div class="add-field">
+        <label for="addTextInput">Trecho da entidade</label>
+        <textarea id="addTextInput" spellcheck="false" placeholder="Texto exatamente como aparece no documento"></textarea>
+        <div class="add-hint" id="addMatchesInfo">Digite ou selecione o trecho.</div>
+        <select id="addOccurrenceSelect" aria-label="Ocorrência do trecho" hidden></select>
+      </div>
+      <div class="add-field">
+        <label for="addLabelSelect">Categoria</label>
+        <select id="addLabelSelect">
+          <option value="IDTY">IDTY — Organização ou instituição</option>
+          <option value="ACT">ACT — Ação ou tipo de ataque</option>
+          <option value="VUL">VUL — Vulnerabilidade</option>
+          <option value="LOC">LOC — Localidade geográfica</option>
+        </select>
+      </div>
+      <div class="add-error" id="addEntityError" hidden></div>
+      <div class="add-actions">
+        <form method="dialog"><button type="submit" class="button" id="btnCancelAddEntity">Cancelar</button></form>
+        <button type="button" class="button primary" id="btnConfirmAddEntity" disabled>Adicionar à revisão</button>
+      </div>
     </div>
   </dialog>
 
@@ -1247,6 +1374,7 @@
       uncertain: "incertas",
       notes: "com observação",
       decided: "respondidas",
+      custom: "adicionadas pelo revisor",
     };
 
     const state = {
@@ -1273,6 +1401,7 @@
       saveTimer: null,
       storageOk: true,
       storageErrorShown: false,
+      selectionOnLabelClick: null,
     };
 
     let dom = {};
@@ -1297,6 +1426,10 @@
         "statDisagreementsLabel", "statUncertain", "statUncertainLabel", "statNotes",
         "statPending", "statPendingLabel", "labelTableBody",
         "datasetInfo", "warningBox", "storageBanner", "toast",
+        "btnAddEntity", "btnRemoveCustom", "addEntityDialog", "addDocSelect", "addTextInput",
+        "addOccurrenceSelect", "addLabelSelect", "addMatchesInfo", "addEntityError",
+        "btnConfirmAddEntity", "btnCloseAddEntity", "btnCancelAddEntity",
+        "selectionHint", "selectionHintText", "btnClearSelection",
       ];
       dom = Object.fromEntries(ids.map((id) => [id, byId(id)]));
     }
@@ -1375,15 +1508,25 @@
       return `${STORAGE_PREFIX}:position:${datasetKey}:${encodeURIComponent(reviewer)}`;
     }
 
-    function loadReviewState(datasetKey, reviewer, validKeys) {
+    function readSavedReview(datasetKey, reviewer) {
       try {
         const raw = localStorage.getItem(reviewKey(datasetKey, reviewer));
-        if (!raw) return { decisions: {}, drafts: {}, museSeen: new Set() };
+        if (!raw) return null;
         const saved = JSON.parse(raw);
+        return isPlainObject(saved) ? saved : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function loadReviewState(datasetKey, reviewer, validKeys, savedOverride = null) {
+      try {
+        const saved = savedOverride !== null ? savedOverride : readSavedReview(datasetKey, reviewer);
+        if (!saved) return { decisions: {}, drafts: {}, museSeen: new Set() };
         const decisions = {};
         const drafts = {};
         const museSeen = new Set();
-        if (saved && saved.decisions && typeof saved.decisions === "object") {
+        if (saved.decisions && typeof saved.decisions === "object") {
           for (const [key, value] of Object.entries(saved.decisions)) {
             if (!validKeys.has(key) || !value || typeof value !== "object") continue;
             if (!ALL_LABELS.includes(value.human_label)) continue;
@@ -1396,7 +1539,7 @@
             };
           }
         }
-        if (saved && saved.drafts && typeof saved.drafts === "object") {
+        if (saved.drafts && typeof saved.drafts === "object") {
           for (const [key, value] of Object.entries(saved.drafts)) {
             if (!validKeys.has(key) || !value || typeof value !== "object") continue;
             drafts[key] = {
@@ -1405,7 +1548,7 @@
             };
           }
         }
-        if (saved && Array.isArray(saved.muse_seen)) {
+        if (Array.isArray(saved.muse_seen)) {
           for (const key of saved.muse_seen) {
             if (typeof key === "string" && validKeys.has(key)) museSeen.add(key);
           }
@@ -1414,6 +1557,101 @@
       } catch (error) {
         return { decisions: {}, drafts: {}, museSeen: new Set() };
       }
+    }
+
+    function collectCustomEntities() {
+      return state.items
+        .filter((item) => item.entity.custom)
+        .map((item) => ({
+          doc_id: item.doc.id,
+          start: item.entity.start,
+          end: item.entity.end,
+          label: item.entity.label,
+          index: item.entity.index,
+          added_at: item.entity.added_at || null,
+        }));
+    }
+
+    function findCustomItem(docId, start, end) {
+      return state.items.find((item) =>
+        item.entity.custom
+        && item.doc.id === docId
+        && item.entity.start === start
+        && item.entity.end === end
+      ) || null;
+    }
+
+    function appendCustomEntity(doc, start, end, label, addedAt = null, requestedIndex = null) {
+      if (!doc || !ENTITY_LABELS.includes(label)) return null;
+      if (!Number.isInteger(start) || !Number.isInteger(end) || start < 0 || end <= start) return null;
+      const map = buildCodePointMap(doc.text);
+      const codePointLength = map ? map.length - 1 : doc.text.length;
+      if (end > codePointLength) return null;
+      const utf16Start = map ? map[start] : start;
+      const utf16End = map ? map[end] : end;
+      if (!Number.isInteger(utf16Start) || !Number.isInteger(utf16End)) return null;
+      const text = doc.text.slice(utf16Start, utf16End);
+      if (!text.trim()) return null;
+      if (findCustomItem(doc.id, start, end)) return null;
+
+      // The entity index is part of the item key, so it must be stable across
+      // export/restore. Prefer the exported index; otherwise use a fresh one
+      // above every index currently in use (including remaining custom items).
+      let index = requestedIndex;
+      if (!Number.isInteger(index) || index < 0
+          || doc.entities.some((entity) => entity.index === index)) {
+        index = doc.entities.reduce((max, entity) => Math.max(max, entity.index ?? -1), -1) + 1;
+      }
+      const entity = {
+        start,
+        end,
+        utf16Start,
+        utf16End,
+        label,
+        text,
+        originalIndex: index,
+        index,
+        custom: true,
+        added_at: addedAt || new Date().toISOString(),
+      };
+      const key = `${doc.id}::${index}::${start}-${end}`;
+      doc.entities.push(entity);
+      const item = { key, doc, entity };
+      state.items.push(item);
+      state.itemByKey.set(key, item);
+      return item;
+    }
+
+    function restoreCustomEntities(records) {
+      if (!Array.isArray(records) || state.docs.length === 0) return 0;
+      const docById = new Map(state.docs.map((doc) => [doc.id, doc]));
+      let added = 0;
+      for (const record of records) {
+        if (!isPlainObject(record)) continue;
+        const doc = docById.get(record.doc_id);
+        if (!doc) continue;
+        const label = canonicalLabel(record.label);
+        if (!label) continue;
+        const addedAt = typeof record.added_at === "string" ? record.added_at : null;
+        const index = Number.isInteger(record.index) && record.index >= 0 ? record.index : null;
+        if (appendCustomEntity(doc, record.start, record.end, label, addedAt, index)) added += 1;
+      }
+      return added;
+    }
+
+    function removeAllCustomEntities() {
+      if (!state.items.some((item) => item.entity.custom)) return;
+      state.items = state.items.filter((item) => !item.entity.custom);
+      state.itemByKey = new Map(state.items.map((item) => [item.key, item]));
+      for (const doc of state.docs) {
+        if (doc.entities.some((entity) => entity.custom)) {
+          doc.entities = doc.entities.filter((entity) => !entity.custom);
+        }
+      }
+    }
+
+    function isCustom(item) {
+      return Boolean(item && item.entity && item.entity.custom);
     }
 
     function loadPosition(datasetKey, reviewer, max) {
@@ -1437,6 +1675,7 @@
           decisions: state.decisions,
           drafts: state.drafts,
           muse_seen: [...state.museSeenKeys],
+          custom_entities: collectCustomEntities(),
           updated_at: new Date().toISOString(),
         }));
         localStorage.setItem(positionKey(state.datasetKey, state.reviewer), String(state.current));
@@ -1500,15 +1739,28 @@
         await handleRestoreFiles(files);
       });
 
+      // Capture the selection before clicking a label button collapses it.
+      dom.labelButtons.addEventListener("pointerdown", (event) => {
+        if (event.target.closest("button[data-label]")) {
+          state.selectionOnLabelClick = getDocSelection();
+        }
+      });
       dom.labelButtons.addEventListener("click", (event) => {
         const button = event.target.closest("button[data-label]");
         if (button) choose(button.dataset.label);
       });
+      document.addEventListener("selectionchange", updateSelectionHint);
+      dom.btnClearSelection.addEventListener("click", clearTextSelection);
 
       dom.btnPrev.addEventListener("click", prevItem);
       dom.btnNext.addEventListener("click", nextItem);
       dom.btnClear.addEventListener("click", clearCurrentDecision);
       dom.btnClearReview.addEventListener("click", clearReview);
+      dom.btnAddEntity.addEventListener("click", openAddEntityDialog);
+      dom.btnRemoveCustom.addEventListener("click", removeCurrentCustomEntity);
+      dom.btnConfirmAddEntity.addEventListener("click", confirmAddEntity);
+      dom.addDocSelect.addEventListener("change", refreshOccurrences);
+      dom.addTextInput.addEventListener("input", refreshOccurrences);
 
       dom.noteInput.addEventListener("focus", () => {
         cancelAdvance();
@@ -1607,6 +1859,277 @@
       } else {
         dom.helpDialog.setAttribute("open", "");
       }
+    }
+
+    function getSelectedText() {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed) return "";
+      const text = selection.toString().replace(/^\s+|\s+$/g, "");
+      return text.length > 0 && text.length <= 400 ? text : "";
+    }
+
+    // Text spans are rendered with data-src-start holding their UTF-16 offset
+    // in the original document, so a DOM selection can be mapped back exactly.
+    function offsetForBoundary(container, offset) {
+      if (container.nodeType === Node.TEXT_NODE) {
+        let element = container.parentElement;
+        while (element && !element.hasAttribute("data-src-start")) element = element.parentElement;
+        if (!element) return null;
+        const base = Number(element.getAttribute("data-src-start"));
+        return Number.isFinite(base) ? base + offset : null;
+      }
+      let element = container;
+      while (element && !element.hasAttribute("data-src-start")) element = element.parentElement;
+      if (!element) return null;
+      const base = Number(element.getAttribute("data-src-start"));
+      if (!Number.isFinite(base)) return null;
+      let position = base;
+      for (let index = 0; index < offset && index < container.childNodes.length; index += 1) {
+        position += container.childNodes[index].textContent.length;
+      }
+      return position;
+    }
+
+    function getDocSelection() {
+      const item = currentItem();
+      if (!item) return null;
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed || selection.rangeCount === 0) return null;
+      const range = selection.getRangeAt(0);
+      if (!dom.context.contains(range.startContainer)
+          && !dom.fullText.contains(range.startContainer)) return null;
+      if (!dom.context.contains(range.endContainer)
+          && !dom.fullText.contains(range.endContainer)) return null;
+      const start = offsetForBoundary(range.startContainer, range.startOffset);
+      const end = offsetForBoundary(range.endContainer, range.endOffset);
+      if (start === null || end === null || end <= start) return null;
+      const text = item.doc.text.slice(start, end);
+      if (!text.trim() || text.length > 400) return null;
+      if (start === item.entity.utf16Start && end === item.entity.utf16End) return null;
+      return { start, end, text, docId: item.doc.id };
+    }
+
+    function updateSelectionHint() {
+      if (!dom.selectionHint) return;
+      const selection = state.selectionOnLabelClick || getDocSelection();
+      if (!selection || state.items.length === 0 || dom.audit.hidden) {
+        dom.selectionHint.hidden = true;
+        return;
+      }
+      dom.selectionHintText.textContent = `«${truncate(selection.text.replace(/\s+/g, " "), 90)}»`;
+      dom.selectionHint.hidden = false;
+    }
+
+    function clearTextSelection() {
+      state.selectionOnLabelClick = null;
+      const selection = window.getSelection();
+      if (selection) selection.removeAllRanges();
+      updateSelectionHint();
+    }
+
+    function addEntityFromSelection(label, selection) {
+      const item = currentItem();
+      if (!item || item.doc.id !== selection.docId) return false;
+      const start = codePointOffset(item.doc.text, selection.start);
+      const end = codePointOffset(item.doc.text, selection.end);
+      if (start === null || end === null || end <= start) {
+        showToast("Não foi possível mapear a seleção para os offsets do documento.", { error: true });
+        return false;
+      }
+      const added = appendCustomEntity(item.doc, start, end, label);
+      if (!added) {
+        showToast("Não foi possível criar a entidade a partir do trecho selecionado.", { error: true });
+        return false;
+      }
+      state.decisions[added.key] = {
+        human_label: label,
+        uncertain: false,
+        muse_revealed: false,
+        note: "",
+        reviewed_at: new Date().toISOString(),
+      };
+      delete state.drafts[added.key];
+      const saved = saveReviewState();
+      clearTextSelection();
+      state.filter = "all";
+      dom.filterSelect.value = "all";
+      state.search = "";
+      dom.searchInput.value = "";
+      goTo(state.items.indexOf(added));
+      showToast(
+        saved
+          ? `Entidade ${labelTitle(label)} criada a partir do trecho selecionado.`
+          : `Entidade ${labelTitle(label)} criada em memória; exporte o JSON agora.`,
+        { error: !saved, duration: saved ? 5000 : 12000 }
+      );
+      return true;
+    }
+
+    function findOccurrences(text, needle) {
+      const matches = [];
+      if (!needle) return matches;
+      let from = 0;
+      while (true) {
+        const at = text.indexOf(needle, from);
+        if (at === -1) break;
+        matches.push({ start: at, end: at + needle.length });
+        from = at + Math.max(needle.length, 1);
+        if (matches.length >= 500) break;
+      }
+      if (matches.length === 0) {
+        const lowerText = text.toLocaleLowerCase("pt-BR");
+        const lowerNeedle = needle.toLocaleLowerCase("pt-BR");
+        from = 0;
+        while (true) {
+          const at = lowerText.indexOf(lowerNeedle, from);
+          if (at === -1) break;
+          matches.push({ start: at, end: at + lowerNeedle.length });
+          from = at + Math.max(lowerNeedle.length, 1);
+          if (matches.length >= 500) break;
+        }
+      }
+      return matches;
+    }
+
+    // findOccurrences() returns UTF-16 code-unit offsets (String.indexOf), but
+    // the dataset and the export use Unicode code-point offsets. Convert here.
+    function codePointOffset(text, utf16Offset) {
+      const map = buildCodePointMap(text);
+      if (!map) return utf16Offset;
+      let low = 0;
+      let high = map.length - 1;
+      while (low < high) {
+        const mid = (low + high + 1) >> 1;
+        if (map[mid] <= utf16Offset) low = mid;
+        else high = mid - 1;
+      }
+      return map[low] === utf16Offset ? low : null;
+    }
+
+    function openAddEntityDialog() {
+      if (state.docs.length === 0) return;
+      cancelAdvance();
+      const fragment = document.createDocumentFragment();
+      for (const doc of state.docs) {
+        const option = document.createElement("option");
+        option.value = doc.id;
+        option.textContent = truncate(doc.meta.title || doc.id, 80);
+        fragment.append(option);
+      }
+      dom.addDocSelect.replaceChildren(fragment);
+      const current = currentItem();
+      if (current) dom.addDocSelect.value = current.doc.id;
+      dom.addTextInput.value = getSelectedText();
+      dom.addLabelSelect.value = "IDTY";
+      dom.addEntityError.hidden = true;
+      refreshOccurrences();
+      if (typeof dom.addEntityDialog.showModal === "function") {
+        dom.addEntityDialog.showModal();
+      } else {
+        dom.addEntityDialog.setAttribute("open", "");
+      }
+      if (!dom.addTextInput.value) dom.addTextInput.focus();
+    }
+
+    function refreshOccurrences() {
+      const doc = state.docs.find((candidate) => candidate.id === dom.addDocSelect.value);
+      const needle = dom.addTextInput.value.replace(/^\s+|\s+$/g, "");
+      const matches = doc && needle ? findOccurrences(doc.text, needle) : [];
+      if (!needle) {
+        dom.addMatchesInfo.textContent = "Digite ou selecione o trecho.";
+      } else if (matches.length === 0) {
+        dom.addMatchesInfo.textContent = "Nenhuma ocorrência encontrada neste documento.";
+      } else {
+        dom.addMatchesInfo.textContent = `${matches.length} ocorrência(s) encontrada(s).`;
+      }
+      dom.addOccurrenceSelect.replaceChildren();
+      matches.forEach((match, index) => {
+        const option = document.createElement("option");
+        option.value = String(index);
+        const before = doc.text.slice(Math.max(0, match.start - 32), match.start).replace(/\s+/g, " ");
+        const after = doc.text.slice(match.end, Math.min(doc.text.length, match.end + 32)).replace(/\s+/g, " ");
+        option.textContent = `…${before} ⟦${needle.replace(/\s+/g, " ")}⟧ ${after}… (#${index + 1})`;
+        dom.addOccurrenceSelect.append(option);
+      });
+      dom.addOccurrenceSelect.hidden = matches.length <= 1;
+      dom.btnConfirmAddEntity.disabled = matches.length === 0;
+      dom.addEntityError.hidden = true;
+    }
+
+    function confirmAddEntity() {
+      const doc = state.docs.find((candidate) => candidate.id === dom.addDocSelect.value);
+      const needle = dom.addTextInput.value.replace(/^\s+|\s+$/g, "");
+      const label = dom.addLabelSelect.value;
+      const showError = (message) => {
+        dom.addEntityError.textContent = message;
+        dom.addEntityError.hidden = false;
+      };
+      if (!doc || !needle || !ENTITY_LABELS.includes(label)) {
+        showError("Escolha um documento, um trecho e uma categoria válidos.");
+        return;
+      }
+      const matches = findOccurrences(doc.text, needle);
+      if (matches.length === 0) {
+        showError("O trecho não foi encontrado neste documento.");
+        return;
+      }
+      const choice = matches.length > 1 ? Number(dom.addOccurrenceSelect.value) : 0;
+      const match = matches[choice] || matches[0];
+      const start = codePointOffset(doc.text, match.start);
+      const end = codePointOffset(doc.text, match.end);
+      if (start === null || end === null || end <= start) {
+        showError("Não foi possível mapear o trecho para os offsets do documento.");
+        return;
+      }
+      const item = appendCustomEntity(doc, start, end, label);
+      if (!item) {
+        showError("Não foi possível adicionar esta entidade (trecho vazio ou duplicado).");
+        return;
+      }
+      state.decisions[item.key] = {
+        human_label: label,
+        uncertain: false,
+        muse_revealed: false,
+        note: "",
+        reviewed_at: new Date().toISOString(),
+      };
+      delete state.drafts[item.key];
+      const saved = saveReviewState();
+      if (typeof dom.addEntityDialog.close === "function") dom.addEntityDialog.close();
+      else dom.addEntityDialog.removeAttribute("open");
+      state.filter = "all";
+      dom.filterSelect.value = "all";
+      state.search = "";
+      dom.searchInput.value = "";
+      goTo(state.items.indexOf(item));
+      showToast(
+        saved
+          ? `Entidade ${label} adicionada ao documento ${doc.id}.`
+          : `Entidade ${label} adicionada em memória; exporte o JSON agora.`,
+        { error: !saved, duration: saved ? 5000 : 12000 }
+      );
+    }
+
+    function removeCurrentCustomEntity() {
+      const item = currentItem();
+      if (!item || !isCustom(item)) return;
+      if (!confirm(`Remover a entidade "${truncate(item.entity.text, 60)}" adicionada por você?`)) return;
+      cancelAdvance();
+      const doc = item.doc;
+      const index = state.items.indexOf(item);
+      state.items.splice(index, 1);
+      state.itemByKey.delete(item.key);
+      doc.entities = doc.entities.filter((entity) => entity !== item.entity);
+      delete state.decisions[item.key];
+      delete state.drafts[item.key];
+      state.museSeenKeys.delete(item.key);
+      state.current = Math.min(Math.max(index - 1, 0), Math.max(state.items.length - 1, 0));
+      const saved = saveReviewState();
+      renderAll();
+      showToast(
+        saved ? "Entidade adicionada removida." : "Removida em memória; exporte o JSON agora.",
+        { error: !saved }
+      );
     }
 
     async function handleArtifactFiles(files) {
@@ -2080,8 +2603,10 @@
       state.warnings = dataset.warnings;
       state.demo = Boolean(options.demo);
 
+      const savedRaw = readSavedReview(state.datasetKey, state.reviewer);
+      restoreCustomEntities(savedRaw && savedRaw.custom_entities);
       const validKeys = new Set(state.items.map((item) => item.key));
-      const saved = loadReviewState(state.datasetKey, state.reviewer, validKeys);
+      const saved = loadReviewState(state.datasetKey, state.reviewer, validKeys, savedRaw);
       state.decisions = saved.decisions;
       state.drafts = saved.drafts;
       state.museSeenKeys = saved.museSeen;
@@ -2223,6 +2748,8 @@
         if (!setReviewer(reviewer, { silent: true })) return;
       }
 
+      const restoredCustom = restoreCustomEntities(review.custom_entities);
+      if (restoredCustom > 0) saveReviewState();
       const rows = Array.isArray(review.decisions) ? review.decisions : [];
       let applied = 0;
       let missing = 0;
@@ -2313,8 +2840,11 @@
       state.mode = state.modes[reviewer] || "blind";
       state.revealCurrent = false;
       if (state.datasetKey) {
+        removeAllCustomEntities();
+        const savedRaw = readSavedReview(state.datasetKey, reviewer);
+        restoreCustomEntities(savedRaw && savedRaw.custom_entities);
         const validKeys = new Set(state.items.map((item) => item.key));
-        const saved = loadReviewState(state.datasetKey, reviewer, validKeys);
+        const saved = loadReviewState(state.datasetKey, reviewer, validKeys, savedRaw);
         state.decisions = saved.decisions;
         state.drafts = saved.drafts;
         state.museSeenKeys = saved.museSeen;
@@ -2409,10 +2939,11 @@
       switch (state.filter) {
         case "pending": return !decision;
         case "decided": return Boolean(decision);
-        case "agreements": return Boolean(decision && decision.human_label === item.entity.label);
-        case "disagreements": return Boolean(decision && decision.human_label !== item.entity.label);
+        case "agreements": return Boolean(decision && !isCustom(item) && decision.human_label === item.entity.label);
+        case "disagreements": return Boolean(decision && !isCustom(item) && decision.human_label !== item.entity.label);
         case "uncertain": return Boolean(decision && decision.uncertain);
         case "notes": return Boolean(decision && decision.note);
+        case "custom": return isCustom(item);
         case "all": return true;
         default: return true;
       }
@@ -2512,10 +3043,11 @@
           button.classList.add("current");
           button.setAttribute("aria-current", "true");
         }
-        if (decision) {
+        if (decision && !isCustom(item)) {
           button.classList.add(decision.human_label === item.entity.label ? "agrees" : "differs");
-          if (decision.uncertain) button.classList.add("uncertain");
         }
+        if (decision && decision.uncertain) button.classList.add("uncertain");
+        if (isCustom(item)) button.classList.add("custom");
 
         const top = document.createElement("span");
         top.className = "qi-top";
@@ -2524,7 +3056,10 @@
         doc.textContent = truncate(item.doc.meta.title || item.doc.id, 36);
         const badge = document.createElement("span");
         badge.className = "qi-badge";
-        if (decision) {
+        if (isCustom(item)) {
+          badge.textContent = decision ? decision.human_label : item.entity.label;
+          badge.classList.add("badge-custom");
+        } else if (decision) {
           badge.textContent = decision.human_label;
           badge.classList.add(`badge-${decision.human_label.toLowerCase()}`);
         } else if (state.mode === "assisted") {
@@ -2558,12 +3093,14 @@
       dom.docTitle.textContent = doc.meta.title || "Documento sem título";
       dom.docSub.textContent = [doc.meta.source, doc.meta.date, doc.id].filter(Boolean).join(" · ");
       dom.entityCounter.textContent = `Entidade ${item.entity.index + 1} de ${doc.entities.length} · ${doc.id}`;
-      dom.context.innerHTML = buildHighlightedHtml(
+      const highlight = buildHighlightedHtml(
         doc.text,
         item.entity.utf16Start,
         item.entity.utf16End,
         420
       );
+      dom.context.innerHTML = highlight.html;
+      dom.context.dataset.srcStart = String(highlight.windowStart);
 
       if (document.activeElement !== dom.noteInput) {
         dom.noteInput.value = decision ? decision.note : (draft.note || "");
@@ -2579,6 +3116,8 @@
       renderMusePanel(item, decision);
       renderFeedback(item, decision);
       updateNavigationButtons();
+      dom.btnRemoveCustom.hidden = !isCustom(item);
+      updateSelectionHint();
 
       dom.fullDetails.open = false;
       dom.fullDetails.dataset.rendered = "";
@@ -2586,6 +3125,16 @@
     }
 
     function renderMusePanel(item, decision) {
+      if (isCustom(item)) {
+        const label = decision ? decision.human_label : item.entity.label;
+        const labelName = LABEL_INFO[label]?.name || label;
+        dom.musePanel.innerHTML = `
+          <div class="muse-line custom-line">
+            <span class="pill label-${label.toLowerCase()}">${escapeHtml(label)}</span>
+            <span><strong>${escapeHtml(labelName)}</strong> <span class="muted">· entidade adicionada pelo revisor (sem sugestão Muse)</span></span>
+          </div>`;
+        return;
+      }
       const visible = state.mode === "assisted" || state.revealCurrent || Boolean(decision);
       if (!visible) {
         dom.musePanel.innerHTML = `
@@ -2617,6 +3166,16 @@
     }
 
     function renderFeedback(item, decision) {
+      if (isCustom(item)) {
+        if (!decision) {
+          dom.feedback.className = "feedback muted";
+          dom.feedback.textContent = "Entidade adicionada por você. Confirme ou ajuste a categoria.";
+        } else {
+          dom.feedback.className = "feedback ok";
+          dom.feedback.innerHTML = `Entidade adicionada por você, categorizada como <strong>${escapeHtml(labelTitle(decision.human_label))}</strong>.`;
+        }
+        return;
+      }
       if (!decision) {
         dom.feedback.className = "feedback muted";
         dom.feedback.textContent = state.mode === "blind" && !state.revealCurrent
@@ -2653,10 +3212,11 @@
       if (!item) return;
       if (dom.fullDetails.dataset.rendered === item.key) return;
       const text = item.doc.text;
+      dom.fullText.dataset.srcStart = "0";
       dom.fullText.innerHTML =
-        escapeHtml(text.slice(0, item.entity.utf16Start)) +
-        "<mark>" + escapeHtml(text.slice(item.entity.utf16Start, item.entity.utf16End)) + "</mark>" +
-        escapeHtml(text.slice(item.entity.utf16End));
+        `<span data-src-start="0">${escapeHtml(text.slice(0, item.entity.utf16Start))}</span>` +
+        `<mark data-src-start="${item.entity.utf16Start}">${escapeHtml(text.slice(item.entity.utf16Start, item.entity.utf16End))}</mark>` +
+        `<span data-src-start="${item.entity.utf16End}">${escapeHtml(text.slice(item.entity.utf16End))}</span>`;
       dom.fullDetails.dataset.rendered = item.key;
     }
 
@@ -2667,17 +3227,21 @@
       let disagreements = 0;
       let uncertain = 0;
       let notes = 0;
-      let none = 0;
+      let noneMuse = 0;
       let revealed = 0;
+      let custom = 0;
 
       for (const item of state.items) {
         const decision = state.decisions[item.key];
+        if (isCustom(item)) custom += 1;
         if (!decision) continue;
-        if (decision.human_label === item.entity.label) agreements += 1;
-        else disagreements += 1;
+        if (!isCustom(item)) {
+          if (decision.human_label === item.entity.label) agreements += 1;
+          else disagreements += 1;
+        }
         if (decision.uncertain) uncertain += 1;
         if (decision.note) notes += 1;
-        if (decision.human_label === "NONE") none += 1;
+        if (decision.human_label === "NONE" && !isCustom(item)) noneMuse += 1;
         if (decision.muse_revealed) revealed += 1;
       }
 
@@ -2698,10 +3262,12 @@
       dom.statNotes.textContent = String(notes);
 
       const rows = ENTITY_LABELS.map((label) => {
-        const muse = state.items.filter((item) => item.entity.label === label).length;
-        const human = state.items.filter((item) => state.decisions[item.key]?.human_label === label).length;
+        const muse = state.items.filter((item) => !isCustom(item) && item.entity.label === label).length;
+        const human = state.items.filter((item) =>
+          !isCustom(item) && state.decisions[item.key]?.human_label === label
+        ).length;
         const errors = state.items.filter((item) =>
-          state.decisions[item.key] && state.decisions[item.key].human_label !== label && item.entity.label === label
+          !isCustom(item) && state.decisions[item.key] && state.decisions[item.key].human_label !== label && item.entity.label === label
         ).length;
         return `<tr>
           <td><span class="pill label-${label.toLowerCase()}">${label}</span></td>
@@ -2713,9 +3279,14 @@
       dom.labelTableBody.innerHTML = rows + `<tr>
         <td><span class="pill label-none">NONE</span></td>
         <td>0</td>
-        <td>${none}</td>
+        <td>${noneMuse}</td>
         <td>—</td>
       </tr>`;
+      if (custom > 0) {
+        dom.labelTableBody.insertAdjacentHTML("beforeend",
+          `<tr><td colspan="4" class="muted small">+ ${custom} entidade(s) adicionada(s) pelo revisor (fora da comparação Muse).</td></tr>`
+        );
+      }
 
       renderDatasetInfo();
       dom.btnClearReview.disabled = reviewed === 0;
@@ -2733,6 +3304,7 @@
         ["Sem labels", summary.documents_without_labels || 0],
         ["Marcados keep=false", summary.keep_false || 0],
         ["Ignoradas", summary.skipped_entities || 0],
+        ["Adicionadas por revisores", state.items.filter((item) => isCustom(item)).length],
       ];
       const dl = document.createElement("dl");
       dl.className = "kv";
@@ -2786,13 +3358,22 @@
       const item = currentItem();
       if (!item) return;
       cancelAdvance();
+      const selection = state.selectionOnLabelClick || getDocSelection();
+      state.selectionOnLabelClick = null;
+      if (selection && selection.docId === item.doc.id && label !== "NONE"
+          && addEntityFromSelection(label, selection)) {
+        return;
+      }
+      state.selectionOnLabelClick = null;
       const previous = state.decisions[item.key] ? { ...state.decisions[item.key] } : null;
       const advancedFrom = state.current;
+      const custom = isCustom(item);
 
       state.decisions[item.key] = {
         human_label: label,
         uncertain: dom.uncertainInput.checked,
-        muse_revealed: state.mode === "assisted" || state.museSeenKeys.has(item.key) || Boolean(previous),
+        muse_revealed: !custom
+          && (state.mode === "assisted" || state.museSeenKeys.has(item.key) || Boolean(previous)),
         note: dom.noteInput.value.trim(),
         reviewed_at: new Date().toISOString(),
       };
@@ -2804,10 +3385,13 @@
       renderCard();
       renderStats();
 
-      const agrees = label === item.entity.label;
+      const agrees = !custom && label === item.entity.label;
+      const success = custom
+        ? `${labelTitle(label)} salva para a entidade adicionada.`
+        : `${labelTitle(label)} salva · ${agrees ? "concorda com a Muse" : "discorda da Muse"}.`;
       showToast(
         saved
-          ? `${labelTitle(label)} salva · ${agrees ? "concorda com a Muse" : "discorda da Muse"}.`
+          ? success
           : `${labelTitle(label)} registrada apenas na memória. O navegador não salvou; exporte o JSON agora.`,
         {
           undo: () => undoDecision(item.key, previous, advancedFrom),
@@ -2871,6 +3455,7 @@
       const really = confirm("Esta ação não pode ser desfeita. Exporte antes se precisar guardar. Continuar?");
       if (!really) return;
       cancelAdvance();
+      removeAllCustomEntities();
       state.decisions = {};
       state.drafts = {};
       state.current = 0;
@@ -2941,6 +3526,9 @@
       cancelAdvance();
       if (index !== state.current) {
         state.revealCurrent = false;
+        state.selectionOnLabelClick = null;
+        const selection = window.getSelection();
+        if (selection) selection.removeAllRanges();
       }
       state.current = index;
       savePosition();
@@ -2991,7 +3579,7 @@
 
     function handleKeydown(event) {
       if (state.items.length === 0) return;
-      if (dom.helpDialog.open) return;
+      if (dom.helpDialog.open || dom.addEntityDialog.open) return;
       if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;
       const target = event.target;
       if (target && target.isContentEditable) return;
@@ -3036,6 +3624,9 @@
       } else if (event.key === "?") {
         event.preventDefault();
         openHelp();
+      } else if (event.key.toLowerCase() === "a") {
+        event.preventDefault();
+        openAddEntityDialog();
       }
     }
 
@@ -3054,7 +3645,7 @@
       if (!state.items.length) return;
       const payload = buildExportPayload();
       const header = [
-        "item_key", "document_id", "entity_index", "start", "end", "muse_label",
+        "item_key", "document_id", "entity_index", "start", "end", "origem", "muse_label",
         "human_label", "concorda", "incerto", "muse_revelada", "nota", "reviewed_at", "revisor",
       ];
       const lines = [header.join(";")];
@@ -3065,9 +3656,10 @@
           row.entity_index,
           row.start,
           row.end,
+          row.origin,
           row.muse_label,
           row.human_label,
-          row.human_label === row.muse_label ? "sim" : "não",
+          row.origin === "muse" && row.human_label === row.muse_label ? "sim" : "—",
           row.uncertain ? "sim" : "não",
           row.muse_revealed ? "sim" : "não",
           row.note,
@@ -3088,13 +3680,15 @@
       for (const item of state.items) {
         const decision = state.decisions[item.key];
         if (!decision) continue;
+        const custom = isCustom(item);
         decisions.push({
           item_key: item.key,
           document_id: item.doc.id,
           entity_index: item.entity.index,
           start: item.entity.start,
           end: item.entity.end,
-          muse_label: item.entity.label,
+          origin: custom ? "custom" : "muse",
+          muse_label: custom ? "" : item.entity.label,
           human_label: decision.human_label,
           uncertain: Boolean(decision.uncertain),
           muse_revealed: Boolean(decision.muse_revealed),
@@ -3104,7 +3698,9 @@
         });
       }
       const museCounts = emptyLabelCounts();
-      for (const item of state.items) museCounts[item.entity.label] += 1;
+      for (const item of state.items) {
+        if (!isCustom(item)) museCounts[item.entity.label] += 1;
+      }
       return {
         schema_version: SCHEMA_VERSION,
         tool: TOOL_NAME,
@@ -3116,9 +3712,11 @@
           documents_with_entities: state.docs.length,
           entities: state.items.length,
           reviewed: decisions.length,
+          custom_entities: collectCustomEntities().length,
           muse_label_counts: museCounts,
           synthetic_demo: state.demo,
         },
+        custom_entities: collectCustomEntities(),
         muse_seen: [...state.museSeenKeys].filter((key) => state.itemByKey.has(key)),
         decisions,
       };
@@ -3193,13 +3791,15 @@
         const space = text.indexOf(" ", windowEnd);
         if (space !== -1 && space - windowEnd < 80) windowEnd = space;
       }
-      return (
-        (windowStart > 0 ? '<span class="ellipsis">…</span>' : "") +
-        escapeHtml(text.slice(windowStart, start)) +
-        "<mark>" + escapeHtml(text.slice(start, end)) + "</mark>" +
-        escapeHtml(text.slice(end, windowEnd)) +
-        (windowEnd < text.length ? '<span class="ellipsis">…</span>' : "")
-      );
+      return {
+        windowStart,
+        html:
+          (windowStart > 0 ? '<span class="ellipsis"></span>' : "") +
+          `<span data-src-start="${windowStart}">${escapeHtml(text.slice(windowStart, start))}</span>` +
+          `<mark data-src-start="${start}">${escapeHtml(text.slice(start, end))}</mark>` +
+          `<span data-src-start="${end}">${escapeHtml(text.slice(end, windowEnd))}</span>` +
+          (windowEnd < text.length ? '<span class="ellipsis"></span>' : ""),
+      };
     }
 
     function labelTitle(label) {

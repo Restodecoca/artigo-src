@@ -80,10 +80,17 @@ def load_review(path: Path) -> dict[str, Any]:
             raise ValueError(f"{path}: row reviewer does not match export reviewer")
         human_label = row.get("human_label")
         muse_label = row.get("muse_label")
+        origin = row.get("origin", "muse")
+        if origin not in ("muse", "custom"):
+            raise ValueError(f"{path}: invalid origin {origin!r}")
         if human_label not in AUDIT_LABELS:
             raise ValueError(f"{path}: invalid human_label {human_label!r}")
-        if muse_label not in ENTITY_TYPES:
-            raise ValueError(f"{path}: invalid muse_label {muse_label!r}")
+        if origin == "muse":
+            if muse_label not in ENTITY_TYPES:
+                raise ValueError(f"{path}: invalid muse_label {muse_label!r}")
+        else:
+            # Entities added by a reviewer have no Muse suggestion to compare.
+            muse_label = ""
         key = row.get("item_key")
         if not isinstance(key, str) or not key:
             document_id = row.get("document_id")
@@ -107,6 +114,7 @@ def load_review(path: Path) -> dict[str, Any]:
         decisions[key] = {
             "human_label": human_label,
             "muse_label": muse_label,
+            "origin": origin,
             "uncertain": _strict_bool(row, "uncertain", path),
             "muse_revealed": _strict_bool(row, "muse_revealed", path),
             "note": str(row.get("note") or ""),
@@ -180,8 +188,11 @@ def human_vs_muse(review: dict[str, Any]) -> dict[str, Any]:
 
     decisions = list(review["decisions"].values())
     reviewed = len(decisions)
-    agreements = sum(row["human_label"] == row["muse_label"] for row in decisions)
-    confident = [row for row in decisions if not row["uncertain"]]
+    # Human-added entities have no Muse suggestion; Muse agreement is measured
+    # only on the original queue items.
+    muse_rows = [row for row in decisions if row.get("origin", "muse") == "muse"]
+    agreements = sum(row["human_label"] == row["muse_label"] for row in muse_rows)
+    confident = [row for row in muse_rows if not row["uncertain"]]
     confident_agreements = sum(row["human_label"] == row["muse_label"] for row in confident)
 
     per_label: dict[str, dict[str, int | float | None]] = {}
@@ -189,15 +200,15 @@ def human_vs_muse(review: dict[str, Any]) -> dict[str, Any]:
     supports: dict[str, int] = {}
     for label in AUDIT_LABELS:
         true_positive = sum(
-            row["muse_label"] == label and row["human_label"] == label for row in decisions
+            row["muse_label"] == label and row["human_label"] == label for row in muse_rows
         )
         false_positive = sum(
-            row["muse_label"] != label and row["human_label"] == label for row in decisions
+            row["muse_label"] != label and row["human_label"] == label for row in muse_rows
         )
         false_negative = sum(
-            row["muse_label"] == label and row["human_label"] != label for row in decisions
+            row["muse_label"] == label and row["human_label"] != label for row in muse_rows
         )
-        support = sum(row["muse_label"] == label for row in decisions)
+        support = sum(row["muse_label"] == label for row in muse_rows)
         predicted = true_positive + false_positive
         precision = true_positive / predicted if predicted else 0.0 if support else None
         recall = true_positive / support if support else 0.0 if predicted else None
@@ -229,7 +240,7 @@ def human_vs_muse(review: dict[str, Any]) -> dict[str, Any]:
     macro_f1 = sum(macro_f1_values) / len(macro_f1_values) if macro_f1_values else None
 
     confusion: dict[str, dict[str, int]] = {}
-    for row in decisions:
+    for row in muse_rows:
         muse = row["muse_label"]
         human = row["human_label"]
         confusion.setdefault(muse, {label: 0 for label in AUDIT_LABELS})
@@ -246,10 +257,11 @@ def human_vs_muse(review: dict[str, Any]) -> dict[str, Any]:
     )
     return {
         "reviewed": reviewed,
+        "custom_added": sum(row.get("origin", "muse") == "custom" for row in decisions),
         "coverage": _round(coverage),
-        "accuracy": _round(agreements / reviewed if reviewed else None),
+        "accuracy": _round(agreements / len(muse_rows) if muse_rows else None),
         "cohen_kappa": _round(
-            cohen_kappa([(row["muse_label"], row["human_label"]) for row in decisions])
+            cohen_kappa([(row["muse_label"], row["human_label"]) for row in muse_rows])
         ),
         "confident_reviewed": len(confident),
         "confident_accuracy": _round(confident_agreements / len(confident) if confident else None),

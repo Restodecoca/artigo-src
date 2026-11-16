@@ -21,6 +21,11 @@ dados ou resultados do artigo.
 | SecureBERT-APTNER, inferência | 0,0507 | 0,2933 / 0,2891 |
 | Full fine-tuning, teste de 60 docs | 0,4336 ± 0,0056 | 0,5528 ± 0,0018 (same-type) |
 
+Um *short paper* de 4 páginas com resumo/abstract, baseado nesses resultados,
+está em [`paper/`](paper/README.md) (template LaTeX SBC/WCAMA). A ferramenta de
+auditoria permite adicionar novas entidades encontradas pelo revisor, marcadas
+como `origin=custom` na exportação.
+
 Resultados e limitações estão detalhados em [`docs/`](docs/README.md). Os
 artefatos restritos de anotação Muse usados na validação em pares estão em
 [`data/muse-artifacts/`](data/muse-artifacts/README.md) neste repositório
@@ -51,6 +56,7 @@ scripts/analysis/                análise de artefatos agregados
 scripts/validation/              auditoria humana e concordância das labels Muse
 scripts/local/                   verificações locais de modelos
 scripts/presentations/           utilitários de apresentações
+paper/                          short paper LaTeX (4 páginas, abstract)
 tests/                           testes automatizados
 configs/                         protocolo legível por máquina
 tasks/                           especificações experimentais

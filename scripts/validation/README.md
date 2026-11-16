@@ -89,11 +89,23 @@ original; descreva o relatório como auditoria da camada efetivamente carregada.
    Use o modo assistido apenas para conferência, não para medir concordância
    independente.
 5. Atalhos: `1`–`4` categorizam, `0` marca “não é entidade”, `M` revela a Muse,
-   `U` marca incerteza, `←`/`→` navegam.
+   `U` marca incerteza, `A` abre a inclusão de entidade digitada, `←`/`→` navegam.
+   Com um trecho selecionado no texto, `1`–`4` (ou os botões de tipo) criam uma
+   entidade com aquele tipo a partir da seleção; sem seleção, eles apenas
+   categorizam a entidade atual.
 6. Use a observação para spans inválidos, fusão/divisão de entidades ou casos
-   ambíguos. A ferramenta não edita offsets.
-7. Exporte **JSON** ao terminar. O CSV é opcional para inspeção em planilha.
-8. Para retomar de um export, use **Restaurar revisão exportada**. É possível
+   ambíguos. A ferramenta não edita offsets de entidades existentes.
+7. Para registrar uma entidade que a Muse não marcou, basta **selecionar o trecho**
+   no texto (contexto ou documento completo) e clicar em `IDTY`/`ACT`/`VUL`/`LOC`
+   (ou teclar `1`–`4`). Um aviso mostra o trecho selecionado antes do clique. Como
+   alternativa para texto digitado/copiado, use **+ Adicionar entidade** (ou `A`),
+   escolhendo a ocorrência e a categoria. A entidade entra na fila já categorizada,
+   aparece no filtro **Adicionadas pelo revisor** e pode ser removida pelo botão
+   **Remover entidade adicionada**. Ela é salva por revisor e exportada com
+   `origin="custom"` e `muse_label` vazio, sem entrar no cálculo de concordância
+   com a Muse.
+8. Exporte **JSON** ao terminar. O CSV é opcional para inspeção em planilha.
+9. Para retomar de um export, use **Restaurar revisão exportada**. É possível
    carregar o export antes dos artefatos: a aplicação fica pendente e ocorre
    automaticamente depois da leitura dos batches.
 
@@ -148,9 +160,9 @@ humana de uma camada `silver`/overlay e deve ser descrito como extensão.
 
 - A página não faz requisições de rede; os arquivos são lidos pelo navegador.
 - O progresso fica no `localStorage` do navegador.
-- Os exports contêm IDs de documento, spans, rótulos, incerteza, notas e a lista
-  de itens cuja sugestão Muse foi revelada. Trate-os como material restrito e não
-  os versione.
+- Os exports contêm IDs de documento, spans, rótulos, incerteza, notas, entidades
+  adicionadas (`origin="custom"`, `custom_entities`) e a lista de itens cuja
+  sugestão Muse foi revelada. Trate-os como material restrito e não os versione.
 - `data/processed/` e `auditoria_muse_*.json|csv` são ignorados pelo Git.
 
 ## Testes
