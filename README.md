@@ -12,6 +12,8 @@ dados ou resultados do artigo.
   retidas.
 - Mantida a anotação Muse silver original (2.103 entidades) e criado um overlay
   adjudicado separado (5.111 entidades).
+- Construída uma camada separada de 687 adições assistidas por IA e verificadas
+  por humano, elevando o total para 5.798 entidades.
 - Avaliados SecureBERT-NER e SecureBERT-APTNER e executados experimentos de
   fine-tuning com Full, LoRA+, CCE ponderada e ROS.
 
@@ -26,7 +28,8 @@ está em [`paper/`](paper/README.md) (template LaTeX SBC/WCAMA). A ferramenta de
 auditoria permite adicionar novas entidades encontradas pelo revisor, marcadas
 como `origin=custom` na exportação.
 
-Resultados e limitações estão detalhados em [`docs/`](docs/README.md). Os
+Resultados e limitações estão detalhados em [`docs/`](docs/README.md), incluindo
+a [camada aumentada e os experimentos preliminares](docs/04_anotacoes_assistidas.md). Os
 artefatos restritos de anotação Muse usados na validação em pares estão em
 [`data/muse-artifacts/`](data/muse-artifacts/README.md) neste repositório
 privado; eles não devem ser redistribuídos publicamente.
