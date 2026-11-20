@@ -29,7 +29,7 @@ rejeitados. O overlay não sobrescreve a camada Muse original.
 ## Conteúdo
 
 - `raw/`: archive da camada Muse original.
-- `processed/`: archive do overlay adjudicado.
+- `processed/`: archives do overlay adjudicado, da revisão completa e da camada de consenso.
 - `manifests/`: proveniência das fontes, revisão por lote e hashes dos textos.
 - `results/`: resumos agregados das validações T4 (sem texto por documento).
 - `audits/`: exports privados das auditorias humanas e o relatório de concordância.

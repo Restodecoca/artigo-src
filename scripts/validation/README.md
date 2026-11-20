@@ -129,11 +129,15 @@ importar.
 
 ```bash
 uv run python scripts/validation/compare_audits.py \
-  data/processed/audit/auditoria_muse_dev1_2026-11-08.json \
-  data/processed/audit/auditoria_muse_dev2_2026-11-08.json \
-  data/processed/audit/auditoria_muse_dev3_2026-11-08.json \
-  --output data/processed/audit/agreement.json
+  data/muse-artifacts/audits/gabriel_rodrigues_overlay_2026-11-20.json \
+  data/muse-artifacts/audits/gabriel_carlos_2026-11-20.json \
+  --output data/muse-artifacts/audits/comparison_2026-11-20.json
 ```
+
+O arquivo de Gabriel Rodrigues é uma projeção do overlay, não uma auditoria
+cega independente. A revisão completa do Angelo e a camada de consenso estão em
+`data/muse-artifacts/processed/muse_reviewed.tar.gz` e
+`muse_consensus.tar.gz`; os detalhes estão em `docs/04_anotacoes_assistidas.md`.
 
 O relatório contém apenas dados agregados: cobertura, concordância com a Muse,
 Cohen's kappa por revisor, métricas por categoria, matriz de confusão,

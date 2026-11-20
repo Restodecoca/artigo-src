@@ -14,6 +14,8 @@ dados ou resultados do artigo.
   adjudicado separado (5.111 entidades).
 - Construída uma camada separada de 687 adições assistidas por IA e verificadas
   por humano, elevando o total para 5.798 entidades.
+- Revisão completa do overlay (9.318 entidades) e camada de consenso com três
+  anotações; a validação em pares ficou entre 98,8% e 99,5%.
 - Avaliados SecureBERT-NER e SecureBERT-APTNER e executados experimentos de
   fine-tuning com Full, LoRA+, CCE ponderada e ROS.
 

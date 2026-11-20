@@ -1,4 +1,4 @@
-# Anotações assistidas por IA e avaliação da camada aumentada
+# Anotações assistidas, camada aumentada e consenso
 
 ## Objetivo
 
@@ -171,5 +171,50 @@ Das 4.554 entidades adicionadas na revisão, 613 se sobrepõem a alguma adição
 assistida; as demais são, em sua maioria, menções repetidas que esta camada
 deixou de fora por marcar apenas a primeira ocorrência. As duas passagens usam o
 mesmo leitor LLM, então a concordância acima mede consistência entre passagens,
-não concordância entre anotadores humanos. A camada revisada ainda não foi
-avaliada nos modelos.
+não concordância entre anotadores humanos. A camada revisada é a base da
+camada de consenso avaliada na próxima seção.
+
+## Validação em pares e camada de consenso
+
+As três anotações foram sobrepostas por span exato para produzir uma validação
+em pares e uma camada de consenso. A revisão completa do Angelo foi usada como
+base (9.318 spans, todas as menções); os rótulos de Gabriel Rodrigues (overlay)
+e Gabriel Carlos foram sobrepostos quando o span era idêntico. O rótulo final é
+o voto majoritário; em empate, prevalece o rótulo do Angelo. Spans que o Angelo
+removeu ou corrigiu não foram reintroduzidos.
+
+| Par | Spans comuns | Concordância de rótulo | Kappa |
+| --- | ---: | ---: | ---: |
+| Rodrigues x Carlos | 5.111 | 98,8% | 0,980 |
+| Rodrigues x Angelo | 4.649 | 99,98% | — |
+| Carlos x Angelo | 4.640 | 99,5% | 0,992 |
+
+No par Rodrigues x Angelo, 4.648 dos 5.111 spans do overlay (90,9%) foram
+confirmados sem alteração; 347 foram removidos, 115 tiveram o span corrigido e
+1 foi reclassificado. A camada revisada tem 9.318 entidades.
+
+Na camada de consenso, 4.640 spans têm os três anotadores, 10 têm dois e 4.668
+são exclusivos do Angelo. Houve 22 conflitos de rótulo; em todos, o rótulo do
+Angelo foi mantido (nenhuma alteração final em relação à camada revisada). A
+camada de consenso está em `data/muse-artifacts/processed/muse_consensus.tar.gz`.
+
+
+## Treino na camada de consenso
+
+A camada de consenso foi empacotada no formato Muse e treinada com `Full`
+fine-tuning no Colab T4 (três seeds: 42, 123 e 2024; cinco épocas; divisão
+179/60/60; seed de divisão 2024). A mesma execução treina e avalia o overlay e
+o consenso, permitindo comparar as diagonais e os experimentos cruzados.
+
+| Treino / teste | Strict F1 | Partial same-type F1 |
+| --- | ---: | ---: |
+| Overlay / Overlay | 0,4451 ± 0,0030 | 0,5778 ± 0,0009 |
+| Consenso / Consenso | **0,8330 ± 0,0027** | **0,9033 ± 0,0018** |
+| Overlay / Consenso | 0,5738 ± 0,0138 | 0,7563 ± 0,0089 |
+| Consenso / Overlay | 0,5019 ± 0,0022 | 0,5703 ± 0,0022 |
+
+A diagonal do consenso é alta porque a camada marca todas as menções (9.318
+entidades), enquanto o overlay marca um subconjunto (5.111). A comparação
+cruzada, portanto, reflete tanto a capacidade do modelo quanto a política de
+spans; ela não deve ser lida como uma comparação pura de qualidade entre
+modelos. O resultado é uma análise de sensibilidade à camada de anotação.

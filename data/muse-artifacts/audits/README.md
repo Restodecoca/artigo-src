@@ -34,3 +34,17 @@ como independência entre anotadores.
 O export de Gabriel Rodrigues é uma projeção do overlay, não um julgamento
 humano separado. Para uma comparação cega real, seria necessário um export
 independente dele, gerado no modo cego.
+
+## Validação em pares e consenso
+
+| Par | Spans comuns | Concordância | Kappa |
+| --- | ---: | ---: | ---: |
+| Rodrigues x Carlos | 5.111 | 98,8% | 0,980 |
+| Rodrigues x Angelo | 4.649 | 99,98% | — |
+| Carlos x Angelo | 4.640 | 99,5% | 0,992 |
+
+A camada de consenso (`processed/muse_consensus.tar.gz`) usa a revisão do
+Angelo como base, sobrepõe os rótulos de Rodrigues e Carlos em spans exatos e
+mantém o voto majoritário; empates ficam com o rótulo do Angelo. São 9.318
+spans: 4.640 com três anotadores, 10 com dois e 4.668 exclusivos do Angelo. Há
+22 conflitos de rótulo, sem alteração final em relação à revisão do Angelo.

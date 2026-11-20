@@ -12,8 +12,8 @@ O rascunho descreve o conjunto de dados deste repositório:
 - camada separada de 687 adições assistidas por IA e verificadas por humano,
   totalizando 5.798 entidades;
 - avaliação de SecureBERT-NER/APTNER nas camadas Muse, overlay e aumentada;
-- resultados de fine-tuning (Full, LoRA+, CCE, ROS) e um experimento preliminar
-  na camada aumentada;
+- validação em pares entre três anotações e treino Full na camada de consenso;
+- resultados de fine-tuning (Full, LoRA+, CCE, ROS) no overlay;
 - ferramenta local de auditoria, incluindo a adição de entidades pelo revisor.
 
 Os números foram retirados de `README.md`, de `docs/01_dataset_e_rotulagem.md`,

@@ -6,7 +6,7 @@ estudo sobre NER em notícias de cibersegurança na área da saúde.
 1. [Dataset e processo de rotulagem](01_dataset_e_rotulagem.md)
 2. [Avaliação dos modelos](02_avaliacao_modelos.md)
 3. [Fine-tuning, resultados e verificações](03_finetuning_e_verificacoes.md)
-4. [Anotações assistidas por IA e camada aumentada](04_anotacoes_assistidas.md)
+4. [Anotações assistidas, camada aumentada, validação em pares e consenso](04_anotacoes_assistidas.md)
 
 A apresentação do Marco 3 está em
 `marco3_apresentacao_com_resumo_e_conclusao.pptx`. A continuação do Marco 4,
