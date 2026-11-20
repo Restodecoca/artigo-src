@@ -126,3 +126,36 @@ muse_batches/
 O runner `scripts/colab/run_colab_muse_validation.py` foi executado no Colab CLI
 com aceleração T4. O resultado agregado contém apenas contagens e métricas; o
 diagnóstico por documento permanece privado.
+
+## Revisão completa do overlay e comparação com as adições
+
+Uma segunda passagem, independente desta camada, revisou do zero as 299
+notícias do overlay (`data/muse-artifacts/annotations/overlay_review_v1.json`,
+archive `processed/muse_reviewed.tar.gz`). Ela marca todas as menções de cada
+entidade e remove do overlay marcações fora do protocolo, como texto-padrão
+jurídico, negações e spans que cortam palavras. Os 299 documentos foram
+aprovados bloco a bloco pelo revisor humano (`user_approved`): 94 antes da
+gravação e 205 depois, a partir da revisão já feita pelo leitor LLM. Os detalhes
+e critérios estão em `data/muse-artifacts/annotations/README.md`.
+
+| Camada | Entidades |
+| --- | ---: |
+| Overlay | 5.111 |
+| Overlay + adições assistidas (esta camada) | 5.798 |
+| Overlay revisado | 9.318 |
+
+Situação das 687 adições assistidas na camada revisada:
+
+| Situação | Quantidade |
+| --- | ---: |
+| Mesmo span e mesmo rótulo | 576 (84%) |
+| Sobreposição parcial | 36 |
+| Mesmo span, rótulo diferente | 1 |
+| Ausente na revisão | 74 |
+
+Das 4.554 entidades adicionadas na revisão, 613 se sobrepõem a alguma adição
+assistida; as demais são, em sua maioria, menções repetidas que esta camada
+deixou de fora por marcar apenas a primeira ocorrência. As duas passagens usam o
+mesmo leitor LLM, então a concordância acima mede consistência entre passagens,
+não concordância entre anotadores humanos. A camada revisada ainda não foi
+avaliada nos modelos.
