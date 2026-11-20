@@ -42,13 +42,11 @@ não devem ser versionados.
 - `main.tex`: preâmbulo, título, autores, resumo/abstract e inclusão das seções.
 - `sections/`: introdução, corpus, experimentos e conclusão.
 - `tables/`: tabelas de corpus, acrônimos e comparação entre camadas.
-- `references.bib`: referências em estilo ABNT numérico (`abntex2-num`).
+- `references.bib`: referências em formato SBC (`sbc.bst`).
 - `sbc-template.sty`, `sbc.bst`: arquivos do template original.
 
 ## Ajustes antes da submissão
 
-- Confirmar autores, afiliação, e-mail e ORCID no preâmbulo de `main.tex`.
-- O pacote `orcidlink` do template foi substituído por um comando simples porque
-  conflita com o `babel` nesta versão do TeX Live; se o ambiente de submissão
-  suportar, basta restaurar `\usepackage{orcidlink}`.
+- Confirmar autores, afiliação e email no preâmbulo de `main.tex`. O ORCID não é obrigatório.
+- As referências seguem o formato SBC do template (`sbc.bst`).
 - Conferir os dados bibliográficos das referências no sistema do evento.

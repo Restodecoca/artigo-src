@@ -6,25 +6,19 @@
 \usepackage[brazilian]{babel}
 \usepackage{etoolbox}
 
-% Fallback simples: o pacote orcidlink conflita com o babel nesta versão do TeX Live.
-\newcommand{\orcidlink}[1]{\textsuperscript{ORCID: #1}}
-
 \sloppy
 \setlength{\parskip}{1pt}
 \setlength{\abovecaptionskip}{3pt}
 \setlength{\belowcaptionskip}{0pt}
 \setlength{\intextsep}{4pt}
 \setlength{\textfloatsep}{6pt}
-\patchcmd{\thebibliography}{\itemindent -\leftmargin}{\itemindent 0pt}{}{}
-\AtBeginDocument{\renewcommand{\refname}{\makebox[\linewidth][c]{REFER\^{E}NCIAS}}}
-\patchcmd{\thebibliography}{\section*{\refname}}{\section*{\hfill\refname\hfill}}{}{}
 
 % Short paper (4 pages), WCAMA 2026 / formato SBC.
 % Ajuste autores e afiliação antes da submissão.
 % E-mails de Gabriel Machado e Angelo Resplandes: preencher antes da submissão.
 \title{Conjunto de Dados de NER de Cibersegurança em Notícias de Saúde: Construção, Camadas de Anotação e Avaliação}
 
-\author{Gabriel S. Rodrigues\inst{1} \orcidlink{0009-0000-3577-5277}, Gabriel Machado\inst{1}, Angelo Resplandes\inst{1}
+\author{Gabriel S. Rodrigues\inst{1}, Gabriel Machado\inst{1}, Angelo Resplandes\inst{1}
 }
 
 \address{Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA) \\
@@ -63,7 +57,7 @@
 \vspace{4pt}
 \noindent\textbf{Declaração sobre uso de IA.} Ferramentas de IA foram usadas para pré-anotação, leitura assistida e apoio à redação. Todas as anotações foram revisadas e aprovadas por anotadores humanos. Os autores são responsáveis pelo conteúdo e pelas decisões científicas.
 
-\bibliographystyle{abntex2-num}
+\bibliographystyle{sbc}
 \bibliography{references}
 }
 
