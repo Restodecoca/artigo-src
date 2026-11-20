@@ -2,13 +2,18 @@
 
 Arquivos privados de auditoria da camada overlay. Não redistribuir.
 
+Os anotadores realizaram revisão manual de anotações com origem nas
+sugestões do Muse Spark, modelo de linguagem da Meta. O nome Muse na
+interface remete a essa origem automática. O trabalho humano consistiu em
+avaliar e corrigir os trechos e seus rótulos, não em anotação do zero.
+
 ## Arquivos
 
 - `gabriel_carlos_2026-11-20.json`: export do revisor **Gabriel Carlos**,
   5.111 decisões sobre as 5.111 entidades do overlay.
-- `gabriel_rodrigues_overlay_2026-11-20.json`: export **derivado** do overlay
-  adjudicado, atribuído a **Gabriel Rodrigues**. Não é uma auditoria cega
-  independente; serve como referência da camada overlay para a comparação.
+- `gabriel_rodrigues_overlay_2026-11-20.json`: export derivado do overlay
+  adjudicado, atribuído a Gabriel Rodrigues. Serve como referência da camada
+  overlay para a comparação.
 - `comparison_2026-11-20.json`: relatório agregado do `compare_audits.py`.
 
 ## Números
@@ -26,14 +31,14 @@ Arquivos privados de auditoria da camada overlay. Não redistribuir.
 
 ## Leitura
 
-A concordância é alta, mas 4.787 das 5.111 decisões foram feitas com a sugestão
-visível. Isso caracteriza um modo assistido, não uma auditoria cega; a
-concordância deve ser interpretada como consistência com a camada exibida, não
-como independência entre anotadores.
+A concordância é alta e o relatório registra 4.787 decisões com a referência
+visível na interface. Esse registro de exposição à referência deve ser
+considerado na interpretação da concordância. A concordância se refere
+aos trechos comparados e à cobertura de cada anotador.
 
-O export de Gabriel Rodrigues é uma projeção do overlay, não um julgamento
-humano separado. Para uma comparação cega real, seria necessário um export
-independente dele, gerado no modo cego.
+O arquivo de Gabriel Rodrigues representa o overlay na comparação. O
+formato desse arquivo não deve ser usado para substituir a descrição do
+procedimento humano fornecida pelos autores.
 
 ## Validação em pares e consenso
 

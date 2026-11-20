@@ -8,6 +8,11 @@ dados ou resultados do artigo.
 
 ## O que foi feito
 
+As anotações iniciais foram geradas pelo Muse Spark, modelo de linguagem da
+Meta, e posteriormente revisadas manualmente pelos anotadores humanos.
+Essa revisão incluiu correções dos trechos e das categorias, além da
+inclusão de entidades ausentes. Não se trata de anotação humana do zero.
+
 - Construída uma amostra própria: 329 URLs, 314 textos extraídos e 299 notícias
   retidas.
 - Mantida a anotação Muse silver original (2.103 entidades) e criado um overlay

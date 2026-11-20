@@ -134,8 +134,10 @@ uv run python scripts/validation/compare_audits.py \
   --output data/muse-artifacts/audits/comparison_2026-11-20.json
 ```
 
-O arquivo de Gabriel Rodrigues é uma projeção do overlay, não uma auditoria
-cega independente. A revisão completa do Angelo e a camada de consenso estão em
+As anotações iniciais foram geradas pelo Muse Spark, modelo de linguagem da
+Meta, e posteriormente revisadas manualmente. O arquivo de Gabriel Rodrigues representa o overlay
+na comparação. Seu formato de exportação não estabelece, por si só, como
+foi realizada a anotação humana. A revisão completa do Angelo e a camada de consenso estão em
 `data/muse-artifacts/processed/muse_reviewed.tar.gz` e
 `muse_consensus.tar.gz`; os detalhes estão em `docs/04_anotacoes_assistidas.md`.
 

@@ -1,17 +1,13 @@
 \begin{table}[ht]
 \centering
-\caption{Comparação entre camadas de anotação (F1). ``Parcial ST'' denota \textit{partial same-type}.}
-\label{tab:layers}
-\begin{tabular}{l|c|c|c}
+\caption{Inferência na referência revisada (299 notícias). P e R são precisão e revocação no critério estrito.}
+\label{tab:inferencia}
+\begin{tabular}{l|c|c|c|c}
 \hline
-\textbf{Camada / modelo} & \textbf{\textit{Strict}} & \textbf{Parcial} & \textbf{Parcial ST} \\
+\textbf{Modelo} & \textbf{P} & \textbf{R} & \textbf{F1 estrito} & \textbf{F1 parcial} \\
 \hline
-Inicial / SecureBERT-NER & 0,0450 & 0,1531 & 0,1455 \\
-Inicial / SecureBERT-APTNER & 0,0323 & 0,2019 & 0,1980 \\
-\textit{Overlay} / SecureBERT-NER & 0,0809 & 0,2617 & 0,2486 \\
-\textit{Overlay} / SecureBERT-APTNER & 0,0507 & 0,2933 & 0,2891 \\
-\textit{Overlay} + adições / SecureBERT-NER & \textbf{0,0852} & 0,2795 & 0,2645 \\
-\textit{Overlay} + adições / SecureBERT-APTNER & 0,0532 & \textbf{0,3111} & \textbf{0,3053} \\
+SecureBERT NER & 0,0896 & 0,0738 & 0,0809 & 0,2617 \\
+SecureBERT APTNER & 0,0622 & 0,0428 & 0,0507 & 0,2933 \\
 \hline
 \end{tabular}
 \end{table}

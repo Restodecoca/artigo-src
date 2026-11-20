@@ -3,20 +3,24 @@
 
 \subsection{Protocolo de avaliação}
 
-Foram avaliados os \textit{checkpoints} públicos SecureBERT-NER e SecureBERT-APTNER, com revisões fixadas e registradas no artefato de resultados, em inferência sobre os 299 documentos. Os artigos completos foram processados com limite de 512 \textit{tokens}, janelas alinhadas a palavras e \textit{stride} de 128. Para medir a influência da camada de anotação, a avaliação foi repetida sobre a camada inicial e sobre o \textit{overlay}. Três definições de correspondência foram empregadas. \textit{Strict} exige limites e tipo exatos. \textit{Partial} considera sobreposição de \textit{spans} sem exigir o tipo. \textit{Partial same-type} exige sobreposição e tipo correto. Essas métricas não são intercambiáveis.
+A inferência sem treinamento adicional utilizou as variantes NER e APTNER do SecureBERT, com versões fixadas na configuração experimental. Os 299 textos foram processados em janelas alinhadas a palavras, de até 512 \textit{tokens}, com sobreposição configurada por \textit{stride}~128.
 
-Para o ajuste fino do SecureBERT-NER, adotou-se divisão documental fixa de 179 documentos para treino, 60 para validação e 60 para teste (\textit{seed}~2024), cinco épocas, sequência máxima de 512 \textit{tokens} e \textit{stride}~128. A cabeça BIO possui nove rótulos (\texttt{O} e \texttt{B/I} para as quatro categorias). Foram comparadas quatro receitas com três \textit{seeds}: atualização completa (\textit{Full}), \textit{adapters} de baixo \textit{rank} (\textit{LoRA+}), entropia cruzada ponderada (\textit{CCE}) e \textit{Repeated OverSampling} (\textit{ROS}). Resultados são médias~$\pm$~desvio padrão entre \textit{seeds}.
+Calculamos precisão, revocação e F1 a partir das entidades agregadas. A precisão mede a proporção de previsões corretas. A revocação mede a proporção das entidades de referência recuperadas. O F1 é a média harmônica dessas medidas. A correspondência estrita exige limites e categoria exatos. A parcial aceita sobreposição sem exigir a categoria. A parcial de mesmo tipo exige sobreposição e categoria correta. As três regras não são intercambiáveis.
 
-\subsection{Inferência e comparação entre camadas}
+\subsection{Avaliação dos modelos sem ajuste}
 
-A Tabela~\ref{tab:layers} apresenta a comparação entre camadas. Na avaliação contra o \textit{overlay}, o F1 \textit{strict} do SecureBERT-NER passou de 0,0450 para 0,0809 e o F1 \textit{partial}, de 0,1531 para 0,2617. No \textit{overlay}, o SecureBERT-APTNER obteve F1 \textit{partial} 0,2933 e F1 \textit{partial same-type} 0,2891, maiores que o NER, mas menor F1 \textit{strict}.
-
-Na camada aumentada, o SecureBERT-NER atingiu 0,0852 de F1 \textit{strict} e 0,2795 de F1 \textit{partial}, e o SecureBERT-APTNER, 0,0532 e 0,3111.
+A Tabela~\ref{tab:inferencia} apresenta a avaliação contra a referência revisada. A variante NER foi superior no critério estrito, enquanto a APTNER obteve maior F1 parcial. A diferença entre os critérios sugere dificuldades na delimitação ou classificação dos trechos. Uma sobreposição parcial não significa reconhecimento inteiramente correto.
 
 \input{tables/layers}
 
-\subsection{Ajuste fino}
+Ambos tiveram baixa revocação, coerente com a dificuldade de recuperar entidades relatada no original. Entretanto, não observamos o mesmo padrão de precisão relativamente alta: no critério estrito, ela ficou abaixo de 0,09. As diferenças de corpus, extensão dos textos e anotação impedem atribuir essa divergência apenas aos modelos.
 
-Na camada \textit{overlay}, \textit{Full}, \textit{Full+CCE} e \textit{Full+ROS} atingiram 0,4336~$\pm$~0,0056, 0,4421~$\pm$~0,0049 e 0,4410~$\pm$~0,0073 de F1 \textit{strict}, contra 0,1061~$\pm$~0,0152 do \textit{LoRA+}. Em F1 \textit{partial same-type}, o \textit{Full+ROS} obteve 0,5602~$\pm$~0,0038. Experimentos cruzados com o \textit{Full} reforçam a sensibilidade à camada: treino inicial/teste \textit{overlay} atingiu 0,2403 de F1 \textit{strict} e 0,3699 de F1 \textit{partial same-type}. A configuração inversa atingiu 0,2379 e 0,3033. A diagonal \textit{overlay}/\textit{overlay} atingiu 0,4336 e 0,5528.
+\subsection{Extensão com ajuste fino}
 
-Três anotações foram sobrepostas por \textit{span} exato: a concordância foi 98,8\% (kappa 0,980) entre \textit{overlay} e auditoria, 99,5\% (0,992) entre auditoria e revisão, e 90,9\% dos \textit{spans} do \textit{overlay} confirmados na revisão. A camada de consenso tem 9.318 \textit{spans} (4.640 com três anotadores). Em uma execução pareada de três \textit{seeds}, o \textit{Full} atingiu 0,8330/0,9033 de F1 \textit{strict}/\textit{partial same-type}, contra 0,4451/0,5778 no \textit{overlay}. A comparação cruzada é menor e reflete a política de \textit{spans}.
+Selecionamos o ajuste completo (\textit{Full}) da variante NER para analisar a influência da anotação. Todos os pesos foram atualizados, com nova camada de classificação para as quatro categorias. Usamos divisão fixa de 179 documentos para treino, 60 para validação e 60 para teste (\textit{seed}~2024), cinco épocas e as mesmas janelas. As duas referências usaram os mesmos documentos em cada partição. A Tabela~\ref{tab:finetuning} reúne uma série pareada de três \textit{seeds} de treino (42, 123 e 2024), com média e desvio padrão.
+
+\input{tables/finetuning}
+
+O maior F1 ocorreu com treino e teste na referência de consenso, que inclui todas as menções. Porém, trocar apenas a referência do teste também altera o resultado de um mesmo modelo treinado, como mostram as avaliações cruzadas. Logo, o F1 de 0,8330 não demonstra, isoladamente, superioridade geral do modelo ou correção das anotações: ele reflete a adaptação a essa política.
+
+A inferência da Tabela~\ref{tab:inferencia} usa 299 documentos, enquanto o ajuste fino é avaliado nos 60 de teste. Seus valores não constituem uma comparação controlada antes e depois do ajuste. Outras configurações de ajuste e versões intermediárias de anotação permanecem na documentação do projeto, fora do recorte deste artigo.

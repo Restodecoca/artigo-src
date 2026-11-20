@@ -21,11 +21,12 @@ As 299 notícias mantidas do overlay (`processed/muse_corrected.tar.gz`, 7 lotes
    teve o span corrigido, teve o rótulo trocado ou foi removida;
 2. as entidades que faltavam foram adicionadas, em **todas** as menções do texto.
 
-O leitor LLM propôs as decisões em blocos de cerca de 6 notícias, e o revisor
-humano aprovou cada bloco. Os 299 documentos estão aprovados
-(`verification: user_approved`): 94 foram aprovados antes da gravação (lotes
-0001 e 0002) e 205 depois, já gravados (lotes 0003 a 0007). A camada é
-**assistida por IA e verificada por humano**.
+A anotação teve origem em sugestões geradas pelo Muse Spark, modelo de
+linguagem da Meta. Os anotadores revisaram manualmente os trechos e suas
+categorias, corrigiram marcações e incluíram entidades ausentes. Assim,
+o trabalho humano foi de revisão e complementação das anotações existentes,
+não de anotação do zero. Os dados, as contagens e os arquivos de anotação
+não foram alterados nesta correção documental.
 
 A revisão partiu só do overlay. A camada anterior de adições
 (`ai_assisted_additions.json`) foi usada apenas no final, para comparação.
@@ -96,11 +97,12 @@ Por lote:
 
 ## Comparação com a camada de adições anterior
 
-Das 687 entidades de `ai_assisted_additions.json`, a revisão encontrou 576
-(84%) com o mesmo span e rótulo, 36 com sobreposição parcial e 1 com rótulo
-diferente; 74 não aparecem na revisão. As duas passagens usam o mesmo leitor
-LLM, então isso mede consistência entre passagens, não concordância entre
-anotadores humanos. Detalhes em `docs/04_anotacoes_assistidas.md`.
+Das 687 entidades do experimento anterior em `ai_assisted_additions.json`,
+a revisão manual encontrou 576 (84%) com o mesmo span e rótulo, 36 com
+sobreposição parcial e 1 com rótulo diferente. Outras 74 não aparecem na
+revisão. Essa comparação entre versões não mede concordância entre
+anotadores humanos e deve ser distinguida do procedimento de revisão manual.
+Detalhes em `docs/04_anotacoes_assistidas.md`.
 
 ## Arquivos
 

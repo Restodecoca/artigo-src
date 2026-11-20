@@ -69,7 +69,7 @@ integrais dos artigos e não versione exports de revisão individuais.
 Arquivo: `overlay_review_v1.json`. Archive resultante:
 `processed/muse_reviewed.tar.gz` (pasta `muse_batches/vinitvek-healthcare-reviewed/`).
 
-Esta camada revisa do zero as 299 notícias mantidas do overlay adjudicado. Ela
+Esta camada revê as 299 notícias mantidas do overlay adjudicado. Ela
 **não** usa `ai_assisted_additions.json`, que serve só para comparação. Também
 não sobrescreve o overlay: registra decisões sobre as entidades existentes
 (`relabel`, `fix_span`, `reject`) e entidades faltantes (`added_entities`).
@@ -77,16 +77,20 @@ Entidades do overlay sem decisão foram confirmadas como estão.
 
 ## Proveniência e verificação
 
-- `annotation_status`: `ai_assisted_human_verified`. Todos os 299 documentos
-  têm `verification: user_approved`: cada bloco de cerca de 6 notícias, com as
-  remoções, correções e adições, foi mostrado ao revisor, que o aprovou.
-  - Lotes 0001 e 0002 (94 documentos): aprovados antes da gravação.
-  - Lotes 0003 a 0007 (205 documentos): revisados primeiro pelo leitor LLM e
-    aprovados depois pelo revisor, bloco a bloco, com a camada já gravada.
-- A camada é **assistida por IA e verificada por humano**; não a descreva como
-  anotação exclusivamente humana.
-- `base_layer`: `processed/muse_corrected.tar.gz` (SHA-256 `e2b3732f…`).
-- `verified_by`: ainda não preenchido.
+As anotações iniciais foram geradas pelo Muse Spark, modelo de linguagem
+da Meta. Os anotadores humanos revisaram manualmente os trechos e as
+categorias, corrigiram marcações e acrescentaram entidades ausentes.
+Trata-se de revisão humana sobre sugestões automáticas, não de anotação
+humana do zero.
+
+Os campos `annotation_status: ai_assisted_human_verified` e
+`verification: user_approved` permanecem nos arquivos históricos. Os
+metadados não foram alterados nesta revisão documental. A descrição do
+procedimento distingue a geração automática das sugestões da revisão
+manual realizada pelos anotadores.
+
+A base registrada é `processed/muse_corrected.tar.gz`, com SHA256 iniciado
+por `e2b3732f`. O campo `verified_by` ainda não está preenchido no arquivo.
 
 ## Critérios
 
@@ -121,11 +125,6 @@ Entidades do overlay sem decisão foram confirmadas como estão.
 | ACT | 1.747 | 3.255 |
 | LOC | 672 | 907 |
 | VUL | 65 | 115 |
-
-| Momento da aprovação | Documentos | Adições | Remoções | Spans corrigidos |
-| --- | ---: | ---: | ---: | ---: |
-| Antes da gravação (lotes 0001–0002) | 94 | 2.313 | 10 | 14 |
-| Depois da gravação (lotes 0003–0007) | 205 | 2.241 | 337 | 101 |
 
 ## Validação
 

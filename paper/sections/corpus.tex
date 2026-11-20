@@ -1,22 +1,18 @@
-\section{Corpus e anotações}
+\section{Reconstrução do experimento}
 \label{sec:corpus}
 
 \subsection{Construção do corpus}
 
-As URLs foram obtidas do conjunto público \texttt{vinitvek/cybersecurityattacks} e filtradas para notícias do setor de saúde publicadas em 2023. Para cada URL selecionada, recuperou-se o texto completo da página de origem. A Tabela~\ref{tab:corpus} resume as etapas. Foram 15 falhas de extração e 15 páginas descartadas na triagem. Os textos integrais são mantidos localmente por restrições de direito autoral e privacidade. O repositório público descreve o protocolo, mas não redistribui esse conteúdo.
+As URLs vieram do conjunto público \texttt{vinitvek/cybersecurityattacks}\footnote{\url{https://huggingface.co/datasets/vinitvek/cybersecurityattacks}}, filtrado por setor de saúde e pelo intervalo de 1 de janeiro a 30 de outubro de 2023. Os links serviram como índice para coletar, com Firecrawl, os textos completos nas páginas de origem, e não apenas os resumos do conjunto público. Das 329 URLs únicas selecionadas, 314 tiveram extração concluída. Após excluir 15 páginas inutilizáveis, restaram 299 notícias.
 
-\input{tables/corpus}
+O original avaliou 60 notícias anotadas manualmente, limitadas aos primeiros 400 \textit{tokens}. Aqui, avaliamos textos completos com anotações automáticas revisadas manualmente. Portanto, mantivemos a tarefa, mas modificamos a seleção, a extensão dos textos e a produção das referências.
 
-\subsection{Protocolo e camadas de anotação}
+\subsection{Referências de anotação}
 
-O protocolo adota quatro categorias: \texttt{IDTY} (organização ou instituição), \texttt{ACT} (ação, incidente ou tipo de ataque), \texttt{VUL} (vulnerabilidade, falha ou CVE) e \texttt{LOC} (localidade geográfica). Duas camadas separadas foram construídas sobre os mesmos 299 documentos. A camada inicial é uma pré-anotação \textit{silver} gerada por modelo de linguagem, com 2.103 entidades, preservada como registro do método original. O \textit{overlay} adjudicado resultou da revisão em sete lotes e de uma segunda etapa de adjudicação, totalizando 5.111 entidades, com contagem por categoria de IDTY~=~2.627, ACT~=~1.747, VUL~=~65 e LOC~=~672. O \textit{overlay} não sobrescreve a camada inicial: as duas camadas coexistem para permitir análise de sensibilidade.
+A anotação partiu de sugestões geradas pelo Muse Spark 1.3, um modelo de linguagem desenvolvido pela Meta \cite{meta2026muse}. Os anotadores revisaram manualmente os trechos e suas categorias, corrigiram marcações e acrescentaram entidades ausentes. Cada anotação delimita um trecho do texto e atribui uma categoria. Foram usadas quatro categorias. \texttt{IDTY} identifica organizações ou instituições. \texttt{ACT} corresponde a ações ou tipos de ataque. \texttt{VUL} marca vulnerabilidades. \texttt{LOC} identifica localidades geográficas.
 
-Além dessas duas camadas, uma camada separada de adições foi construída com leitura integral por LLM e confirmação humana: 687 entidades em 208 dos 299 documentos, com uma menção por forma superficial (IDTY~=~459, ACT~=~106, LOC~=~101, VUL~=~21), elevando o total para 5.798. Ela é registrada como \texttt{ai-assisted, human-verified}, não sobrescreve o \textit{overlay} e não é uma anotação exclusivamente humana. Das adições, 24 já estavam na camada inicial, 9 tinham sobreposição parcial ou rótulo divergente e 654 não estavam em nenhuma das duas camadas.
+A referência revisada, denominada \textit{overlay} nos artefatos, reúne 5.111 entidades nos 299 documentos. São 2.627 IDTY, 1.747 ACT, 65 VUL e 672 LOC. A referência de consenso contém 9.318 entidades e inclui menções repetidas da mesma entidade ao longo do texto. Na consolidação, foram mantidos os trechos da revisão final. Quando os mesmos limites apareciam nas outras anotações, os rótulos foram conciliados por voto majoritário. Em empate, prevaleceu o rótulo da revisão final. Trechos removidos ou corrigidos nessa revisão não foram reintroduzidos.
 
-\input{tables/acronyms}
+A cobertura não foi igual entre os anotadores. Dos trechos da referência de consenso, 4.640 têm três registros de anotação, 10 têm dois e 4.668 pertencem apenas à revisão final. Assim, as medidas de concordância entre os anotadores se referem aos trechos em comum, não à totalidade das 9.318 entidades.
 
-A validação automática verificou estrutura, esquema, \textit{offsets} e \textit{spans} malformados ou sobrepostos, mas não estabelece correção semântica. Para complementá-la, foi desenvolvida uma ferramenta de auditoria executada inteiramente no navegador: cada revisor categoriza as entidades da fila, registra incerteza e observações e exporta um JSON com identificadores, \textit{spans} e rótulos. A ferramenta permite também \textbf{adicionar novos \textit{spans}} selecionados no texto ou informados manualmente, marcados como \texttt{origin=custom} na exportação e separados das sugestões da camada inicial no cálculo de concordância. Assim, omissões da pré-anotação não exigem alteração dos artefatos originais.
-
-\subsection{Considerações de privacidade}
-
-Os artefatos públicos contêm apenas identificadores de documento, \textit{offsets}, rótulos e metadados agregados. Informações pessoais identificáveis não são incluídas. Os \textit{exports} da auditoria são tratados como material restrito e não são versionados.
+Uma ferramenta local apoiou a conferência e a inclusão de entidades ausentes. Validadores automáticos verificaram rótulos e posições dos trechos, mas não garantem correção semântica. Nenhuma dessas referências equivale à anotação manual original.

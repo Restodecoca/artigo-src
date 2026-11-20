@@ -6,7 +6,12 @@ estudo sobre NER em notícias de cibersegurança na área da saúde.
 1. [Dataset e processo de rotulagem](01_dataset_e_rotulagem.md)
 2. [Avaliação dos modelos](02_avaliacao_modelos.md)
 3. [Fine-tuning, resultados e verificações](03_finetuning_e_verificacoes.md)
-4. [Anotações assistidas, camada aumentada, validação em pares e consenso](04_anotacoes_assistidas.md)
+4. [Anotações humanas, consenso e histórico experimental](04_anotacoes_assistidas.md)
+
+A anotação descrita no artigo partiu de sugestões do Muse Spark, modelo de
+linguagem da Meta. Os anotadores revisaram manualmente os trechos e as
+categorias e acrescentaram entidades ausentes. Os registros dos demais
+experimentos preliminares permanecem separados desse procedimento.
 
 A apresentação do Marco 3 está em
 `marco3_apresentacao_com_resumo_e_conclusao.pptx`. A continuação do Marco 4,

@@ -23,15 +23,21 @@ o texto completo das páginas de origem.
 Os textos completos e os resultados por documento são restritos e não são
 incluídos neste repositório.
 
-## Camadas de anotação
+## Referências de anotação
 
-O projeto preserva duas camadas independentes:
+As anotações iniciais foram geradas pelo Muse Spark, modelo de linguagem da
+Meta. Os anotadores revisaram manualmente os trechos e suas categorias,
+corrigiram marcações e acrescentaram entidades ausentes. O artigo utiliza
+duas referências sobre os mesmos 299 documentos. Esse procedimento não é
+uma anotação humana do zero.
 
-- **Muse original:** pré-anotação assistida, com 2.103 entidades nos 299
-  documentos retidos. É uma camada *silver*, não um gold manual verificado.
-- **Overlay adjudicado:** revisão em sete lotes seguida de uma segunda etapa de
-  adjudicação. Contém 5.111 entidades nos mesmos 299 documentos. Não sobrescreve
-  nem substitui as labels originais.
+A referência revisada, denominada overlay nos artefatos, contém 5.111
+entidades. A referência de consenso reúne 9.318 entidades e inclui menções
+repetidas da mesma entidade no texto. As versões são mantidas separadas.
+
+A cobertura não é uniforme. Na referência de consenso, 4.640 trechos têm
+três registros de anotação, 10 têm dois e 4.668 pertencem apenas à revisão
+final. A concordância deve ser interpretada nos trechos compartilhados.
 
 Contagem do overlay: `IDTY=2.627`, `ACT=1.747`, `LOC=672` e `VUL=65`.
 
@@ -47,11 +53,13 @@ malformados/sobrepostos. Essa verificação não estabelece, por si só, a corre
 semântica das anotações. O overlay também não é o gold manual original do
 artigo.
 
-A auditoria humana da camada Muse pode ser feita com
-`scripts/validation/muse_audit.html`; os exports de cada revisor são
-consolidados por `scripts/validation/compare_audits.py`. Os archives privados
-das duas camadas estão em `data/muse-artifacts/`, e o procedimento e as métricas
-de concordância estão em `scripts/validation/README.md`.
+A ferramenta `scripts/validation/muse_audit.html` apoia a anotação manual e a
+conferência das categorias. Os arquivos de cada revisor são consolidados por
+`scripts/validation/compare_audits.py`. O nome Muse na interface e nos
+caminhos remete à origem automática das sugestões. A revisão dessas
+sugestões foi realizada manualmente. Os arquivos privados estão em
+`data/muse-artifacts/`. O procedimento e as métricas de concordância estão em
+`scripts/validation/README.md`.
 
 ## Referência
 

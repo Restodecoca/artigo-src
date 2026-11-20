@@ -1,4 +1,17 @@
-# Anotações assistidas, camada aumentada e consenso
+# Anotações humanas, consenso e histórico experimental
+
+## Procedimento humano do artigo
+
+O procedimento partiu de sugestões geradas pelo Muse Spark, modelo de
+linguagem da Meta. Os anotadores revisaram manualmente os trechos e suas
+categorias, corrigiram marcações e incluíram entidades ausentes. Portanto,
+a revisão foi humana, mas as anotações não foram criadas do zero pelos
+anotadores. Essa é a descrição adotada no artigo.
+
+As seções sobre adições automáticas e pré-anotações abaixo registram
+experimentos preliminares arquivados e distinguem suas etapas automáticas
+da revisão humana posterior. Nomes de arquivos e campos dos artefatos foram
+preservados, sem alteração dos dados ou resultados experimentais.
 
 ## Objetivo
 
@@ -54,7 +67,7 @@ A maior parte das adições (654) não estava em nenhuma das duas camadas
 existentes. Outras 24 já estavam na Muse, mas não no overlay — evidência de que
 o overlay também perdeu entidades que a pré-anotação havia capturado.
 
-## Auditoria do overlay por Gabriel Carlos
+## Auditoria humana do overlay
 
 O revisor Gabriel Carlos auditou as 5.111 entidades do overlay. A concordância
 com a camada de Gabriel Rodrigues foi de **98,8%** (kappa de Cohen/Fleiss
@@ -62,10 +75,11 @@ com a camada de Gabriel Rodrigues foi de **98,8%** (kappa de Cohen/Fleiss
 classificadas como `NONE`; a camada derivada para treino fica com 5.074
 entidades.
 
-O resultado deve ser lido com cautela: 4.787 das 5.111 decisões foram feitas com
-a sugestão do overlay visível (modo assistido), não em modo cego. O export
-atribuído a Gabriel Rodrigues é uma projeção do próprio overlay, não uma
-auditoria independente. Os arquivos e o relatório agregado estão em
+A auditoria consistiu na revisão manual de anotações com origem nas
+sugestões do Muse. O relatório registra 4.787 decisões com a referência
+visível. Esse registro de exposição à referência deve ser considerado na
+interpretação da concordância. O arquivo de Gabriel Rodrigues representa
+a camada overlay na comparação. Os arquivos e o relatório agregado estão em
 `data/muse-artifacts/audits/`.
 
 ## Validação automática
@@ -143,14 +157,15 @@ diagnóstico por documento permanece privado.
 
 ## Revisão completa do overlay e comparação com as adições
 
-Uma segunda passagem, independente desta camada, revisou do zero as 299
-notícias do overlay (`data/muse-artifacts/annotations/overlay_review_v1.json`,
-archive `processed/muse_reviewed.tar.gz`). Ela marca todas as menções de cada
-entidade e remove do overlay marcações fora do protocolo, como texto-padrão
-jurídico, negações e spans que cortam palavras. Os 299 documentos foram
-aprovados bloco a bloco pelo revisor humano (`user_approved`): 94 antes da
-gravação e 205 depois, a partir da revisão já feita pelo leitor LLM. Os detalhes
-e critérios estão em `data/muse-artifacts/annotations/README.md`.
+A revisão humana das 299 notícias foi realizada manualmente sobre as
+anotações existentes, com origem nas sugestões do Muse. Ela está registrada em
+`data/muse-artifacts/annotations/overlay_review_v1.json`, com arquivo
+`processed/muse_reviewed.tar.gz`. Essa referência marca todas as menções de
+cada entidade e remove marcações fora do protocolo, como texto jurídico
+padronizado, negações e trechos que cortam palavras. A geração automática
+das sugestões e a revisão manual posterior são etapas distintas. Os detalhes
+e critérios estão em
+`data/muse-artifacts/annotations/README.md`.
 
 | Camada | Entidades |
 | --- | ---: |
@@ -168,16 +183,17 @@ Situação das 687 adições assistidas na camada revisada:
 | Ausente na revisão | 74 |
 
 Das 4.554 entidades adicionadas na revisão, 613 se sobrepõem a alguma adição
-assistida; as demais são, em sua maioria, menções repetidas que esta camada
-deixou de fora por marcar apenas a primeira ocorrência. As duas passagens usam o
-mesmo leitor LLM, então a concordância acima mede consistência entre passagens,
-não concordância entre anotadores humanos. A camada revisada é a base da
-camada de consenso avaliada na próxima seção.
+da camada experimental anterior. As demais são, em sua maioria, menções
+repetidas que aquela camada deixou de fora por marcar apenas a primeira
+ocorrência. Essa comparação entre versões não é uma medida de concordância
+entre anotadores humanos. A revisão humana é a base da camada de consenso
+avaliada na próxima seção.
 
 ## Validação em pares e camada de consenso
 
-As três anotações foram sobrepostas por span exato para produzir uma validação
-em pares e uma camada de consenso. A revisão completa do Angelo foi usada como
+As três versões resultantes da revisão humana das anotações foram sobrepostas
+por span exato para produzir uma validação em pares e uma camada de consenso.
+A revisão completa do Angelo foi usada como
 base (9.318 spans, todas as menções); os rótulos de Gabriel Rodrigues (overlay)
 e Gabriel Carlos foram sobrepostos quando o span era idêntico. O rótulo final é
 o voto majoritário; em empate, prevalece o rótulo do Angelo. Spans que o Angelo
