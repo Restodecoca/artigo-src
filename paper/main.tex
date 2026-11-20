@@ -21,19 +21,20 @@
 
 % Short paper (4 pages), WCAMA 2026 / formato SBC.
 % Ajuste autores e afiliação antes da submissão.
+% E-mails de Gabriel Machado e Angelo Resplandes: preencher antes da submissão.
 \title{Conjunto de Dados de NER de Cibersegurança em Notícias de Saúde: Construção, Camadas de Anotação e Avaliação}
 
-\author{Gabriel S. Rodrigues\inst{1} \orcidlink{0009-0000-3577-5277}
+\author{Gabriel S. Rodrigues\inst{1} \orcidlink{0009-0000-3577-5277}, Gabriel Machado\inst{1}, Angelo Resplandes\inst{1}
 }
 
 \address{Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA) \\
- Marabá - Pará - Brasil
+ Marabá, Pará, Brasil
  \email{gabriel.s\_r@unifesspa.edu.br}
 }
 
 \pdfinfo{
   /Title (Conjunto de Dados de NER de Ciberseguranca em Noticias de Saude: Construcao, Camadas de Anotacao e Avaliacao)
-  /Author (Gabriel S. Rodrigues)
+  /Author (Gabriel S. Rodrigues, Gabriel Machado, Angelo Resplandes)
   /Subject (Dataset paper)
 }
 
@@ -43,14 +44,14 @@
 
 \begin{resumo}
   \normalfont
-  Notícias sobre incidentes cibernéticos em instituições de saúde são uma fonte relevante, porém ruidosa, para reconhecimento de entidades nomeadas (NER). Este trabalho apresenta um conjunto de dados para apoiar a reconstrução metodológica de um estudo sobre NER em cibersegurança na área da saúde. De 329 URLs públicas filtradas pelo setor de saúde e pelo ano de 2023, obtiveram-se 314 textos extraídos e 299 notícias retidas. O recurso organiza duas camadas separadas sobre os mesmos documentos: uma pré-anotação \textit{silver} por modelo de linguagem (Muse), com 2.103 entidades, e um \textit{overlay} adjudicado, com 5.111 entidades nas categorias IDTY, ACT, VUL e LOC. Uma camada separada de 687 adições assistidas por IA e verificadas por humano eleva o total para 5.798 entidades. A avaliação com SecureBERT mostra que o desempenho varia conforme a camada e a métrica: no \textit{overlay}, o SecureBERT-NER atinge 0,0809 de F1 \textit{strict} e 0,2617 de F1 \textit{partial}; na camada aumentada, 0,0852 e 0,2795. O ajuste fino \textit{Full} no \textit{overlay} atinge 0,4336~$\pm$~0,0056 de F1 \textit{strict}; na camada de consenso (9.318 entidades), alcança 0,8330~$\pm$~0,0027 de F1 \textit{strict} e 0,9033~$\pm$~0,0018 de F1 \textit{partial same-type}. Uma ferramenta local de auditoria permite revisão independente e inclusão de entidades omitidas pela pré-anotação.
-  \textbf{Palavras-chave:} conjunto de dados; reconhecimento de entidades nomeadas; cibersegurança; notícias de saúde; anotação assistida.
+  Notícias sobre incidentes cibernéticos em instituições de saúde são uma fonte relevante para reconhecimento de entidades nomeadas (NER). Este estudo começou como uma replicação do trabalho de Paim e Ignaczak e construiu um conjunto de dados próprio a partir de 329 URLs, com 314 textos extraídos e 299 notícias retidas. O recurso contém uma pré-anotação inicial por modelo de linguagem, com 2.103 entidades, e um \textit{overlay} adjudicado com 5.111 entidades nas categorias organização/instituição, ação/incidente, vulnerabilidade e localidade geográfica. A avaliação com SecureBERT mostra que o desempenho varia conforme a camada e a métrica: no \textit{overlay}, o F1 \textit{strict} é 0,0809 e o F1 \textit{partial} é 0,2617. O ajuste fino \textit{Full} atinge 0,4336 de F1 \textit{strict} no \textit{overlay}. Na camada de consenso, atinge 0,8330 de F1 \textit{strict} e 0,9033 de F1 \textit{partial same-type}. Uma ferramenta local permite revisar e acrescentar entidades.
+  \textbf{Palavras-chave:} conjunto de dados, reconhecimento de entidades nomeadas, cibersegurança, notícias de saúde, anotação assistida.
 \end{resumo}
 
 \begin{abstract}
   \normalfont
-  News reports about cybersecurity incidents in healthcare are a noisy but valuable source for named entity recognition (NER). We present a \textit{dataset} supporting the methodological reconstruction of a study on NER in healthcare cybersecurity. From 329 public URLs filtered by healthcare domain and publication year 2023, we extracted 314 texts and retained 299 news articles. The resource provides two separate annotation layers over the same documents: a \textit{silver} LLM-generated layer (Muse) with 2,103 entities, and an adjudicated \textit{overlay} with 5,111 entities in the IDTY, ACT, VUL and LOC categories. A separate layer of 687 \textit{AI-assisted}, \textit{human-verified} additions raises the total to 5,798 entities. Evaluation with SecureBERT shows that performance depends on the annotation layer and metric definition: on the \textit{overlay}, SecureBERT-NER reaches 0.0809 \textit{strict} F1 and 0.2617 \textit{partial} F1; on the augmented layer, 0.0852 and 0.2795. \textit{Full fine-tuning} on the \textit{overlay} reaches 0.4336~$\pm$~0.0056 \textit{strict} F1; on the consensus layer (9,318 entities), it reaches 0.8330~$\pm$~0.0027 \textit{strict} F1 and 0.9033~$\pm$~0.0018 \textit{partial same-type} F1. A local audit tool supports independent review and addition of entities missed by the \textit{silver} layer.
-  \textbf{Keywords:} dataset; named entity recognition; cybersecurity; healthcare news; assisted annotation.
+  News reports about cybersecurity incidents in healthcare are a valuable source for named entity recognition (NER). This study started as a replication of Paim and Ignaczak and built a dataset from 329 URLs, with 314 extracted texts and 299 retained news articles. The resource contains an initial LLM pre-annotation with 2,103 entities and an adjudicated \textit{overlay} with 5,111 entities in the organization/institution, action/incident, vulnerability and location categories. Evaluation with SecureBERT shows that performance depends on the layer and metric: on the \textit{overlay}, \textit{strict} F1 is 0.0809 and \textit{partial} F1 is 0.2617. \textit{Full fine-tuning} reaches 0.4336 \textit{strict} F1 on the \textit{overlay}. On the consensus layer, it reaches 0.8330 \textit{strict} F1 and 0.9033 \textit{partial same-type} F1. A local tool supports review and addition of entities.
+  \textbf{Keywords:} dataset, named entity recognition, cybersecurity, healthcare news, assisted annotation.
 \end{abstract}
 
 \input{sections/intro}
@@ -59,6 +60,9 @@
 \input{sections/conclusao}
 
 {\normalsize
+\vspace{4pt}
+\noindent\textbf{Declaração sobre uso de IA.} Ferramentas de IA foram usadas para pré-anotação, leitura assistida e apoio à redação. Todas as anotações foram revisadas e aprovadas por anotadores humanos. Os autores são responsáveis pelo conteúdo e pelas decisões científicas.
+
 \bibliographystyle{abntex2-num}
 \bibliography{references}
 }

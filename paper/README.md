@@ -8,10 +8,10 @@ Template LaTeX extraído de `2026_WCAMA_Dataset_Paper.zip` e adaptado para um
 O rascunho descreve o conjunto de dados deste repositório:
 
 - 329 URLs selecionadas, 314 textos extraídos e 299 notícias retidas;
-- camada Muse (`silver`, 2.103 entidades) e overlay adjudicado (5.111 entidades);
+- camada inicial (`silver`, 2.103 entidades) e overlay adjudicado (5.111 entidades);
 - camada separada de 687 adições assistidas por IA e verificadas por humano,
   totalizando 5.798 entidades;
-- avaliação de SecureBERT-NER/APTNER nas camadas Muse, overlay e aumentada;
+- avaliação de SecureBERT-NER/APTNER nas camadas inicial, overlay e aumentada;
 - validação em pares entre três anotações e treino Full na camada de consenso;
 - resultados de fine-tuning (Full, LoRA+, CCE, ROS) no overlay;
 - ferramenta local de auditoria, incluindo a adição de entidades pelo revisor.
