@@ -54,6 +54,20 @@ A maior parte das adições (654) não estava em nenhuma das duas camadas
 existentes. Outras 24 já estavam na Muse, mas não no overlay — evidência de que
 o overlay também perdeu entidades que a pré-anotação havia capturado.
 
+## Auditoria do overlay por Gabriel Carlos
+
+O revisor Gabriel Carlos auditou as 5.111 entidades do overlay. A concordância
+com a camada de Gabriel Rodrigues foi de **98,8%** (kappa de Cohen/Fleiss
+**0,980**). Houve 23 decisões marcadas como incertas e 37 entidades
+classificadas como `NONE`; a camada derivada para treino fica com 5.074
+entidades.
+
+O resultado deve ser lido com cautela: 4.787 das 5.111 decisões foram feitas com
+a sugestão do overlay visível (modo assistido), não em modo cego. O export
+atribuído a Gabriel Rodrigues é uma projeção do próprio overlay, não uma
+auditoria independente. Os arquivos e o relatório agregado estão em
+`data/muse-artifacts/audits/`.
+
 ## Validação automática
 
 ```bash

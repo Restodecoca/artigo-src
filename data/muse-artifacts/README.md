@@ -32,6 +32,8 @@ rejeitados. O overlay não sobrescreve a camada Muse original.
 - `processed/`: archive do overlay adjudicado.
 - `manifests/`: proveniência das fontes, revisão por lote e hashes dos textos.
 - `results/`: resumos agregados das validações T4 (sem texto por documento).
+- `audits/`: exports privados das auditorias humanas e o relatório de concordância.
+- `annotations/`: camada de adições assistidas por IA e verificadas por humano.
 - `checksums.sha256`: hashes dos dois archives.
 
 Os archives contêm pares `batch_*.json` (texto e metadados) e
