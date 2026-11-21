@@ -1,7 +1,7 @@
 \section{Introdução}
 
-Incidentes cibernéticos em hospitais podem interromper o atendimento e expor dados de pacientes. As notícias sobre esses eventos são uma fonte para inteligência de ameaças, mas sua análise exige localizar informações dispersas nos textos. O reconhecimento de entidades nomeadas (NER) pode apoiar essa tarefa ao identificar, por exemplo, a instituição afetada, o ataque e sua localização.
+Incidentes cibernéticos em hospitais podem interromper o atendimento e expor dados de pacientes. Notícias sobre esses eventos apoiam a inteligência de ameaças. O reconhecimento de entidades nomeadas (NER) pode auxiliar sua análise ao identificar instituições, ataques, vulnerabilidades e localidades.
 
-Paim e Ignaczak \cite{paim2025} avaliaram as variantes NER e APTNER do SecureBERT, modelos especializados em cibersegurança derivados da família BERT \cite{devlin2019bert,aghaei2023securebert} e ajustados ao conjunto APTNER \cite{wang2022aptner}. O estudo relatou baixa revocação, isto é, muitas entidades relevantes não foram identificadas. Nosso objetivo inicial era replicar essa avaliação. Entretanto, o corpus e as anotações manuais originais não estavam disponíveis.
+Paim e Ignaczak \cite{paim2025} avaliaram as variantes NER e APTNER do SecureBERT, especializadas em cibersegurança \cite{aghaei2023securebert,wang2022aptner}. Nosso objetivo inicial era replicar essa avaliação, mas o corpus e as anotações originais não estavam disponíveis.
 
-Assim, reconstruímos o procedimento com notícias e anotações próprias, preservando os dois modelos e as quatro categorias de entidade. Investigamos seu desempenho nesse novo corpus e, como extensão, a influência da referência de anotação e do ajuste fino. As mudanças de dados e protocolo impedem uma reprodução numérica ou comparação direta com os resultados originais.
+Preservamos os modelos e as quatro categorias em dados próprios. A extensão avalia duas referências de anotação, sem comparação direta com o original.

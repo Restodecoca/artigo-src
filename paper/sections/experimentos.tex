@@ -3,24 +3,24 @@
 
 \subsection{Protocolo de avaliação}
 
-A inferência sem treinamento adicional utilizou as variantes NER e APTNER do SecureBERT, com versões fixadas na configuração experimental. Os 299 textos foram processados em janelas alinhadas a palavras, de até 512 \textit{tokens}, com sobreposição configurada por \textit{stride}~128.
+A inferência usou as variantes NER e APTNER do SecureBERT\footnote{NER: \texttt{CyberPeace-Institute/SecureBERT-NER}.\newline Revisão: \texttt{7f935a4f7db13697580c881e381bb2636dfa779a}.\newline APTNER: \texttt{Cyber-ThreaD/SecureBERT-APTNER}.\newline Revisão: \texttt{f220a5fbeb8ed9b60a516cf420fc816d9705ce7d}.}, com inventários nativos BIO e BIOES. Removemos prefixos posicionais, mantivemos IDTY, ACT e LOC e mapeamos VULID e VULNAME para VUL. As demais categorias foram descartadas. As janelas de inferência são alinhadas a palavras, com até 510 \textit{tokens} de conteúdo e dois especiais. A sobreposição é de até 128 \textit{tokens}. O agrupamento usa a opção \texttt{simple}. As posições são convertidas para o documento e duplicatas com limites e categoria idênticos são removidas, sem fundir fragmentos diferentes entre janelas.
 
-Calculamos precisão, revocação e F1 a partir das entidades agregadas. A precisão mede a proporção de previsões corretas. A revocação mede a proporção das entidades de referência recuperadas. O F1 é a média harmônica dessas medidas. A correspondência estrita exige limites e categoria exatos. A parcial aceita sobreposição sem exigir a categoria. A parcial de mesmo tipo exige sobreposição e categoria correta. As três regras não são intercambiáveis.
+As métricas são microagregadas sobre menções. O pareamento é máximo e um para um dentro de cada documento. A correspondência estrita exige limites e categoria exatos. A parcial aceita qualquer sobreposição positiva em caracteres, sem exigir a categoria. A parcial tipada também exige a categoria correta. As regras não são intercambiáveis.
 
 \subsection{Avaliação dos modelos sem ajuste}
 
-A Tabela~\ref{tab:inferencia} apresenta a avaliação contra a referência revisada. A variante NER foi superior no critério estrito, enquanto a APTNER obteve maior F1 parcial. A diferença entre os critérios sugere dificuldades na delimitação ou classificação dos trechos. Uma sobreposição parcial não significa reconhecimento inteiramente correto.
+A Tabela~\ref{tab:inferencia} apresenta a avaliação contra a referência revisada. A variante NER obteve maior F1 estrito nesta amostra. A APTNER obteve maior F1 parcial. Sobreposição parcial não significa reconhecimento inteiramente correto.
 
 \input{tables/layers}
 
-Ambos tiveram baixa revocação, coerente com a dificuldade de recuperar entidades relatada no original. Entretanto, não observamos o mesmo padrão de precisão relativamente alta: no critério estrito, ela ficou abaixo de 0,09. As diferenças de corpus, extensão dos textos e anotação impedem atribuir essa divergência apenas aos modelos.
+No original, o NER obteve precisão 0,776, revocação 0,243 e F1 estrito 0,370. Esses valores contextualizam o estudo, mas não constituem um controle comparativo. Aqui, a baixa precisão contra a revisada pode combinar erros dos modelos com omissões e diferenças de limites da referência.
 
 \subsection{Extensão com ajuste fino}
 
-Selecionamos o ajuste completo (\textit{Full}) da variante NER para analisar a influência da anotação. Todos os pesos foram atualizados, com nova camada de classificação para as quatro categorias. Usamos divisão fixa de 179 documentos para treino, 60 para validação e 60 para teste (\textit{seed}~2024), cinco épocas e as mesmas janelas. As duas referências usaram os mesmos documentos em cada partição. A Tabela~\ref{tab:finetuning} reúne uma série pareada de três \textit{seeds} de treino (42, 123 e 2024), com média e desvio padrão.
+No ajuste completo (\textit{Full}) da variante NER, atualizamos todos os pesos e substituímos a saída por nove rótulos BIO, incluindo a ausência de entidade. Comparamos treino na revisada e na consolidada das três anotações. A divisão fixa tem 179 documentos de treino, 60 de validação e 60 de teste, com semente de divisão 2024. Textos exatamente iguais são agrupados antes da divisão. Usamos cinco épocas em GPU T4 e janelas do tokenizador com limite 512 e sobreposição 128. O otimizador é AdamW, com taxas $2\times10^{-5}$ na base e $10^{-3}$ no classificador. Avaliamos os pesos da última época, sem seleção por validação. As referências usam os mesmos documentos em cada partição.
 
 \input{tables/finetuning}
 
-O maior F1 ocorreu com treino e teste na referência de consenso, que inclui todas as menções. Porém, trocar apenas a referência do teste também altera o resultado de um mesmo modelo treinado, como mostram as avaliações cruzadas. Logo, o F1 de 0,8330 não demonstra, isoladamente, superioridade geral do modelo ou correção das anotações: ele reflete a adaptação a essa política.
+A Tabela~\ref{tab:finetuning} reporta média e desvio padrão das sementes de treino 42, 123 e 2024. O desvio mede variação de treino, não incerteza de amostragem dos 60 documentos. Os escores cruzados mostram sensibilidade à referência, sem isolar cobertura, correções ou quantidade de supervisão. O F1 de 0,8330 não demonstra superioridade geral nem correção integral das anotações.
 
-A inferência da Tabela~\ref{tab:inferencia} usa 299 documentos, enquanto o ajuste fino é avaliado nos 60 de teste. Seus valores não constituem uma comparação controlada antes e depois do ajuste. Outras configurações de ajuste e versões intermediárias de anotação permanecem na documentação do projeto, fora do recorte deste artigo.
+A inferência usa 299 documentos e o ajuste é avaliado nos 60 de teste. Portanto, as tabelas não constituem uma comparação controlada antes e depois do ajuste.

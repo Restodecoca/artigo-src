@@ -1,15 +1,15 @@
 \begin{table}[ht]
 \centering
-\caption{Ajuste completo: avaliação em 60 documentos de teste, com média $\pm$ desvio padrão de três execuções.}
+\caption{Ajuste completo, com F1 microagregado em 60 documentos de teste. Média $\pm$ desvio padrão entre três sementes de treino.}
 \label{tab:finetuning}
 \begin{tabular}{l|l|c|c}
 \hline
-\textbf{Treino} & \textbf{Teste} & \textbf{F1 estrito} & \textbf{F1 parcial de mesmo tipo} \\
+\textbf{Treino} & \textbf{Teste} & \textbf{F1 estrito} & \textbf{F1 parcial tipado} \\
 \hline
 Revisada & Revisada & $0{,}4451 \pm 0{,}0030$ & $0{,}5778 \pm 0{,}0009$ \\
-Consenso & Consenso & $0{,}8330 \pm 0{,}0027$ & $0{,}9033 \pm 0{,}0018$ \\
-Revisada & Consenso & $0{,}5738 \pm 0{,}0138$ & $0{,}7563 \pm 0{,}0089$ \\
-Consenso & Revisada & $0{,}5019 \pm 0{,}0022$ & $0{,}5703 \pm 0{,}0022$ \\
+Consolidada & Consolidada & $0{,}8330 \pm 0{,}0027$ & $0{,}9033 \pm 0{,}0018$ \\
+Revisada & Consolidada & $0{,}5738 \pm 0{,}0138$ & $0{,}7563 \pm 0{,}0089$ \\
+Consolidada & Revisada & $0{,}5019 \pm 0{,}0022$ & $0{,}5703 \pm 0{,}0022$ \\
 \hline
 \end{tabular}
 \end{table}

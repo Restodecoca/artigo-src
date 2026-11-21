@@ -11,8 +11,9 @@ anotações próprios. O recorte prioriza:
 
 - 329 URLs selecionadas, 314 textos extraídos e 299 notícias retidas;
 - diferenças entre o protocolo original e a coleta/anotação local;
-- referência revisada (`overlay`, 5.111 entidades) e referência de consenso
-  (9.318 entidades, com cobertura parcial pelos três anotadores);
+- referência revisada (`overlay`, 5.111 menções) e referência consolidada
+  (`consensus` nos arquivos, 9.318 menções, com cobertura parcial pelos três
+  anotadores);
 - precisão, revocação e F1 dos dois modelos sem ajuste, nos 299 documentos;
 - uma série pareada de ajuste completo (`Full`) nas duas referências, com
   179 documentos de treino, 60 de validação e 60 de teste, e três seeds;
@@ -56,7 +57,8 @@ não devem ser versionados.
 
 - `main.tex`: preâmbulo, título, autores, resumo/abstract e inclusão das seções.
 - `sections/`: introdução, corpus, experimentos e conclusão.
-- `tables/`: tabelas de inferência e ajuste fino, além de auxiliares não incluídas.
+- `tables/`: critérios de anotação, contagens por referência, inferência e
+  ajuste fino, além de auxiliares não incluídas.
 - `references.bib`: referências em formato SBC (`sbc.bst`).
 - `sbc-template.sty`, `sbc.bst`: arquivos do template original.
 
@@ -70,3 +72,80 @@ não devem ser versionados.
   oficiais da SBC, ACL, IEEE/Crossref, Springer/EAI e Meta.
 - Os DOIs também constam em `note`, pois o estilo original não imprime o
   campo `doi`. A referência da Meta identifica a origem do Muse Spark.
+
+## Revisão local após os pareceres
+
+O estado anterior foi enviado em `028d88b`. A revisão subsequente deve
+permanecer local até a aprovação dos autores, sem novo commit ou push.
+
+O artigo agora usa menção como unidade, definida por documento, limites em
+caracteres e categoria. As duas referências contêm ocorrências repetidas
+em posições distintas. Uma inspeção dos arquivos, sem alterar os dados,
+confirmou 4.649 menções idênticas entre revisada e consolidada. Há 462
+menções tipadas exclusivas da revisada e 4.669 exclusivas da consolidada.
+Assim, a consolidada não é um superconjunto da revisada. Ela corresponde
+às marcações finais da revisão, com conciliação dos rótulos nos limites
+coincidentes.
+
+As contagens da consolidada são `IDTY=5.041`, `ACT=3.255`, `VUL=115` e
+`LOC=907`. Não houve duplicatas idênticas nem sobreposições de referência
+nos arquivos inspecionados. O critério de todas as menções é uma diretriz
+da revisão, não uma garantia de exaustividade sem auditoria independente.
+
+A concordância já registrada para a auditoria em pares do overlay é:
+5.050 acordos em 5.111 decisões, 98,8% e kappa 0,9802. A referência ficou
+visível em 4.787 decisões. Não se trata de concordância independente de
+limites nem de mensuração da descoberta de entidades.
+Esse par é a camada de Gabriel Rodrigues e a auditoria de Gabriel Machado,
+identificada como Gabriel Carlos no arquivo de comparação. Esse valor
+não representa concordância dos três anotadores na referência consolidada.
+
+O artigo passou a reportar a concordância conjunta das três anotações nos
+4.640 trechos com marcação positiva em todas elas. Foram 4.618 rótulos
+unânimes e 22 não unânimes, com proporção de unanimidade 0,9952586207 e
+kappa de Fleiss 0,9945813277. O cálculo usa `fleiss_kappa` de
+`scripts/validation/compare_audits.py`, alinhando por documento, início e
+fim, sem deduplicação por forma textual. Decisões `NONE` não entram nessa
+interseção de menções positivas. A concordância média dos pares usada na
+fórmula de Fleiss difere da proporção de unanimidade.
+
+O denominador é condicionado à interseção. Uma camada é a projeção do
+overlay, e houve exposição à referência na auditoria. Portanto, o índice
+não deve ser apresentado como anotação cega independente nem como
+avaliação das omissões ou dos 4.668 trechos de anotação única.
+
+O treino da consolidada reúne as três anotações e permanece na tabela de
+ajuste completo. Cada uma das duas condições de referência foi repetida
+com três sementes. Esses três treinamentos por condição não correspondem
+a três treinamentos separados por anotador. O histórico local registra
+a comparação revisada versus consolidada, não uma matriz de três
+condições individuais de anotador.
+
+A referência de Fleiss foi incluída para documentar a medida conjunta.
+A referência geral de BERT permanece no arquivo bibliográfico, mas deixou
+de ser citada no PDF para priorizar as fontes diretamente usadas e manter
+o limite de quatro páginas.
+
+Os rótulos dos checkpoints foram conferidos nas revisões fixadas de seus
+`config.json`. O inventário NER usa BIO e o APTNER usa BIOES. A conversão do
+runner preserva IDTY, ACT e LOC, une VULID e VULNAME em VUL e descarta
+outras categorias. O agrupamento é o `simple` da pipeline, sem alegar
+uma avaliação independente da adequação dessa decodificação a BIOES.
+
+Na inferência, o runner reserva dois tokens especiais, alinha as janelas
+a palavras e remove apenas duplicatas exatas de limites e categoria.
+No ajuste, utiliza as janelas de transbordamento do tokenizador e nove
+rótulos BIO. O runner usa AdamW, taxas de 0,00002 na base e 0,001 no
+classificador, decaimento de pesos 0,01 e aquecimento de aproximadamente
+10% dos passos. Avalia os pesos da última época, sem seleção por validação.
+O lote padrão é 4, com acumulação de gradientes 2. Esses últimos valores
+são padrões do runner, não uma nova medição dos experimentos.
+
+A inspeção também identificou notícias em italiano, além das fontes em
+inglês. Não foi executado classificador de idioma nem estimada sua
+distribuição completa. Os resultados existentes não foram recalculados
+por idioma.
+
+O endereço do repositório é apresentado como disponibilização futura.
+Não se alterou sua visibilidade. Antes da abertura pública, a política
+de dados exige tratar os artefatos restritos presentes no histórico.

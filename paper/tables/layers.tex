@@ -1,13 +1,13 @@
 \begin{table}[ht]
 \centering
-\caption{Inferência na referência revisada (299 notícias). P e R são precisão e revocação no critério estrito.}
+\caption{Inferência na revisada, sobre 299 notícias. P e R são precisão e revocação estritas. F1 é microagregado.}
 \label{tab:inferencia}
-\begin{tabular}{l|c|c|c|c}
+\begin{tabular}{l|c|c|c|c|c}
 \hline
-\textbf{Modelo} & \textbf{P} & \textbf{R} & \textbf{F1 estrito} & \textbf{F1 parcial} \\
+\textbf{Variante} & \textbf{P} & \textbf{R} & \textbf{F1 estrito} & \textbf{F1 parcial} & \textbf{F1 parcial tipado} \\
 \hline
-SecureBERT NER & 0,0896 & 0,0738 & 0,0809 & 0,2617 \\
-SecureBERT APTNER & 0,0622 & 0,0428 & 0,0507 & 0,2933 \\
+NER & 0,0896 & 0,0738 & 0,0809 & 0,2617 & 0,2486 \\
+APTNER & 0,0622 & 0,0428 & 0,0507 & 0,2933 & 0,2891 \\
 \hline
 \end{tabular}
 \end{table}
