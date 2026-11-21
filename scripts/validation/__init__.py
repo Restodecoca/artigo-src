@@ -1,1 +1,1 @@
-"""Human audit tooling for the private Muse annotation layers."""
+"""Human audit tooling for the Muse annotation layers."""

@@ -1,0 +1,5176 @@
+{
+  "annotation_status": "ai_assisted_human_verified",
+  "annotator_type": "ai-assisted",
+  "verified_by": "gabriel",
+  "verified_at": "2026-11-18",
+  "verification_method": "cada candidato foi apresentado e confirmado pelo revisor humano antes da gravacao",
+  "base_layer": "processed/muse_corrected.tar.gz",
+  "notes": "Camada de adicoes separada; nao sobrescreve o overlay original. Inclui aliases/acronimos confirmados.",
+  "documents": [
+    {
+      "id": "vinitvek-article-2023-0001",
+      "added_entities": [
+        {
+          "start": 117,
+          "end": 137,
+          "label": "IDTY",
+          "text": "Drug Free Workplaces"
+        },
+        {
+          "start": 692,
+          "end": 714,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1190,
+          "end": 1204,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0003",
+      "added_entities": [
+        {
+          "start": 73,
+          "end": 76,
+          "label": "IDTY",
+          "text": "CBC"
+        },
+        {
+          "start": 1100,
+          "end": 1103,
+          "label": "IDTY",
+          "text": "MGH"
+        },
+        {
+          "start": 3744,
+          "end": 3749,
+          "label": "IDTY",
+          "text": "Akira"
+        },
+        {
+          "start": 2095,
+          "end": 2107,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 1693,
+          "end": 1700,
+          "label": "LOC",
+          "text": "Ontario"
+        },
+        {
+          "start": 312,
+          "end": 334,
+          "label": "ACT",
+          "text": "data security incident"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0004",
+      "added_entities": [
+        {
+          "start": 177,
+          "end": 181,
+          "label": "IDTY",
+          "text": "WWMG"
+        },
+        {
+          "start": 223,
+          "end": 291,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 700,
+          "end": 722,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 993,
+          "end": 1007,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0005",
+      "added_entities": [
+        {
+          "start": 1697,
+          "end": 1719,
+          "label": "IDTY",
+          "text": "Maine Attorney General"
+        },
+        {
+          "start": 2483,
+          "end": 2511,
+          "label": "IDTY",
+          "text": "HHS’ Office for Civil Rights"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0006",
+      "added_entities": [
+        {
+          "start": 404,
+          "end": 420,
+          "label": "IDTY",
+          "text": "Longhorn Imaging"
+        },
+        {
+          "start": 1559,
+          "end": 1584,
+          "label": "IDTY",
+          "text": "Attorney General of Texas"
+        },
+        {
+          "start": 789,
+          "end": 811,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1106,
+          "end": 1120,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 3061,
+          "end": 3073,
+          "label": "LOC",
+          "text": "North Austin"
+        },
+        {
+          "start": 3075,
+          "end": 3085,
+          "label": "LOC",
+          "text": "Cedar Park"
+        },
+        {
+          "start": 3087,
+          "end": 3095,
+          "label": "LOC",
+          "text": "Westlake"
+        },
+        {
+          "start": 3097,
+          "end": 3109,
+          "label": "LOC",
+          "text": "South Austin"
+        },
+        {
+          "start": 3111,
+          "end": 3122,
+          "label": "LOC",
+          "text": "Onion Creek"
+        },
+        {
+          "start": 3124,
+          "end": 3131,
+          "label": "LOC",
+          "text": "Killeen"
+        },
+        {
+          "start": 3133,
+          "end": 3140,
+          "label": "LOC",
+          "text": "Bastrop"
+        },
+        {
+          "start": 3146,
+          "end": 3158,
+          "label": "LOC",
+          "text": "Marble Falls"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0007",
+      "added_entities": [
+        {
+          "start": 490,
+          "end": 502,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0009",
+      "added_entities": [
+        {
+          "start": 624,
+          "end": 630,
+          "label": "VUL",
+          "text": "MOVEit"
+        },
+        {
+          "start": 187,
+          "end": 191,
+          "label": "LOC",
+          "text": "U.S."
+        },
+        {
+          "start": 1504,
+          "end": 1543,
+          "label": "IDTY",
+          "text": "Blue Cross and Blue Shield of Minnesota"
+        },
+        {
+          "start": 1548,
+          "end": 1557,
+          "label": "IDTY",
+          "text": "Blue Plus"
+        },
+        {
+          "start": 1560,
+          "end": 1597,
+          "label": "IDTY",
+          "text": "Blue Cross and Blue Shield of Alabama"
+        },
+        {
+          "start": 1600,
+          "end": 1636,
+          "label": "IDTY",
+          "text": "Blue Cross and Blue Shield of Kansas"
+        },
+        {
+          "start": 1639,
+          "end": 1683,
+          "label": "IDTY",
+          "text": "Blue Cross and Blue Shield of North Carolina"
+        },
+        {
+          "start": 1704,
+          "end": 1734,
+          "label": "IDTY",
+          "text": "Faith Regional Health Services"
+        },
+        {
+          "start": 1737,
+          "end": 1800,
+          "label": "IDTY",
+          "text": "Hospital & Medical Foundation of Paris, Inc. dba Horizon Health"
+        },
+        {
+          "start": 1803,
+          "end": 1835,
+          "label": "IDTY",
+          "text": "Mass General Brigham Health Plan"
+        },
+        {
+          "start": 1838,
+          "end": 1853,
+          "label": "IDTY",
+          "text": "Priority Health"
+        },
+        {
+          "start": 1856,
+          "end": 1879,
+          "label": "IDTY",
+          "text": "St. Bernards Healthcare"
+        },
+        {
+          "start": 1882,
+          "end": 1895,
+          "label": "IDTY",
+          "text": "Sutter Health"
+        },
+        {
+          "start": 1898,
+          "end": 1928,
+          "label": "IDTY",
+          "text": "Trane Technologies Company LLC"
+        },
+        {
+          "start": 2046,
+          "end": 2066,
+          "label": "IDTY",
+          "text": "Stanford Health Care"
+        },
+        {
+          "start": 2093,
+          "end": 2136,
+          "label": "IDTY",
+          "text": "Lucile Packard Children’s Hospital Stanford"
+        },
+        {
+          "start": 2138,
+          "end": 2169,
+          "label": "IDTY",
+          "text": "Stanford Health Care Tri-Valley"
+        },
+        {
+          "start": 2171,
+          "end": 2197,
+          "label": "IDTY",
+          "text": "Stanford Medicine Partners"
+        },
+        {
+          "start": 2203,
+          "end": 2237,
+          "label": "IDTY",
+          "text": "Packard Children’s Health Alliance"
+        },
+        {
+          "start": 2240,
+          "end": 2258,
+          "label": "IDTY",
+          "text": "The Guthrie Clinic"
+        },
+        {
+          "start": 2665,
+          "end": 2672,
+          "label": "IDTY",
+          "text": "Maximus"
+        },
+        {
+          "start": 2432,
+          "end": 2476,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0010",
+      "added_entities": [
+        {
+          "start": 134,
+          "end": 137,
+          "label": "IDTY",
+          "text": "DEI"
+        },
+        {
+          "start": 179,
+          "end": 247,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 1967,
+          "end": 1974,
+          "label": "IDTY",
+          "text": "HHS-OCR"
+        },
+        {
+          "start": 2613,
+          "end": 2618,
+          "label": "LOC",
+          "text": "Rugby"
+        },
+        {
+          "start": 2620,
+          "end": 2626,
+          "label": "LOC",
+          "text": "Linton"
+        },
+        {
+          "start": 2744,
+          "end": 2753,
+          "label": "LOC",
+          "text": "Dickinson"
+        },
+        {
+          "start": 2755,
+          "end": 2761,
+          "label": "LOC",
+          "text": "Beulah"
+        },
+        {
+          "start": 2763,
+          "end": 2768,
+          "label": "LOC",
+          "text": "Hazen"
+        },
+        {
+          "start": 2770,
+          "end": 2779,
+          "label": "LOC",
+          "text": "Jamestown"
+        },
+        {
+          "start": 2785,
+          "end": 2791,
+          "label": "LOC",
+          "text": "Mandan"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0011",
+      "added_entities": [
+        {
+          "start": 337,
+          "end": 351,
+          "label": "LOC",
+          "text": "Erie St. Clair"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0012",
+      "added_entities": [
+        {
+          "start": 259,
+          "end": 271,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0013",
+      "added_entities": [
+        {
+          "start": 473,
+          "end": 476,
+          "label": "IDTY",
+          "text": "AAI"
+        },
+        {
+          "start": 2031,
+          "end": 2059,
+          "label": "IDTY",
+          "text": "HHS’ Office for Civil Rights"
+        },
+        {
+          "start": 1398,
+          "end": 1409,
+          "label": "ACT",
+          "text": "compromised"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0015",
+      "added_entities": [
+        {
+          "start": 435,
+          "end": 438,
+          "label": "IDTY",
+          "text": "HHS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0016",
+      "added_entities": [
+        {
+          "start": 1339,
+          "end": 1367,
+          "label": "IDTY",
+          "text": "HHS’ Office for Civil Rights"
+        },
+        {
+          "start": 991,
+          "end": 1005,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 1913,
+          "end": 1924,
+          "label": "ACT",
+          "text": "data breach"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0017",
+      "added_entities": [
+        {
+          "start": 130,
+          "end": 134,
+          "label": "IDTY",
+          "text": "CFMC"
+        },
+        {
+          "start": 1493,
+          "end": 1518,
+          "label": "IDTY",
+          "text": "Attorney General of Maine"
+        },
+        {
+          "start": 635,
+          "end": 657,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1221,
+          "end": 1235,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0018",
+      "added_entities": [
+        {
+          "start": 45,
+          "end": 52,
+          "label": "IDTY",
+          "text": "Rhysida"
+        },
+        {
+          "start": 2401,
+          "end": 2404,
+          "label": "IDTY",
+          "text": "RHC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0019",
+      "added_entities": [
+        {
+          "start": 268,
+          "end": 271,
+          "label": "IDTY",
+          "text": "WVU"
+        },
+        {
+          "start": 1262,
+          "end": 1279,
+          "label": "IDTY",
+          "text": "WVU Health System"
+        },
+        {
+          "start": 719,
+          "end": 725,
+          "label": "IDTY",
+          "text": "Nuance"
+        },
+        {
+          "start": 1480,
+          "end": 1489,
+          "label": "IDTY",
+          "text": "Microsoft"
+        },
+        {
+          "start": 646,
+          "end": 668,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1069,
+          "end": 1083,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0020",
+      "added_entities": [
+        {
+          "start": 71,
+          "end": 97,
+          "label": "IDTY",
+          "text": "Hospital for Sick Children"
+        },
+        {
+          "start": 553,
+          "end": 577,
+          "label": "VUL",
+          "text": "Progress MOVEIt Transfer"
+        },
+        {
+          "start": 999,
+          "end": 1015,
+          "label": "IDTY",
+          "text": "BleepingComputer"
+        },
+        {
+          "start": 210,
+          "end": 217,
+          "label": "LOC",
+          "text": "Ontario"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0021",
+      "added_entities": [
+        {
+          "start": 2328,
+          "end": 2331,
+          "label": "IDTY",
+          "text": "FBI"
+        },
+        {
+          "start": 2882,
+          "end": 2893,
+          "label": "IDTY",
+          "text": "MGM Resorts"
+        },
+        {
+          "start": 3110,
+          "end": 3128,
+          "label": "ACT",
+          "text": "social engineering"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0022",
+      "added_entities": [
+        {
+          "start": 2557,
+          "end": 2570,
+          "label": "LOC",
+          "text": "San Francisco"
+        },
+        {
+          "start": 301,
+          "end": 329,
+          "label": "IDTY",
+          "text": "HHS’ Office for Civil Rights"
+        },
+        {
+          "start": 225,
+          "end": 240,
+          "label": "VUL",
+          "text": "MOVEit Transfer"
+        },
+        {
+          "start": 4324,
+          "end": 4355,
+          "label": "IDTY",
+          "text": "Robeson Health Care Corporation"
+        },
+        {
+          "start": 4427,
+          "end": 4449,
+          "label": "IDTY",
+          "text": "Maine Attorney General"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0023",
+      "added_entities": [
+        {
+          "start": 286,
+          "end": 304,
+          "label": "IDTY",
+          "text": "Highlands Oncology"
+        },
+        {
+          "start": 1612,
+          "end": 1639,
+          "label": "IDTY",
+          "text": "Attorney General of Montana"
+        },
+        {
+          "start": 857,
+          "end": 879,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1146,
+          "end": 1160,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 3605,
+          "end": 3613,
+          "label": "LOC",
+          "text": "Arkansas"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0024",
+      "added_entities": [
+        {
+          "start": 347,
+          "end": 351,
+          "label": "IDTY",
+          "text": "ERMI"
+        },
+        {
+          "start": 171,
+          "end": 239,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 745,
+          "end": 767,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1032,
+          "end": 1046,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0025",
+      "added_entities": [
+        {
+          "start": 0,
+          "end": 9,
+          "label": "IDTY",
+          "text": "MESVision"
+        },
+        {
+          "start": 48,
+          "end": 54,
+          "label": "VUL",
+          "text": "MOVEit"
+        },
+        {
+          "start": 1641,
+          "end": 1658,
+          "label": "IDTY",
+          "text": "Progress Software"
+        },
+        {
+          "start": 1447,
+          "end": 1472,
+          "label": "IDTY",
+          "text": "Attorney General of Maine"
+        },
+        {
+          "start": 743,
+          "end": 765,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1015,
+          "end": 1029,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0026",
+      "added_entities": [
+        {
+          "start": 346,
+          "end": 353,
+          "label": "IDTY",
+          "text": "PeakMed"
+        },
+        {
+          "start": 160,
+          "end": 228,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 891,
+          "end": 913,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1174,
+          "end": 1188,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 3207,
+          "end": 3215,
+          "label": "LOC",
+          "text": "Colorado"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0027",
+      "added_entities": [
+        {
+          "start": 532,
+          "end": 600,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 2027,
+          "end": 2032,
+          "label": "IDTY",
+          "text": "Venmo"
+        },
+        {
+          "start": 1060,
+          "end": 1086,
+          "label": "ACT",
+          "text": "social engineering attacks"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0028",
+      "added_entities": [
+        {
+          "start": 229,
+          "end": 233,
+          "label": "IDTY",
+          "text": "HSHS"
+        },
+        {
+          "start": 620,
+          "end": 633,
+          "label": "IDTY",
+          "text": "Prevea Health"
+        },
+        {
+          "start": 59,
+          "end": 71,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 470,
+          "end": 479,
+          "label": "LOC",
+          "text": "Wisconsin"
+        },
+        {
+          "start": 484,
+          "end": 492,
+          "label": "LOC",
+          "text": "Illinois"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0029",
+      "added_entities": [
+        {
+          "start": 262,
+          "end": 290,
+          "label": "IDTY",
+          "text": "HHS’ Office for Civil Rights"
+        },
+        {
+          "start": 510,
+          "end": 532,
+          "label": "IDTY",
+          "text": "Maine Attorney General"
+        },
+        {
+          "start": 1371,
+          "end": 1389,
+          "label": "IDTY",
+          "text": "Acadia Health, LLC"
+        },
+        {
+          "start": 3887,
+          "end": 3893,
+          "label": "LOC",
+          "text": "Tupelo"
+        },
+        {
+          "start": 4530,
+          "end": 4569,
+          "label": "IDTY",
+          "text": "North Mississippi Medical Center-Tupelo"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0030",
+      "added_entities": [
+        {
+          "start": 1494,
+          "end": 1511,
+          "label": "IDTY",
+          "text": "The Cyber Express"
+        },
+        {
+          "start": 2688,
+          "end": 2703,
+          "label": "ACT",
+          "text": "phishing emails"
+        },
+        {
+          "start": 240,
+          "end": 250,
+          "label": "ACT",
+          "text": "ransomware"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0031",
+      "added_entities": [
+        {
+          "start": 2086,
+          "end": 2096,
+          "label": "IDTY",
+          "text": "iMedicWare"
+        },
+        {
+          "start": 1594,
+          "end": 1619,
+          "label": "IDTY",
+          "text": "Attorney General of Maine"
+        },
+        {
+          "start": 745,
+          "end": 767,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1179,
+          "end": 1193,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0032",
+      "added_entities": [
+        {
+          "start": 140,
+          "end": 143,
+          "label": "IDTY",
+          "text": "ADS"
+        },
+        {
+          "start": 46,
+          "end": 68,
+          "label": "ACT",
+          "text": "Data Security Incident"
+        },
+        {
+          "start": 98,
+          "end": 108,
+          "label": "IDTY",
+          "text": "PRNewswire"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0033",
+      "added_entities": [
+        {
+          "start": 144,
+          "end": 148,
+          "label": "IDTY",
+          "text": "HCSC"
+        },
+        {
+          "start": 190,
+          "end": 258,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 2715,
+          "end": 2753,
+          "label": "IDTY",
+          "text": "Blue Cross and Blue Shield Association"
+        },
+        {
+          "start": 681,
+          "end": 703,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 974,
+          "end": 988,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0035",
+      "added_entities": [
+        {
+          "start": 275,
+          "end": 294,
+          "label": "IDTY",
+          "text": "Pascagoula Hospital"
+        },
+        {
+          "start": 296,
+          "end": 318,
+          "label": "IDTY",
+          "text": "Ocean Springs Hospital"
+        },
+        {
+          "start": 324,
+          "end": 341,
+          "label": "IDTY",
+          "text": "Gulfport Hospital"
+        },
+        {
+          "start": 484,
+          "end": 488,
+          "label": "IDTY",
+          "text": "WLOX"
+        },
+        {
+          "start": 1425,
+          "end": 1445,
+          "label": "IDTY",
+          "text": "Recorded Future News"
+        },
+        {
+          "start": 3241,
+          "end": 3289,
+          "label": "IDTY",
+          "text": "Cybersecurity and Infrastructure Security Agency"
+        },
+        {
+          "start": 3291,
+          "end": 3295,
+          "label": "IDTY",
+          "text": "CISA"
+        },
+        {
+          "start": 3406,
+          "end": 3445,
+          "label": "IDTY",
+          "text": "Department of Health and Human Services"
+        },
+        {
+          "start": 3447,
+          "end": 3450,
+          "label": "IDTY",
+          "text": "HHS"
+        },
+        {
+          "start": 4251,
+          "end": 4295,
+          "label": "IDTY",
+          "text": "Advanced Research Projects Agency for Health"
+        },
+        {
+          "start": 3694,
+          "end": 3710,
+          "label": "IDTY",
+          "text": "Prospect Medical"
+        },
+        {
+          "start": 433,
+          "end": 444,
+          "label": "LOC",
+          "text": "New Orleans"
+        },
+        {
+          "start": 2548,
+          "end": 2561,
+          "label": "LOC",
+          "text": "George County"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0036",
+      "added_entities": [
+        {
+          "start": 2823,
+          "end": 2827,
+          "label": "IDTY",
+          "text": "RVPL"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0037",
+      "added_entities": [
+        {
+          "start": 183,
+          "end": 251,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 2382,
+          "end": 2394,
+          "label": "IDTY",
+          "text": "Carle Health"
+        },
+        {
+          "start": 819,
+          "end": 841,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1100,
+          "end": 1114,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0038",
+      "added_entities": [
+        {
+          "start": 721,
+          "end": 743,
+          "label": "IDTY",
+          "text": "Maine Attorney General"
+        },
+        {
+          "start": 1354,
+          "end": 1362,
+          "label": "IDTY",
+          "text": "Experian"
+        },
+        {
+          "start": 1514,
+          "end": 1541,
+          "label": "IDTY",
+          "text": "Borgfeld Dental Center PLLC"
+        },
+        {
+          "start": 2184,
+          "end": 2215,
+          "label": "IDTY",
+          "text": "Federal Bureau of Investigation"
+        },
+        {
+          "start": 3093,
+          "end": 3118,
+          "label": "IDTY",
+          "text": "Piedmont Healthcare, Inc."
+        },
+        {
+          "start": 3278,
+          "end": 3288,
+          "label": "IDTY",
+          "text": "Pharm-Pacc"
+        },
+        {
+          "start": 3726,
+          "end": 3742,
+          "label": "IDTY",
+          "text": "Navvis & Company"
+        },
+        {
+          "start": 3815,
+          "end": 3833,
+          "label": "IDTY",
+          "text": "Surround Care, LLC"
+        },
+        {
+          "start": 4570,
+          "end": 4580,
+          "label": "IDTY",
+          "text": "SSM Health"
+        },
+        {
+          "start": 4863,
+          "end": 4897,
+          "label": "IDTY",
+          "text": "Hawaii Medical Service Association"
+        },
+        {
+          "start": 5124,
+          "end": 5127,
+          "label": "IDTY",
+          "text": "IBM"
+        },
+        {
+          "start": 5904,
+          "end": 5918,
+          "label": "IDTY",
+          "text": "San Diego PACE"
+        },
+        {
+          "start": 5309,
+          "end": 5313,
+          "label": "IDTY",
+          "text": "Clop"
+        },
+        {
+          "start": 5412,
+          "end": 5450,
+          "label": "IDTY",
+          "text": "Missouri Department of Social Services"
+        },
+        {
+          "start": 5452,
+          "end": 5455,
+          "label": "IDTY",
+          "text": "DSS"
+        },
+        {
+          "start": 5636,
+          "end": 5689,
+          "label": "IDTY",
+          "text": "Colorado Department of Health Care Policy & Financing"
+        },
+        {
+          "start": 5691,
+          "end": 5695,
+          "label": "IDTY",
+          "text": "HCPF"
+        },
+        {
+          "start": 6114,
+          "end": 6124,
+          "label": "IDTY",
+          "text": "Cognisight"
+        },
+        {
+          "start": 5061,
+          "end": 5078,
+          "label": "IDTY",
+          "text": "Progress Software"
+        },
+        {
+          "start": 4900,
+          "end": 4906,
+          "label": "VUL",
+          "text": "MOVEit"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0039",
+      "added_entities": [
+        {
+          "start": 153,
+          "end": 164,
+          "label": "IDTY",
+          "text": "United Bank"
+        },
+        {
+          "start": 175,
+          "end": 181,
+          "label": "VUL",
+          "text": "MOVEit"
+        },
+        {
+          "start": 262,
+          "end": 283,
+          "label": "IDTY",
+          "text": "Jackson Star & Herald"
+        },
+        {
+          "start": 524,
+          "end": 533,
+          "label": "LOC",
+          "text": "Baltimore"
+        },
+        {
+          "start": 564,
+          "end": 576,
+          "label": "LOC",
+          "text": "Indianapolis"
+        },
+        {
+          "start": 598,
+          "end": 608,
+          "label": "LOC",
+          "text": "Louisville"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0040",
+      "added_entities": [
+        {
+          "start": 141,
+          "end": 151,
+          "label": "IDTY",
+          "text": "UMass Chan"
+        },
+        {
+          "start": 58,
+          "end": 64,
+          "label": "VUL",
+          "text": "MOVEit"
+        },
+        {
+          "start": 1525,
+          "end": 1584,
+          "label": "IDTY",
+          "text": "Massachusetts Executive Office of Health and Human Services"
+        },
+        {
+          "start": 1587,
+          "end": 1592,
+          "label": "IDTY",
+          "text": "EOHHS"
+        },
+        {
+          "start": 2911,
+          "end": 2939,
+          "label": "IDTY",
+          "text": "T.H. Chan School of Medicine"
+        },
+        {
+          "start": 2945,
+          "end": 2995,
+          "label": "IDTY",
+          "text": "Morningside Graduate School of Biomedical Sciences"
+        },
+        {
+          "start": 3005,
+          "end": 3044,
+          "label": "IDTY",
+          "text": "Tan Chingfen Graduate School of Nursing"
+        },
+        {
+          "start": 748,
+          "end": 770,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1068,
+          "end": 1082,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0041",
+      "added_entities": [
+        {
+          "start": 412,
+          "end": 448,
+          "label": "IDTY",
+          "text": "Programa de Atencion Medica Integral"
+        },
+        {
+          "start": 768,
+          "end": 780,
+          "label": "IDTY",
+          "text": "Falcon Feeds"
+        },
+        {
+          "start": 1819,
+          "end": 1825,
+          "label": "IDTY",
+          "text": "INSSJP"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0042",
+      "added_entities": [
+        {
+          "start": 117,
+          "end": 120,
+          "label": "IDTY",
+          "text": "VNS"
+        },
+        {
+          "start": 175,
+          "end": 243,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 1865,
+          "end": 1871,
+          "label": "VUL",
+          "text": "MOVEit"
+        },
+        {
+          "start": 819,
+          "end": 841,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1091,
+          "end": 1105,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0043",
+      "added_entities": [
+        {
+          "start": 306,
+          "end": 313,
+          "label": "IDTY",
+          "text": "Cummins"
+        },
+        {
+          "start": 189,
+          "end": 214,
+          "label": "IDTY",
+          "text": "Attorney General of Maine"
+        },
+        {
+          "start": 644,
+          "end": 666,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1239,
+          "end": 1253,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 961,
+          "end": 973,
+          "label": "ACT",
+          "text": "cyberattacks"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0044",
+      "added_entities": [
+        {
+          "start": 171,
+          "end": 175,
+          "label": "IDTY",
+          "text": "GDHE"
+        },
+        {
+          "start": 217,
+          "end": 242,
+          "label": "IDTY",
+          "text": "Attorney General of Texas"
+        },
+        {
+          "start": 766,
+          "end": 788,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1065,
+          "end": 1079,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0045",
+      "added_entities": [
+        {
+          "start": 442,
+          "end": 446,
+          "label": "IDTY",
+          "text": "ADSC"
+        },
+        {
+          "start": 488,
+          "end": 506,
+          "label": "IDTY",
+          "text": "Alberta Government"
+        },
+        {
+          "start": 2266,
+          "end": 2271,
+          "label": "IDTY",
+          "text": "8Base"
+        },
+        {
+          "start": 2161,
+          "end": 2176,
+          "label": "IDTY",
+          "text": "IT World Canada"
+        },
+        {
+          "start": 2459,
+          "end": 2473,
+          "label": "ACT",
+          "text": "phishing email"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0046",
+      "added_entities": [
+        {
+          "start": 464,
+          "end": 473,
+          "label": "IDTY",
+          "text": "KMBC News"
+        },
+        {
+          "start": 2363,
+          "end": 2391,
+          "label": "IDTY",
+          "text": "HHS’ Office for Civil Rights"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0047",
+      "added_entities": [
+        {
+          "start": 308,
+          "end": 352,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services"
+        },
+        {
+          "start": 354,
+          "end": 357,
+          "label": "IDTY",
+          "text": "HHS"
+        },
+        {
+          "start": 360,
+          "end": 370,
+          "label": "IDTY",
+          "text": "CheckPoint"
+        },
+        {
+          "start": 372,
+          "end": 383,
+          "label": "IDTY",
+          "text": "Cisco Talos"
+        },
+        {
+          "start": 389,
+          "end": 400,
+          "label": "IDTY",
+          "text": "Trend Micro"
+        },
+        {
+          "start": 708,
+          "end": 719,
+          "label": "IDTY",
+          "text": "SentinelOne"
+        },
+        {
+          "start": 607,
+          "end": 619,
+          "label": "IDTY",
+          "text": "Chilean Army"
+        },
+        {
+          "start": 8,
+          "end": 18,
+          "label": "ACT",
+          "text": "ransomware"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0049",
+      "added_entities": [
+        {
+          "start": 323,
+          "end": 331,
+          "label": "IDTY",
+          "text": "Karakurt"
+        },
+        {
+          "start": 385,
+          "end": 390,
+          "label": "IDTY",
+          "text": "Conti"
+        },
+        {
+          "start": 400,
+          "end": 408,
+          "label": "IDTY",
+          "text": "Becker’s"
+        },
+        {
+          "start": 671,
+          "end": 678,
+          "label": "LOC",
+          "text": "Chicago"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0050",
+      "added_entities": [
+        {
+          "start": 406,
+          "end": 425,
+          "label": "ACT",
+          "text": "unauthorized access"
+        },
+        {
+          "start": 483,
+          "end": 491,
+          "label": "ACT",
+          "text": "phishing"
+        },
+        {
+          "start": 1105,
+          "end": 1112,
+          "label": "ACT",
+          "text": "Malware"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0052",
+      "added_entities": [
+        {
+          "start": 513,
+          "end": 528,
+          "label": "VUL",
+          "text": "MOVEit Transfer"
+        },
+        {
+          "start": 461,
+          "end": 471,
+          "label": "ACT",
+          "text": "ransomware"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0053",
+      "added_entities": [
+        {
+          "start": 241,
+          "end": 259,
+          "label": "IDTY",
+          "text": "Sutter Senior Care"
+        },
+        {
+          "start": 3656,
+          "end": 3675,
+          "label": "LOC",
+          "text": "Northern California"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0055",
+      "added_entities": [
+        {
+          "start": 138,
+          "end": 142,
+          "label": "IDTY",
+          "text": "OVHD"
+        },
+        {
+          "start": 107,
+          "end": 126,
+          "label": "IDTY",
+          "text": "Oak Valley Hospital"
+        },
+        {
+          "start": 661,
+          "end": 683,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1168,
+          "end": 1182,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0056",
+      "added_entities": [
+        {
+          "start": 326,
+          "end": 334,
+          "label": "IDTY",
+          "text": "BlackCat"
+        },
+        {
+          "start": 2364,
+          "end": 2367,
+          "label": "IDTY",
+          "text": "HHS"
+        },
+        {
+          "start": 3066,
+          "end": 3082,
+          "label": "IDTY",
+          "text": "Hankins And Sohn"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0058",
+      "added_entities": [
+        {
+          "start": 480,
+          "end": 504,
+          "label": "IDTY",
+          "text": "Radisson Hotels Americas"
+        },
+        {
+          "start": 718,
+          "end": 739,
+          "label": "IDTY",
+          "text": "Radisson Hotels Group"
+        },
+        {
+          "start": 754,
+          "end": 764,
+          "label": "IDTY",
+          "text": "TechCrunch"
+        },
+        {
+          "start": 1182,
+          "end": 1185,
+          "label": "IDTY",
+          "text": "JLL"
+        },
+        {
+          "start": 3852,
+          "end": 3865,
+          "label": "IDTY",
+          "text": "Deutsche Bank"
+        },
+        {
+          "start": 3871,
+          "end": 3893,
+          "label": "IDTY",
+          "text": "University of Colorado"
+        },
+        {
+          "start": 3899,
+          "end": 3921,
+          "label": "IDTY",
+          "text": "University of Illinois"
+        },
+        {
+          "start": 3943,
+          "end": 3952,
+          "label": "IDTY",
+          "text": "Realm IDX"
+        },
+        {
+          "start": 3958,
+          "end": 3966,
+          "label": "LOC",
+          "text": "New York"
+        },
+        {
+          "start": 3996,
+          "end": 4016,
+          "label": "IDTY",
+          "text": "Bristol Myers Squibb"
+        },
+        {
+          "start": 4362,
+          "end": 4370,
+          "label": "IDTY",
+          "text": "Emsisoft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0059",
+      "added_entities": [
+        {
+          "start": 551,
+          "end": 563,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 421,
+          "end": 430,
+          "label": "IDTY",
+          "text": "ClearMedi"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0060",
+      "added_entities": [
+        {
+          "start": 328,
+          "end": 331,
+          "label": "IDTY",
+          "text": "SOC"
+        },
+        {
+          "start": 250,
+          "end": 264,
+          "label": "ACT",
+          "text": "phishing email"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0063",
+      "added_entities": [
+        {
+          "start": 296,
+          "end": 302,
+          "label": "VUL",
+          "text": "MOVEIt"
+        },
+        {
+          "start": 1104,
+          "end": 1118,
+          "label": "IDTY",
+          "text": "CHG Healthcare"
+        },
+        {
+          "start": 519,
+          "end": 527,
+          "label": "IDTY",
+          "text": "Becker's"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0064",
+      "added_entities": [
+        {
+          "start": 118,
+          "end": 124,
+          "label": "VUL",
+          "text": "MOVEit"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0065",
+      "added_entities": [
+        {
+          "start": 274,
+          "end": 278,
+          "label": "IDTY",
+          "text": "PJ&A"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0066",
+      "added_entities": [
+        {
+          "start": 178,
+          "end": 181,
+          "label": "IDTY",
+          "text": "SIS"
+        },
+        {
+          "start": 1426,
+          "end": 1456,
+          "label": "IDTY",
+          "text": "Attorney General of California"
+        },
+        {
+          "start": 789,
+          "end": 811,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1086,
+          "end": 1100,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 2979,
+          "end": 3002,
+          "label": "IDTY",
+          "text": "Southland Health Center"
+        },
+        {
+          "start": 3022,
+          "end": 3066,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0067",
+      "added_entities": [
+        {
+          "start": 343,
+          "end": 379,
+          "label": "IDTY",
+          "text": "Mountainside Residential Care Center"
+        },
+        {
+          "start": 1460,
+          "end": 1495,
+          "label": "IDTY",
+          "text": "New York State Department of Health"
+        },
+        {
+          "start": 2276,
+          "end": 2284,
+          "label": "LOC",
+          "text": "Kingston"
+        },
+        {
+          "start": 2591,
+          "end": 2594,
+          "label": "IDTY",
+          "text": "FBI"
+        },
+        {
+          "start": 2659,
+          "end": 2687,
+          "label": "LOC",
+          "text": "Ulster and Delaware Counties"
+        },
+        {
+          "start": 3102,
+          "end": 3119,
+          "label": "IDTY",
+          "text": "WMCHealth Network"
+        },
+        {
+          "start": 3777,
+          "end": 3785,
+          "label": "LOC",
+          "text": "Michigan"
+        },
+        {
+          "start": 4135,
+          "end": 4158,
+          "label": "LOC",
+          "text": "Marshall County, Kansas"
+        },
+        {
+          "start": 4238,
+          "end": 4261,
+          "label": "IDTY",
+          "text": "University of Minnesota"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0068",
+      "added_entities": [
+        {
+          "start": 1571,
+          "end": 1587,
+          "label": "IDTY",
+          "text": "BleepingComputer"
+        },
+        {
+          "start": 2756,
+          "end": 2773,
+          "label": "IDTY",
+          "text": "Colonial Pipeline"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0070",
+      "added_entities": [
+        {
+          "start": 111,
+          "end": 126,
+          "label": "IDTY",
+          "text": "Cognisight, LLC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0072",
+      "added_entities": [
+        {
+          "start": 113,
+          "end": 121,
+          "label": "IDTY",
+          "text": "Wishbone"
+        },
+        {
+          "start": 688,
+          "end": 710,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 966,
+          "end": 980,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0073",
+      "added_entities": [
+        {
+          "start": 862,
+          "end": 884,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 2083,
+          "end": 2102,
+          "label": "ACT",
+          "text": "unauthorized access"
+        },
+        {
+          "start": 1165,
+          "end": 1179,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0075",
+      "added_entities": [
+        {
+          "start": 100,
+          "end": 111,
+          "label": "IDTY",
+          "text": "Akumin Inc."
+        },
+        {
+          "start": 2370,
+          "end": 2373,
+          "label": "IDTY",
+          "text": "SEC"
+        },
+        {
+          "start": 559,
+          "end": 581,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 831,
+          "end": 845,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0076",
+      "added_entities": [
+        {
+          "start": 1792,
+          "end": 1817,
+          "label": "IDTY",
+          "text": "National Health Authority"
+        },
+        {
+          "start": 2673,
+          "end": 2678,
+          "label": "LOC",
+          "text": "Delhi"
+        },
+        {
+          "start": 3764,
+          "end": 3770,
+          "label": "LOC",
+          "text": "Russia"
+        },
+        {
+          "start": 3775,
+          "end": 3781,
+          "label": "LOC",
+          "text": "Europe"
+        },
+        {
+          "start": 4487,
+          "end": 4494,
+          "label": "IDTY",
+          "text": "Lockbit"
+        },
+        {
+          "start": 4499,
+          "end": 4504,
+          "label": "IDTY",
+          "text": "Babuk"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0077",
+      "added_entities": [
+        {
+          "start": 798,
+          "end": 819,
+          "label": "IDTY",
+          "text": "Physio Logic Medicine"
+        },
+        {
+          "start": 3531,
+          "end": 3548,
+          "label": "IDTY",
+          "text": "The HIPAA Journal"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0079",
+      "added_entities": [
+        {
+          "start": 1208,
+          "end": 1219,
+          "label": "IDTY",
+          "text": "The Women’s"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0080",
+      "added_entities": [
+        {
+          "start": 2275,
+          "end": 2282,
+          "label": "LOC",
+          "text": "Belarus"
+        },
+        {
+          "start": 2639,
+          "end": 2648,
+          "label": "IDTY",
+          "text": "Anonymous"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0081",
+      "added_entities": [
+        {
+          "start": 1910,
+          "end": 1929,
+          "label": "IDTY",
+          "text": "CheckPoint Research"
+        },
+        {
+          "start": 1931,
+          "end": 1934,
+          "label": "IDTY",
+          "text": "CPR"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0082",
+      "added_entities": [
+        {
+          "start": 43,
+          "end": 48,
+          "label": "IDTY",
+          "text": "AlphV"
+        },
+        {
+          "start": 64,
+          "end": 76,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0084",
+      "added_entities": [
+        {
+          "start": 152,
+          "end": 155,
+          "label": "IDTY",
+          "text": "CHN"
+        },
+        {
+          "start": 885,
+          "end": 907,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1174,
+          "end": 1188,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 3460,
+          "end": 3468,
+          "label": "LOC",
+          "text": "Brooklyn"
+        },
+        {
+          "start": 3474,
+          "end": 3479,
+          "label": "LOC",
+          "text": "Bronx"
+        },
+        {
+          "start": 3481,
+          "end": 3487,
+          "label": "LOC",
+          "text": "Queens"
+        },
+        {
+          "start": 3493,
+          "end": 3502,
+          "label": "LOC",
+          "text": "Manhattan"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0085",
+      "added_entities": [
+        {
+          "start": 1098,
+          "end": 1116,
+          "label": "IDTY",
+          "text": "Detroit Free Press"
+        },
+        {
+          "start": 3245,
+          "end": 3253,
+          "label": "IDTY",
+          "text": "Congress"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0086",
+      "added_entities": [
+        {
+          "start": 173,
+          "end": 175,
+          "label": "IDTY",
+          "text": "Vi"
+        },
+        {
+          "start": 702,
+          "end": 724,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1012,
+          "end": 1026,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0087",
+      "added_entities": [
+        {
+          "start": 27,
+          "end": 33,
+          "label": "VUL",
+          "text": "MOVEit"
+        },
+        {
+          "start": 232,
+          "end": 235,
+          "label": "IDTY",
+          "text": "HHS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0088",
+      "added_entities": [
+        {
+          "start": 282,
+          "end": 287,
+          "label": "IDTY",
+          "text": "MGRMC"
+        },
+        {
+          "start": 313,
+          "end": 329,
+          "label": "LOC",
+          "text": "Safford, Arizona"
+        },
+        {
+          "start": 376,
+          "end": 404,
+          "label": "LOC",
+          "text": "Graham and Greenlee Counties"
+        },
+        {
+          "start": 3684,
+          "end": 3688,
+          "label": "IDTY",
+          "text": "KSDK"
+        },
+        {
+          "start": 3833,
+          "end": 3849,
+          "label": "LOC",
+          "text": "St. Louis County"
+        },
+        {
+          "start": 3898,
+          "end": 3921,
+          "label": "IDTY",
+          "text": "St. Louis Post Dispatch"
+        },
+        {
+          "start": 3949,
+          "end": 3984,
+          "label": "IDTY",
+          "text": "Regional Justice Information System"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0089",
+      "added_entities": [
+        {
+          "start": 457,
+          "end": 469,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0090",
+      "added_entities": [
+        {
+          "start": 73,
+          "end": 80,
+          "label": "IDTY",
+          "text": "HHS-OCR"
+        },
+        {
+          "start": 653,
+          "end": 675,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1086,
+          "end": 1100,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0092",
+      "added_entities": [
+        {
+          "start": 96,
+          "end": 102,
+          "label": "LOC",
+          "text": "Israel"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0093",
+      "added_entities": [
+        {
+          "start": 17,
+          "end": 21,
+          "label": "IDTY",
+          "text": "Clop"
+        },
+        {
+          "start": 339,
+          "end": 370,
+          "label": "IDTY",
+          "text": "Central Carolina Medical Center"
+        },
+        {
+          "start": 452,
+          "end": 501,
+          "label": "IDTY",
+          "text": "Novant Health New Hanover Regional Medical Center"
+        },
+        {
+          "start": 515,
+          "end": 548,
+          "label": "IDTY",
+          "text": "Wake Radiology Diagnostic Imaging"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0094",
+      "added_entities": [
+        {
+          "start": 195,
+          "end": 199,
+          "label": "IDTY",
+          "text": "DMAS"
+        },
+        {
+          "start": 312,
+          "end": 319,
+          "label": "IDTY",
+          "text": "HHS-OCR"
+        },
+        {
+          "start": 2588,
+          "end": 2596,
+          "label": "IDTY",
+          "text": "Medicaid"
+        },
+        {
+          "start": 799,
+          "end": 821,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1114,
+          "end": 1128,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0095",
+      "added_entities": [
+        {
+          "start": 304,
+          "end": 307,
+          "label": "IDTY",
+          "text": "3AM"
+        },
+        {
+          "start": 515,
+          "end": 518,
+          "label": "IDTY",
+          "text": "VPN"
+        },
+        {
+          "start": 3584,
+          "end": 3587,
+          "label": "IDTY",
+          "text": "HHS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0096",
+      "added_entities": [
+        {
+          "start": 1234,
+          "end": 1263,
+          "label": "IDTY",
+          "text": "Catawba Valley Medical Center"
+        },
+        {
+          "start": 1265,
+          "end": 1284,
+          "label": "IDTY",
+          "text": "Charlotte Radiology"
+        },
+        {
+          "start": 1286,
+          "end": 1315,
+          "label": "IDTY",
+          "text": "Duke University Health System"
+        },
+        {
+          "start": 1317,
+          "end": 1352,
+          "label": "IDTY",
+          "text": "DLP Central Carolina Medical Center"
+        },
+        {
+          "start": 1354,
+          "end": 1364,
+          "label": "IDTY",
+          "text": "ECU Health"
+        },
+        {
+          "start": 1366,
+          "end": 1394,
+          "label": "IDTY",
+          "text": "FirstHealth of the Carolinas"
+        },
+        {
+          "start": 1396,
+          "end": 1417,
+          "label": "IDTY",
+          "text": "Mission Health System"
+        },
+        {
+          "start": 1419,
+          "end": 1432,
+          "label": "IDTY",
+          "text": "Novant Health"
+        },
+        {
+          "start": 1434,
+          "end": 1483,
+          "label": "IDTY",
+          "text": "Novant Health New Hanover Regional Medical Center"
+        },
+        {
+          "start": 1485,
+          "end": 1495,
+          "label": "IDTY",
+          "text": "UNC Health"
+        },
+        {
+          "start": 1497,
+          "end": 1530,
+          "label": "IDTY",
+          "text": "Wake Radiology Diagnostic Imaging"
+        },
+        {
+          "start": 1536,
+          "end": 1562,
+          "label": "IDTY",
+          "text": "WakeMed Health & Hospitals"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0097",
+      "added_entities": [
+        {
+          "start": 127,
+          "end": 130,
+          "label": "IDTY",
+          "text": "WGH"
+        },
+        {
+          "start": 812,
+          "end": 834,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1096,
+          "end": 1110,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0098",
+      "added_entities": [
+        {
+          "start": 97,
+          "end": 114,
+          "label": "LOC",
+          "text": "Centennial, Colo."
+        },
+        {
+          "start": 242,
+          "end": 251,
+          "label": "IDTY",
+          "text": "Microsoft"
+        },
+        {
+          "start": 365,
+          "end": 371,
+          "label": "IDTY",
+          "text": "Nuance"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0099",
+      "added_entities": [
+        {
+          "start": 201,
+          "end": 269,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0100",
+      "added_entities": [
+        {
+          "start": 142,
+          "end": 151,
+          "label": "IDTY",
+          "text": "Sightpath"
+        },
+        {
+          "start": 630,
+          "end": 652,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 914,
+          "end": 928,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 3210,
+          "end": 3223,
+          "label": "LOC",
+          "text": "United States"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0101",
+      "added_entities": [
+        {
+          "start": 2587,
+          "end": 2591,
+          "label": "IDTY",
+          "text": "Clop"
+        },
+        {
+          "start": 2966,
+          "end": 2982,
+          "label": "IDTY",
+          "text": "BleepingComputer"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0102",
+      "added_entities": [
+        {
+          "start": 3183,
+          "end": 3198,
+          "label": "IDTY",
+          "text": "Connect America"
+        },
+        {
+          "start": 3114,
+          "end": 3121,
+          "label": "IDTY",
+          "text": "Philips"
+        },
+        {
+          "start": 3023,
+          "end": 3036,
+          "label": "LOC",
+          "text": "United States"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0104",
+      "added_entities": [
+        {
+          "start": 3329,
+          "end": 3357,
+          "label": "IDTY",
+          "text": "HHS’ Office for Civil Rights"
+        },
+        {
+          "start": 4717,
+          "end": 4743,
+          "label": "IDTY",
+          "text": "United Healthcare Services"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0105",
+      "added_entities": [
+        {
+          "start": 2946,
+          "end": 3010,
+          "label": "IDTY",
+          "text": "Department of Health and Human Services’ Office for Civil Rights"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0106",
+      "added_entities": [
+        {
+          "start": 2774,
+          "end": 2787,
+          "label": "LOC",
+          "text": "United States"
+        },
+        {
+          "start": 2830,
+          "end": 2838,
+          "label": "LOC",
+          "text": "Kentucky"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0107",
+      "added_entities": [
+        {
+          "start": 2731,
+          "end": 2747,
+          "label": "IDTY",
+          "text": "NOW Health Group"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0109",
+      "added_entities": [
+        {
+          "start": 103,
+          "end": 116,
+          "label": "LOC",
+          "text": "United States"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0110",
+      "added_entities": [
+        {
+          "start": 126,
+          "end": 132,
+          "label": "IDTY",
+          "text": "Mulkay"
+        },
+        {
+          "start": 1817,
+          "end": 1820,
+          "label": "IDTY",
+          "text": "HHS"
+        },
+        {
+          "start": 2102,
+          "end": 2114,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 2397,
+          "end": 2401,
+          "label": "ACT",
+          "text": "DDoS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0111",
+      "added_entities": [
+        {
+          "start": 1118,
+          "end": 1159,
+          "label": "IDTY",
+          "text": "Department of Medical Assistance Services"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0113",
+      "added_entities": [
+        {
+          "start": 1135,
+          "end": 1140,
+          "label": "LOC",
+          "text": "China"
+        },
+        {
+          "start": 1218,
+          "end": 1224,
+          "label": "LOC",
+          "text": "Hadera"
+        },
+        {
+          "start": 1616,
+          "end": 1634,
+          "label": "IDTY",
+          "text": "Iranian government"
+        },
+        {
+          "start": 1826,
+          "end": 1833,
+          "label": "IDTY",
+          "text": "Kremlin"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0114",
+      "added_entities": [
+        {
+          "start": 571,
+          "end": 583,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 726,
+          "end": 734,
+          "label": "IDTY",
+          "text": "SOCRadar"
+        },
+        {
+          "start": 870,
+          "end": 885,
+          "label": "IDTY",
+          "text": "The Hacker News"
+        },
+        {
+          "start": 1458,
+          "end": 1461,
+          "label": "IDTY",
+          "text": "HHS"
+        },
+        {
+          "start": 1843,
+          "end": 1846,
+          "label": "IDTY",
+          "text": "KMC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0115",
+      "added_entities": [
+        {
+          "start": 2186,
+          "end": 2213,
+          "label": "IDTY",
+          "text": "Hospital Dr. Nelio Mendonca"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0117",
+      "added_entities": [
+        {
+          "start": 817,
+          "end": 837,
+          "label": "IDTY",
+          "text": "Recorded Future News"
+        },
+        {
+          "start": 2149,
+          "end": 2157,
+          "label": "IDTY",
+          "text": "Analyst1"
+        },
+        {
+          "start": 3380,
+          "end": 3383,
+          "label": "IDTY",
+          "text": "FBI"
+        },
+        {
+          "start": 3896,
+          "end": 3917,
+          "label": "IDTY",
+          "text": "Department of Justice"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0118",
+      "added_entities": [
+        {
+          "start": 494,
+          "end": 511,
+          "label": "IDTY",
+          "text": "The Cyber Express"
+        },
+        {
+          "start": 1476,
+          "end": 1480,
+          "label": "IDTY",
+          "text": "TSCL"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0119",
+      "added_entities": [
+        {
+          "start": 134,
+          "end": 156,
+          "label": "ACT",
+          "text": "data security incident"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0120",
+      "added_entities": [
+        {
+          "start": 566,
+          "end": 586,
+          "label": "IDTY",
+          "text": "Recorded Future News"
+        },
+        {
+          "start": 2463,
+          "end": 2476,
+          "label": "IDTY",
+          "text": "Crozer Health"
+        },
+        {
+          "start": 2502,
+          "end": 2523,
+          "label": "IDTY",
+          "text": "Philadelphia Inquirer"
+        },
+        {
+          "start": 1867,
+          "end": 1883,
+          "label": "IDTY",
+          "text": "Associated Press"
+        },
+        {
+          "start": 3316,
+          "end": 3355,
+          "label": "IDTY",
+          "text": "Department of Health and Human Services"
+        },
+        {
+          "start": 3937,
+          "end": 3985,
+          "label": "IDTY",
+          "text": "Cybersecurity and Infrastructure Security Agency"
+        },
+        {
+          "start": 3987,
+          "end": 3991,
+          "label": "IDTY",
+          "text": "CISA"
+        },
+        {
+          "start": 2919,
+          "end": 2926,
+          "label": "LOC",
+          "text": "Florida"
+        },
+        {
+          "start": 2445,
+          "end": 2460,
+          "label": "LOC",
+          "text": "Delaware County"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0121",
+      "added_entities": [
+        {
+          "start": 34,
+          "end": 39,
+          "label": "IDTY",
+          "text": "AlphV"
+        },
+        {
+          "start": 1060,
+          "end": 1076,
+          "label": "IDTY",
+          "text": "DataBreaches.net"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0122",
+      "added_entities": [
+        {
+          "start": 2860,
+          "end": 2876,
+          "label": "LOC",
+          "text": "Washington, D.C."
+        },
+        {
+          "start": 2938,
+          "end": 2948,
+          "label": "LOC",
+          "text": "Alexandria"
+        },
+        {
+          "start": 2957,
+          "end": 2968,
+          "label": "LOC",
+          "text": "Centreville"
+        },
+        {
+          "start": 2970,
+          "end": 2977,
+          "label": "LOC",
+          "text": "Fairfax"
+        },
+        {
+          "start": 2979,
+          "end": 2985,
+          "label": "LOC",
+          "text": "Reston"
+        },
+        {
+          "start": 2990,
+          "end": 3000,
+          "label": "LOC",
+          "text": "Woodbridge"
+        },
+        {
+          "start": 1357,
+          "end": 1377,
+          "label": "IDTY",
+          "text": "Fairfax Oral Surgery"
+        },
+        {
+          "start": 2950,
+          "end": 2955,
+          "label": "LOC",
+          "text": "Burke"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0124",
+      "added_entities": [
+        {
+          "start": 4132,
+          "end": 4155,
+          "label": "IDTY",
+          "text": "Office for Civil Rights"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0126",
+      "added_entities": [
+        {
+          "start": 754,
+          "end": 766,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0129",
+      "added_entities": [
+        {
+          "start": 806,
+          "end": 818,
+          "label": "IDTY",
+          "text": "Barts Health"
+        },
+        {
+          "start": 1532,
+          "end": 1543,
+          "label": "IDTY",
+          "text": "Independent"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0133",
+      "added_entities": [
+        {
+          "start": 448,
+          "end": 452,
+          "label": "IDTY",
+          "text": "TIAA"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0136",
+      "added_entities": [
+        {
+          "start": 3990,
+          "end": 3997,
+          "label": "IDTY",
+          "text": "Reuters"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0143",
+      "added_entities": [
+        {
+          "start": 351,
+          "end": 354,
+          "label": "IDTY",
+          "text": "Asl"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0146",
+      "added_entities": [
+        {
+          "start": 2550,
+          "end": 2566,
+          "label": "ACT",
+          "text": "double extortion"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0147",
+      "added_entities": [
+        {
+          "start": 3349,
+          "end": 3365,
+          "label": "LOC",
+          "text": "Capital District"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0151",
+      "added_entities": [
+        {
+          "start": 62,
+          "end": 82,
+          "label": "VUL",
+          "text": "MOVEit Vulnerability"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0152",
+      "added_entities": [
+        {
+          "start": 2050,
+          "end": 2070,
+          "label": "VUL",
+          "text": "MOVEit vulnerability"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0153",
+      "added_entities": [
+        {
+          "start": 136,
+          "end": 139,
+          "label": "IDTY",
+          "text": "PRN"
+        },
+        {
+          "start": 3139,
+          "end": 3154,
+          "label": "IDTY",
+          "text": "Delta Pathology"
+        },
+        {
+          "start": 3156,
+          "end": 3173,
+          "label": "IDTY",
+          "text": "Omega Diagnostics"
+        },
+        {
+          "start": 3175,
+          "end": 3212,
+          "label": "IDTY",
+          "text": "Pathology Associates of Mid Louisiana"
+        },
+        {
+          "start": 3218,
+          "end": 3250,
+          "label": "IDTY",
+          "text": "Diagnostic Tissue Cytology Group"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0154",
+      "added_entities": [
+        {
+          "start": 1541,
+          "end": 1558,
+          "label": "IDTY",
+          "text": "Progress Software"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0155",
+      "added_entities": [
+        {
+          "start": 70,
+          "end": 85,
+          "label": "VUL",
+          "text": "MOVEit Transfer"
+        },
+        {
+          "start": 1522,
+          "end": 1533,
+          "label": "ACT",
+          "text": "compromised"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0156",
+      "added_entities": [
+        {
+          "start": 208,
+          "end": 276,
+          "label": "IDTY",
+          "text": "U.S. Department of Health and Human Services Office for Civil Rights"
+        },
+        {
+          "start": 1769,
+          "end": 1786,
+          "label": "IDTY",
+          "text": "Progress Software"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0157",
+      "added_entities": [
+        {
+          "start": 2507,
+          "end": 2527,
+          "label": "VUL",
+          "text": "MOVEit vulnerability"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0159",
+      "added_entities": [
+        {
+          "start": 73,
+          "end": 77,
+          "label": "IDTY",
+          "text": "UTSW"
+        },
+        {
+          "start": 922,
+          "end": 926,
+          "label": "IDTY",
+          "text": "Clop"
+        },
+        {
+          "start": 1330,
+          "end": 1347,
+          "label": "IDTY",
+          "text": "US Secret Service"
+        },
+        {
+          "start": 1991,
+          "end": 2019,
+          "label": "IDTY",
+          "text": "HHS’ Office for Civil Rights"
+        },
+        {
+          "start": 2189,
+          "end": 2214,
+          "label": "IDTY",
+          "text": "LifeWorks Wellness Center"
+        },
+        {
+          "start": 2277,
+          "end": 2299,
+          "label": "IDTY",
+          "text": "Maine Attorney General"
+        },
+        {
+          "start": 2995,
+          "end": 3010,
+          "label": "IDTY",
+          "text": "UC Davis Health"
+        },
+        {
+          "start": 3746,
+          "end": 3758,
+          "label": "LOC",
+          "text": "Elmhurst, IL"
+        },
+        {
+          "start": 4966,
+          "end": 4991,
+          "label": "IDTY",
+          "text": "CardioComm Solutions Inc."
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0160",
+      "added_entities": [
+        {
+          "start": 951,
+          "end": 966,
+          "label": "IDTY",
+          "text": "Tampa Bay Times"
+        },
+        {
+          "start": 2118,
+          "end": 2123,
+          "label": "IDTY",
+          "text": "Fox13"
+        },
+        {
+          "start": 2339,
+          "end": 2357,
+          "label": "IDTY",
+          "text": "Metropolitan Opera"
+        },
+        {
+          "start": 2380,
+          "end": 2389,
+          "label": "LOC",
+          "text": "Wisconsin"
+        },
+        {
+          "start": 2412,
+          "end": 2417,
+          "label": "IDTY",
+          "text": "Volvo"
+        },
+        {
+          "start": 2603,
+          "end": 2617,
+          "label": "IDTY",
+          "text": "HCA Healthcare"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0162",
+      "added_entities": [
+        {
+          "start": 1390,
+          "end": 1393,
+          "label": "IDTY",
+          "text": "HHS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0163",
+      "added_entities": [
+        {
+          "start": 211,
+          "end": 215,
+          "label": "IDTY",
+          "text": "UTSW"
+        },
+        {
+          "start": 73,
+          "end": 79,
+          "label": "VUL",
+          "text": "MOVEit"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0165",
+      "added_entities": [
+        {
+          "start": 129,
+          "end": 136,
+          "label": "IDTY",
+          "text": "edgeMED"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0166",
+      "added_entities": [
+        {
+          "start": 236,
+          "end": 249,
+          "label": "IDTY",
+          "text": "Iowa Medicaid"
+        },
+        {
+          "start": 290,
+          "end": 307,
+          "label": "ACT",
+          "text": "hacking incidents"
+        },
+        {
+          "start": 315,
+          "end": 339,
+          "label": "ACT",
+          "text": "impermissible disclosure"
+        },
+        {
+          "start": 1964,
+          "end": 1972,
+          "label": "IDTY",
+          "text": "Telligen"
+        },
+        {
+          "start": 2036,
+          "end": 2039,
+          "label": "IDTY",
+          "text": "ILS"
+        },
+        {
+          "start": 2324,
+          "end": 2329,
+          "label": "IDTY",
+          "text": "SJBHR"
+        },
+        {
+          "start": 2349,
+          "end": 2357,
+          "label": "IDTY",
+          "text": "Inperium"
+        },
+        {
+          "start": 3165,
+          "end": 3182,
+          "label": "ACT",
+          "text": "ransomware attack"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0167",
+      "added_entities": [
+        {
+          "start": 161,
+          "end": 164,
+          "label": "IDTY",
+          "text": "LGH"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0168",
+      "added_entities": [
+        {
+          "start": 119,
+          "end": 123,
+          "label": "IDTY",
+          "text": "NELC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0170",
+      "added_entities": [
+        {
+          "start": 1451,
+          "end": 1457,
+          "label": "IDTY",
+          "text": "Morris"
+        },
+        {
+          "start": 67,
+          "end": 77,
+          "label": "ACT",
+          "text": "ransomware"
+        },
+        {
+          "start": 336,
+          "end": 358,
+          "label": "ACT",
+          "text": "cybersecurity incident"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0171",
+      "added_entities": [
+        {
+          "start": 105,
+          "end": 109,
+          "label": "IDTY",
+          "text": "CRHS"
+        },
+        {
+          "start": 394,
+          "end": 406,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 2470,
+          "end": 2479,
+          "label": "IDTY",
+          "text": "Foresight"
+        },
+        {
+          "start": 2499,
+          "end": 2537,
+          "label": "VUL",
+          "text": "critical and high-risk vulnerabilities"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0172",
+      "added_entities": [
+        {
+          "start": 251,
+          "end": 259,
+          "label": "ACT",
+          "text": "phishing"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0173",
+      "added_entities": [
+        {
+          "start": 245,
+          "end": 263,
+          "label": "IDTY",
+          "text": "CARES Center, Inc."
+        },
+        {
+          "start": 265,
+          "end": 307,
+          "label": "IDTY",
+          "text": "Mississippi Children’s Home Services, Inc."
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0174",
+      "added_entities": [
+        {
+          "start": 67,
+          "end": 70,
+          "label": "IDTY",
+          "text": "UBH"
+        },
+        {
+          "start": 1178,
+          "end": 1186,
+          "label": "IDTY",
+          "text": "LCHD/CHC"
+        },
+        {
+          "start": 155,
+          "end": 166,
+          "label": "ACT",
+          "text": "compromised"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0175",
+      "added_entities": [
+        {
+          "start": 166,
+          "end": 170,
+          "label": "IDTY",
+          "text": "EMSI"
+        },
+        {
+          "start": 2803,
+          "end": 2816,
+          "label": "IDTY",
+          "text": "Validus Group"
+        },
+        {
+          "start": 2919,
+          "end": 2952,
+          "label": "IDTY",
+          "text": "Strategic Capital Fund Management"
+        },
+        {
+          "start": 2954,
+          "end": 2978,
+          "label": "IDTY",
+          "text": "Validus Group Properties"
+        },
+        {
+          "start": 2980,
+          "end": 3001,
+          "label": "IDTY",
+          "text": "Validus Senior Living"
+        },
+        {
+          "start": 3049,
+          "end": 3064,
+          "label": "IDTY",
+          "text": "SC Distributors"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0176",
+      "added_entities": [
+        {
+          "start": 109,
+          "end": 126,
+          "label": "ACT",
+          "text": "security incident"
+        },
+        {
+          "start": 717,
+          "end": 724,
+          "label": "ACT",
+          "text": "malware"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0177",
+      "added_entities": [
+        {
+          "start": 622,
+          "end": 628,
+          "label": "IDTY",
+          "text": "Fortra"
+        },
+        {
+          "start": 2129,
+          "end": 2140,
+          "label": "ACT",
+          "text": "compromised"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0178",
+      "added_entities": [
+        {
+          "start": 204,
+          "end": 207,
+          "label": "IDTY",
+          "text": "UBH"
+        },
+        {
+          "start": 213,
+          "end": 217,
+          "label": "LOC",
+          "text": "Utah"
+        },
+        {
+          "start": 978,
+          "end": 999,
+          "label": "ACT",
+          "text": "accidental disclosure"
+        },
+        {
+          "start": 1815,
+          "end": 1846,
+          "label": "IDTY",
+          "text": "Maine Attorney General’s Office"
+        },
+        {
+          "start": 2283,
+          "end": 2291,
+          "label": "IDTY",
+          "text": "BianLian"
+        },
+        {
+          "start": 2681,
+          "end": 2693,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 3281,
+          "end": 3308,
+          "label": "IDTY",
+          "text": "Murfreesboro Medical Clinic"
+        },
+        {
+          "start": 3446,
+          "end": 3455,
+          "label": "LOC",
+          "text": "Tennessee"
+        },
+        {
+          "start": 3495,
+          "end": 3519,
+          "label": "IDTY",
+          "text": "North Shore Medical Labs"
+        },
+        {
+          "start": 3636,
+          "end": 3640,
+          "label": "IDTY",
+          "text": "NSML"
+        },
+        {
+          "start": 3855,
+          "end": 3874,
+          "label": "IDTY",
+          "text": "Earlens Corporation"
+        },
+        {
+          "start": 4017,
+          "end": 4033,
+          "label": "IDTY",
+          "text": "AlphV (BlackCat)"
+        },
+        {
+          "start": 4049,
+          "end": 4073,
+          "label": "IDTY",
+          "text": "Essen Medical Associates"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0179",
+      "added_entities": [
+        {
+          "start": 112,
+          "end": 116,
+          "label": "IDTY",
+          "text": "RUMC"
+        },
+        {
+          "start": 1378,
+          "end": 1381,
+          "label": "IDTY",
+          "text": "MMC"
+        },
+        {
+          "start": 2105,
+          "end": 2117,
+          "label": "IDTY",
+          "text": "Aspen Dental"
+        },
+        {
+          "start": 2285,
+          "end": 2293,
+          "label": "IDTY",
+          "text": "Bitmarck"
+        },
+        {
+          "start": 2475,
+          "end": 2488,
+          "label": "IDTY",
+          "text": "Point32Health"
+        },
+        {
+          "start": 2508,
+          "end": 2535,
+          "label": "IDTY",
+          "text": "Harvard Pilgrim Health Care"
+        },
+        {
+          "start": 1682,
+          "end": 1688,
+          "label": "LOC",
+          "text": "Smyrna"
+        },
+        {
+          "start": 1729,
+          "end": 1739,
+          "label": "LOC",
+          "text": "Manchester"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0181",
+      "added_entities": [
+        {
+          "start": 72,
+          "end": 101,
+          "label": "IDTY",
+          "text": "Korean National Police Agency"
+        },
+        {
+          "start": 103,
+          "end": 107,
+          "label": "IDTY",
+          "text": "KNPA"
+        },
+        {
+          "start": 2338,
+          "end": 2347,
+          "label": "IDTY",
+          "text": "Kaspersky"
+        },
+        {
+          "start": 2426,
+          "end": 2434,
+          "label": "IDTY",
+          "text": "Andariel"
+        },
+        {
+          "start": 2442,
+          "end": 2450,
+          "label": "IDTY",
+          "text": "Stonefly"
+        },
+        {
+          "start": 2152,
+          "end": 2167,
+          "label": "ACT",
+          "text": "Maui ransomware"
+        },
+        {
+          "start": 0,
+          "end": 11,
+          "label": "LOC",
+          "text": "North Korea"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0182",
+      "added_entities": [
+        {
+          "start": 574,
+          "end": 606,
+          "label": "IDTY",
+          "text": "Information Security Media Group"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0183",
+      "added_entities": [
+        {
+          "start": 1340,
+          "end": 1362,
+          "label": "IDTY",
+          "text": "Maine Attorney General"
+        },
+        {
+          "start": 1675,
+          "end": 1708,
+          "label": "IDTY",
+          "text": "American Board of Plastic Surgery"
+        },
+        {
+          "start": 1977,
+          "end": 2005,
+          "label": "IDTY",
+          "text": "Lehigh Valley Health Network"
+        },
+        {
+          "start": 2164,
+          "end": 2169,
+          "label": "IDTY",
+          "text": "ALPHV"
+        },
+        {
+          "start": 3088,
+          "end": 3103,
+          "label": "IDTY",
+          "text": "NBC Los Angeles"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0184",
+      "added_entities": [
+        {
+          "start": 85,
+          "end": 89,
+          "label": "IDTY",
+          "text": "ASAS"
+        },
+        {
+          "start": 150,
+          "end": 175,
+          "label": "IDTY",
+          "text": "Attorney General of Maine"
+        },
+        {
+          "start": 726,
+          "end": 748,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1212,
+          "end": 1226,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 1879,
+          "end": 1898,
+          "label": "ACT",
+          "text": "unauthorized access"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0186",
+      "added_entities": [
+        {
+          "start": 157,
+          "end": 161,
+          "label": "IDTY",
+          "text": "PHMC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0187",
+      "added_entities": [
+        {
+          "start": 289,
+          "end": 299,
+          "label": "IDTY",
+          "text": "NSW Health"
+        },
+        {
+          "start": 1524,
+          "end": 1550,
+          "label": "IDTY",
+          "text": "Minneapolis Public Schools"
+        },
+        {
+          "start": 1900,
+          "end": 1907,
+          "label": "IDTY",
+          "text": "CyberCX"
+        },
+        {
+          "start": 1182,
+          "end": 1191,
+          "label": "LOC",
+          "text": "Australia"
+        },
+        {
+          "start": 1196,
+          "end": 1207,
+          "label": "LOC",
+          "text": "New Zealand"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0188",
+      "added_entities": [
+        {
+          "start": 150,
+          "end": 154,
+          "label": "IDTY",
+          "text": "MDIH"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0189",
+      "added_entities": [
+        {
+          "start": 224,
+          "end": 227,
+          "label": "IDTY",
+          "text": "CUP"
+        },
+        {
+          "start": 1368,
+          "end": 1371,
+          "label": "IDTY",
+          "text": "RHC"
+        },
+        {
+          "start": 2277,
+          "end": 2290,
+          "label": "IDTY",
+          "text": "Red Hot Cyber"
+        },
+        {
+          "start": 2457,
+          "end": 2462,
+          "label": "IDTY",
+          "text": "Conti"
+        },
+        {
+          "start": 2667,
+          "end": 2676,
+          "label": "VUL",
+          "text": "Log4Shell"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0190",
+      "added_entities": [
+        {
+          "start": 40,
+          "end": 46,
+          "label": "IDTY",
+          "text": "Amazon"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0191",
+      "added_entities": [
+        {
+          "start": 2142,
+          "end": 2148,
+          "label": "IDTY",
+          "text": "VMware"
+        },
+        {
+          "start": 2916,
+          "end": 2924,
+          "label": "IDTY",
+          "text": "Medicare"
+        },
+        {
+          "start": 2929,
+          "end": 2937,
+          "label": "IDTY",
+          "text": "Medi-Cal"
+        },
+        {
+          "start": 631,
+          "end": 653,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 956,
+          "end": 970,
+          "label": "ACT",
+          "text": "identity theft"
+        },
+        {
+          "start": 2825,
+          "end": 2844,
+          "label": "LOC",
+          "text": "San Fernando Valley"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0192",
+      "added_entities": [
+        {
+          "start": 147,
+          "end": 150,
+          "label": "IDTY",
+          "text": "PAB"
+        },
+        {
+          "start": 537,
+          "end": 559,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 1278,
+          "end": 1292,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0194",
+      "added_entities": [
+        {
+          "start": 627,
+          "end": 642,
+          "label": "IDTY",
+          "text": "Activate Health"
+        },
+        {
+          "start": 749,
+          "end": 771,
+          "label": "ACT",
+          "text": "data security incident"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0196",
+      "added_entities": [
+        {
+          "start": 611,
+          "end": 631,
+          "label": "IDTY",
+          "text": "Lake Dallas District"
+        },
+        {
+          "start": 1434,
+          "end": 1451,
+          "label": "IDTY",
+          "text": "The Cyber Express"
+        },
+        {
+          "start": 1834,
+          "end": 1854,
+          "label": "IDTY",
+          "text": "Check Point Research"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0197",
+      "added_entities": [
+        {
+          "start": 521,
+          "end": 532,
+          "label": "ACT",
+          "text": "compromised"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0199",
+      "added_entities": [
+        {
+          "start": 257,
+          "end": 269,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 0,
+          "end": 8,
+          "label": "IDTY",
+          "text": "BianLian"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0200",
+      "added_entities": [
+        {
+          "start": 132,
+          "end": 135,
+          "label": "IDTY",
+          "text": "DPM"
+        },
+        {
+          "start": 739,
+          "end": 761,
+          "label": "ACT",
+          "text": "data security incident"
+        },
+        {
+          "start": 263,
+          "end": 274,
+          "label": "ACT",
+          "text": "compromised"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0202",
+      "added_entities": [
+        {
+          "start": 2688,
+          "end": 2692,
+          "label": "LOC",
+          "text": "U.S."
+        },
+        {
+          "start": 2754,
+          "end": 2773,
+          "label": "ACT",
+          "text": "ransomware incident"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0203",
+      "added_entities": [
+        {
+          "start": 3004,
+          "end": 3011,
+          "label": "LOC",
+          "text": "Robeson"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0204",
+      "added_entities": [
+        {
+          "start": 52,
+          "end": 70,
+          "label": "IDTY",
+          "text": "Marshall & Melhorn"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0205",
+      "added_entities": [
+        {
+          "start": 703,
+          "end": 715,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 1721,
+          "end": 1730,
+          "label": "IDTY",
+          "text": "Peachtree"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0207",
+      "added_entities": [
+        {
+          "start": 2530,
+          "end": 2546,
+          "label": "IDTY",
+          "text": "DataBreaches.net"
+        },
+        {
+          "start": 2857,
+          "end": 2904,
+          "label": "IDTY",
+          "text": "Health Sector Cybersecurity Coordination Center"
+        },
+        {
+          "start": 3278,
+          "end": 3310,
+          "label": "IDTY",
+          "text": "Information Security Media Group"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0208",
+      "added_entities": [
+        {
+          "start": 158,
+          "end": 161,
+          "label": "IDTY",
+          "text": "GVC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0210",
+      "added_entities": [
+        {
+          "start": 727,
+          "end": 730,
+          "label": "IDTY",
+          "text": "CCH"
+        },
+        {
+          "start": 1801,
+          "end": 1808,
+          "label": "LOC",
+          "text": "Ukraine"
+        },
+        {
+          "start": 2559,
+          "end": 2582,
+          "label": "IDTY",
+          "text": "Office for Civil Rights"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0213",
+      "added_entities": [
+        {
+          "start": 1544,
+          "end": 1547,
+          "label": "IDTY",
+          "text": "SEC"
+        },
+        {
+          "start": 2122,
+          "end": 2127,
+          "label": "LOC",
+          "text": "India"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0214",
+      "added_entities": [
+        {
+          "start": 273,
+          "end": 285,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 697,
+          "end": 700,
+          "label": "IDTY",
+          "text": "RIS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0217",
+      "added_entities": [
+        {
+          "start": 2418,
+          "end": 2421,
+          "label": "IDTY",
+          "text": "PHC"
+        },
+        {
+          "start": 3228,
+          "end": 3253,
+          "label": "IDTY",
+          "text": "Limbach Facility Services"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0219",
+      "added_entities": [
+        {
+          "start": 322,
+          "end": 328,
+          "label": "LOC",
+          "text": "DENVER"
+        },
+        {
+          "start": 2225,
+          "end": 2240,
+          "label": "VUL",
+          "text": "vulnerabilities"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0220",
+      "added_entities": [
+        {
+          "start": 778,
+          "end": 786,
+          "label": "IDTY",
+          "text": "KaraKurt"
+        },
+        {
+          "start": 1411,
+          "end": 1414,
+          "label": "IDTY",
+          "text": "HHS"
+        },
+        {
+          "start": 3644,
+          "end": 3649,
+          "label": "LOC",
+          "text": "Texas"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0221",
+      "added_entities": [
+        {
+          "start": 664,
+          "end": 686,
+          "label": "ACT",
+          "text": "data security incident"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0222",
+      "added_entities": [
+        {
+          "start": 3147,
+          "end": 3155,
+          "label": "LOC",
+          "text": "Chandler"
+        },
+        {
+          "start": 3157,
+          "end": 3164,
+          "label": "LOC",
+          "text": "Arizona"
+        },
+        {
+          "start": 3211,
+          "end": 3234,
+          "label": "IDTY",
+          "text": "Phoenician Primary Care"
+        },
+        {
+          "start": 3278,
+          "end": 3304,
+          "label": "IDTY",
+          "text": "Phoenician Vein & Vascular"
+        },
+        {
+          "start": 3306,
+          "end": 3327,
+          "label": "IDTY",
+          "text": "Phoenician Cardiology"
+        },
+        {
+          "start": 3333,
+          "end": 3352,
+          "label": "IDTY",
+          "text": "Desert Laboratories"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0223",
+      "added_entities": [
+        {
+          "start": 3455,
+          "end": 3461,
+          "label": "LOC",
+          "text": "Bowman"
+        },
+        {
+          "start": 3463,
+          "end": 3475,
+          "label": "LOC",
+          "text": "North Dakota"
+        },
+        {
+          "start": 3554,
+          "end": 3583,
+          "label": "IDTY",
+          "text": "St. Luke’s Tri-State Hospital"
+        },
+        {
+          "start": 3588,
+          "end": 3611,
+          "label": "IDTY",
+          "text": "Sunset Care Corporation"
+        },
+        {
+          "start": 3627,
+          "end": 3651,
+          "label": "IDTY",
+          "text": "Bowman Ambulance Service"
+        },
+        {
+          "start": 3754,
+          "end": 3785,
+          "label": "IDTY",
+          "text": "Sunrise Village Assisted Living"
+        },
+        {
+          "start": 3791,
+          "end": 3810,
+          "label": "IDTY",
+          "text": "Sunset Nursing Home"
+        },
+        {
+          "start": 3819,
+          "end": 3843,
+          "label": "IDTY",
+          "text": "Southwest Medical Clinic"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0224",
+      "added_entities": [
+        {
+          "start": 814,
+          "end": 824,
+          "label": "IDTY",
+          "text": "TechCrunch"
+        },
+        {
+          "start": 1432,
+          "end": 1439,
+          "label": "IDTY",
+          "text": "NextGen"
+        },
+        {
+          "start": 1780,
+          "end": 1785,
+          "label": "IDTY",
+          "text": "ALPHV"
+        },
+        {
+          "start": 1817,
+          "end": 1825,
+          "label": "IDTY",
+          "text": "BlackCat"
+        },
+        {
+          "start": 1959,
+          "end": 1965,
+          "label": "IDTY",
+          "text": "Fortra"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0225",
+      "added_entities": [
+        {
+          "start": 1302,
+          "end": 1341,
+          "label": "IDTY",
+          "text": "Department of Health and Human Services"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0226",
+      "added_entities": [
+        {
+          "start": 709,
+          "end": 726,
+          "label": "IDTY",
+          "text": "Clop threat group"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0233",
+      "added_entities": [
+        {
+          "start": 610,
+          "end": 625,
+          "label": "LOC",
+          "text": "Chippewa County"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0236",
+      "added_entities": [
+        {
+          "start": 788,
+          "end": 792,
+          "label": "LOC",
+          "text": "U.K."
+        },
+        {
+          "start": 922,
+          "end": 940,
+          "label": "IDTY",
+          "text": "British government"
+        },
+        {
+          "start": 1137,
+          "end": 1143,
+          "label": "LOC",
+          "text": "Europe"
+        },
+        {
+          "start": 1152,
+          "end": 1165,
+          "label": "LOC",
+          "text": "United States"
+        },
+        {
+          "start": 1488,
+          "end": 1491,
+          "label": "IDTY",
+          "text": "NHS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0238",
+      "added_entities": [
+        {
+          "start": 247,
+          "end": 257,
+          "label": "IDTY",
+          "text": "TechCrunch"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0240",
+      "added_entities": [
+        {
+          "start": 922,
+          "end": 926,
+          "label": "IDTY",
+          "text": "Clop"
+        },
+        {
+          "start": 878,
+          "end": 900,
+          "label": "VUL",
+          "text": "zero-day vulnerability"
+        },
+        {
+          "start": 1465,
+          "end": 1470,
+          "label": "IDTY",
+          "text": "Kroll"
+        },
+        {
+          "start": 1484,
+          "end": 1495,
+          "label": "LOC",
+          "text": "Connecticut"
+        },
+        {
+          "start": 2544,
+          "end": 2555,
+          "label": "ACT",
+          "text": "Cyberattack"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0241",
+      "added_entities": [
+        {
+          "start": 65,
+          "end": 77,
+          "label": "IDTY",
+          "text": "Saint Pierre"
+        },
+        {
+          "start": 302,
+          "end": 305,
+          "label": "IDTY",
+          "text": "CHC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0243",
+      "added_entities": [
+        {
+          "start": 1658,
+          "end": 1673,
+          "label": "ACT",
+          "text": "phishing attack"
+        },
+        {
+          "start": 2718,
+          "end": 2737,
+          "label": "LOC",
+          "text": "South San Francisco"
+        },
+        {
+          "start": 2821,
+          "end": 2829,
+          "label": "IDTY",
+          "text": "Medi-Cal"
+        },
+        {
+          "start": 2970,
+          "end": 2986,
+          "label": "LOC",
+          "text": "San Mateo County"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0244",
+      "added_entities": [
+        {
+          "start": 712,
+          "end": 738,
+          "label": "IDTY",
+          "text": "India’s Ministry of Health"
+        },
+        {
+          "start": 1365,
+          "end": 1367,
+          "label": "IDTY",
+          "text": "G7"
+        },
+        {
+          "start": 1900,
+          "end": 1914,
+          "label": "IDTY",
+          "text": "Falcon Feedsio"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0245",
+      "added_entities": [
+        {
+          "start": 503,
+          "end": 515,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 735,
+          "end": 749,
+          "label": "IDTY",
+          "text": "Cronica Global"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0246",
+      "added_entities": [
+        {
+          "start": 1899,
+          "end": 1907,
+          "label": "IDTY",
+          "text": "Experian"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0247",
+      "added_entities": [
+        {
+          "start": 28,
+          "end": 56,
+          "label": "IDTY",
+          "text": "NorthStar Paramedic Services"
+        },
+        {
+          "start": 1380,
+          "end": 1394,
+          "label": "ACT",
+          "text": "identity theft"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0248",
+      "added_entities": [
+        {
+          "start": 214,
+          "end": 221,
+          "label": "IDTY",
+          "text": "AllCare"
+        },
+        {
+          "start": 2312,
+          "end": 2332,
+          "label": "IDTY",
+          "text": "Denver Public School"
+        },
+        {
+          "start": 2346,
+          "end": 2388,
+          "label": "IDTY",
+          "text": "US Department of Health and Human Services"
+        },
+        {
+          "start": 3088,
+          "end": 3091,
+          "label": "IDTY",
+          "text": "DPS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0249",
+      "added_entities": [
+        {
+          "start": 806,
+          "end": 809,
+          "label": "IDTY",
+          "text": "GHS"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0252",
+      "added_entities": [
+        {
+          "start": 74,
+          "end": 79,
+          "label": "IDTY",
+          "text": "DHnet"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0255",
+      "added_entities": [
+        {
+          "start": 1721,
+          "end": 1724,
+          "label": "IDTY",
+          "text": "RHC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0259",
+      "added_entities": [
+        {
+          "start": 2763,
+          "end": 2769,
+          "label": "LOC",
+          "text": "Wausau"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0263",
+      "added_entities": [
+        {
+          "start": 1277,
+          "end": 1286,
+          "label": "LOC",
+          "text": "Catalonia"
+        },
+        {
+          "start": 1422,
+          "end": 1439,
+          "label": "IDTY",
+          "text": "Mossos d'Esquadra"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0264",
+      "added_entities": [
+        {
+          "start": 1659,
+          "end": 1671,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0265",
+      "added_entities": [
+        {
+          "start": 4336,
+          "end": 4347,
+          "label": "LOC",
+          "text": "Lake County"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0269",
+      "added_entities": [
+        {
+          "start": 290,
+          "end": 297,
+          "label": "IDTY",
+          "text": "Henrico"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0270",
+      "added_entities": [
+        {
+          "start": 406,
+          "end": 414,
+          "label": "IDTY",
+          "text": "Becker's"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0272",
+      "added_entities": [
+        {
+          "start": 2414,
+          "end": 2421,
+          "label": "IDTY",
+          "text": "Compass"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0273",
+      "added_entities": [
+        {
+          "start": 266,
+          "end": 269,
+          "label": "IDTY",
+          "text": "MGH"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0274",
+      "added_entities": [
+        {
+          "start": 635,
+          "end": 644,
+          "label": "IDTY",
+          "text": "Local 537"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0275",
+      "added_entities": [
+        {
+          "start": 436,
+          "end": 444,
+          "label": "IDTY",
+          "text": "Region H"
+        },
+        {
+          "start": 1410,
+          "end": 1422,
+          "label": "LOC",
+          "text": "Soviet Union"
+        },
+        {
+          "start": 2314,
+          "end": 2323,
+          "label": "IDTY",
+          "text": "The Local"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0277",
+      "added_entities": [
+        {
+          "start": 197,
+          "end": 200,
+          "label": "IDTY",
+          "text": "HC3"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0278",
+      "added_entities": [
+        {
+          "start": 2555,
+          "end": 2581,
+          "label": "IDTY",
+          "text": "Âncora Sistemas de Fixação"
+        },
+        {
+          "start": 1297,
+          "end": 1317,
+          "label": "IDTY",
+          "text": "National Health Fund"
+        },
+        {
+          "start": 3170,
+          "end": 3177,
+          "label": "IDTY",
+          "text": "LockBit"
+        },
+        {
+          "start": 2109,
+          "end": 2121,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        },
+        {
+          "start": 8,
+          "end": 30,
+          "label": "IDTY",
+          "text": "Red de Salud del Norte"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0280",
+      "added_entities": [
+        {
+          "start": 2472,
+          "end": 2475,
+          "label": "IDTY",
+          "text": "RCC"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0282",
+      "added_entities": [
+        {
+          "start": 263,
+          "end": 267,
+          "label": "IDTY",
+          "text": "LVHN"
+        },
+        {
+          "start": 2135,
+          "end": 2138,
+          "label": "IDTY",
+          "text": "FBI"
+        },
+        {
+          "start": 2276,
+          "end": 2278,
+          "label": "LOC",
+          "text": "US"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0286",
+      "added_entities": [
+        {
+          "start": 438,
+          "end": 445,
+          "label": "IDTY",
+          "text": "Robeson"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0289",
+      "added_entities": [
+        {
+          "start": 106,
+          "end": 109,
+          "label": "IDTY",
+          "text": "CHS"
+        },
+        {
+          "start": 271,
+          "end": 288,
+          "label": "ACT",
+          "text": "security incident"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0293",
+      "added_entities": [
+        {
+          "start": 3502,
+          "end": 3510,
+          "label": "LOC",
+          "text": "East Bay"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0294",
+      "added_entities": [
+        {
+          "start": 235,
+          "end": 255,
+          "label": "IDTY",
+          "text": "Emergency Department"
+        },
+        {
+          "start": 265,
+          "end": 277,
+          "label": "IDTY",
+          "text": "Kawartha 411"
+        },
+        {
+          "start": 590,
+          "end": 601,
+          "label": "IDTY",
+          "text": "Kawartha411"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0295",
+      "added_entities": [
+        {
+          "start": 85,
+          "end": 88,
+          "label": "IDTY",
+          "text": "HHS"
+        },
+        {
+          "start": 4994,
+          "end": 5006,
+          "label": "IDTY",
+          "text": "DataBreaches"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0297",
+      "added_entities": [
+        {
+          "start": 81,
+          "end": 88,
+          "label": "LOC",
+          "text": "HOUSTON"
+        },
+        {
+          "start": 106,
+          "end": 116,
+          "label": "IDTY",
+          "text": "PRNewswire"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0298",
+      "added_entities": [
+        {
+          "start": 2674,
+          "end": 2677,
+          "label": "IDTY",
+          "text": "CHS"
+        },
+        {
+          "start": 6070,
+          "end": 6076,
+          "label": "IDTY",
+          "text": "BCBSAZ"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0299",
+      "added_entities": [
+        {
+          "start": 912,
+          "end": 920,
+          "label": "IDTY",
+          "text": "SC Media"
+        },
+        {
+          "start": 571,
+          "end": 587,
+          "label": "IDTY",
+          "text": "Atlantic General"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0302",
+      "added_entities": [
+        {
+          "start": 332,
+          "end": 343,
+          "label": "ACT",
+          "text": "compromised"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0309",
+      "added_entities": [
+        {
+          "start": 3039,
+          "end": 3047,
+          "label": "IDTY",
+          "text": "Fortinet"
+        }
+      ]
+    },
+    {
+      "id": "vinitvek-article-2023-0312",
+      "added_entities": [
+        {
+          "start": 767,
+          "end": 775,
+          "label": "IDTY",
+          "text": "Becker's"
+        }
+      ]
+    }
+  ],
+  "revision": 17,
+  "total_added_entities": 687,
+  "documents_with_additions": 208
+}

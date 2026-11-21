@@ -13,10 +13,7 @@ linguagem da Meta. Os anotadores revisaram manualmente os trechos e as
 categorias e acrescentaram entidades ausentes. Os registros dos demais
 experimentos preliminares permanecem separados desse procedimento.
 
-A apresentação do Marco 3 está em
-`marco3_apresentacao_com_resumo_e_conclusao.pptx`. A continuação do Marco 4,
-com artefatos, ferramenta de auditoria e concordância, está em
-`marco4_apresentacao.pptx` (PDF de apoio em `marco4_apresentacao.pdf`); o
-roteiro dividido entre três apresentadores está em
-`marco4_roteiro_apresentacao.md`. Os textos de artigos, labels por documento
-e diagnósticos detalhados permanecem locais e não fazem parte destes relatórios.
+Os textos completos das notícias, os archives e as auditorias integrais estão
+em `review-data/`, para revisão acadêmica. As exportações sem texto e os
+resultados agregados estão em `data/muse-artifacts/`. Os diagnósticos por
+documento permanecem restritos.

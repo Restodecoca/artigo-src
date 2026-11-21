@@ -6,12 +6,13 @@ e comparável entre três revisores, sem publicar texto de artigos.
 
 ## Artefatos necessários
 
-Os archives privados de anotação estão em `data/muse-artifacts/` (exceção
-operacional documentada em `DATA_AND_ARTIFACT_POLICY.md`):
+Os archives completos estão em `review-data/archives/` e contêm textos de
+terceiros para revisão acadêmica. As exportações sem texto estão em
+`data/muse-artifacts/`. Consulte `DATA_AND_ARTIFACT_POLICY.md`.
 
-- `data/muse-artifacts/raw/vinitvek-articles-2023-muse-expanded.tar.gz` —
+- `review-data/archives/vinitvek-articles-2023-muse-expanded.tar.gz` —
   camada Muse original, 314 registros, 299 mantidos, 2.103 entidades.
-- `data/muse-artifacts/processed/muse_corrected.tar.gz` — overlay adjudicado,
+- `review-data/archives/muse_corrected.tar.gz` — overlay adjudicado,
   314 registros, 299 mantidos, 5.111 entidades.
 
 Conferência dos archives:
@@ -24,9 +25,9 @@ Extraia antes de usar; a página lê JSON/JSONL, não tar:
 
 ```bash
 mkdir -p /tmp/muse/{original,overlay}
-tar xzf data/muse-artifacts/raw/vinitvek-articles-2023-muse-expanded.tar.gz \
+tar xzf review-data/archives/vinitvek-articles-2023-muse-expanded.tar.gz \
   -C /tmp/muse/original
-tar xzf data/muse-artifacts/processed/muse_corrected.tar.gz \
+tar xzf review-data/archives/muse_corrected.tar.gz \
   -C /tmp/muse/overlay
 ```
 
@@ -138,7 +139,7 @@ As anotações iniciais foram geradas pelo Muse Spark, modelo de linguagem da
 Meta, e posteriormente revisadas manualmente. O arquivo de Gabriel Rodrigues representa o overlay
 na comparação. Seu formato de exportação não estabelece, por si só, como
 foi realizada a anotação humana. A revisão completa do Angelo e a camada de consenso estão em
-`data/muse-artifacts/processed/muse_reviewed.tar.gz` e
+`review-data/archives/muse_reviewed.tar.gz` e
 `muse_consensus.tar.gz`; os detalhes estão em `docs/04_anotacoes_assistidas.md`.
 
 O relatório contém apenas dados agregados: cobertura, concordância com a Muse,
@@ -168,7 +169,8 @@ humana de uma camada `silver`/overlay e deve ser descrito como extensão.
 - O progresso fica no `localStorage` do navegador.
 - Os exports contêm IDs de documento, spans, rótulos, incerteza, notas, entidades
   adicionadas (`origin="custom"`, `custom_entities`) e a lista de itens cuja
-  sugestão Muse foi revelada. Trate-os como material restrito e não os versione.
+  sugestão Muse foi revelada. Exports com texto não devem ser versionados.
+  A versão pública usa apenas IDs, offsets, rótulos e metadados.
 - `data/processed/` e `auditoria_muse_*.json|csv` são ignorados pelo Git.
 
 ## Testes

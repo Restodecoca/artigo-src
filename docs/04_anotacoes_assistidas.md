@@ -159,8 +159,8 @@ diagnóstico por documento permanece privado.
 
 A revisão humana das 299 notícias foi realizada manualmente sobre as
 anotações existentes, com origem nas sugestões do Muse. Ela está registrada em
-`data/muse-artifacts/annotations/overlay_review_v1.json`, com arquivo
-`processed/muse_reviewed.tar.gz`. Essa referência marca todas as menções de
+`data/muse-artifacts/annotations/overlay_review_v1.json`, com arquivo completo
+em `review-data/archives/muse_reviewed.tar.gz`. Essa referência marca todas as menções de
 cada entidade e remove marcações fora do protocolo, como texto jurídico
 padronizado, negações e trechos que cortam palavras. A geração automática
 das sugestões e a revisão manual posterior são etapas distintas. Os detalhes
@@ -195,7 +195,8 @@ As três versões resultantes da revisão humana das anotações foram sobrepost
 por span exato para produzir uma validação em pares e uma camada de consenso.
 A revisão completa do Angelo foi usada como
 base (9.318 spans, todas as menções); os rótulos de Gabriel Rodrigues (overlay)
-e Gabriel Carlos foram sobrepostos quando o span era idêntico. O rótulo final é
+e Gabriel Machado (identificado como Gabriel Carlos no arquivo) foram
+sobrepostos quando o span era idêntico. O rótulo final é
 o voto majoritário; em empate, prevalece o rótulo do Angelo. Spans que o Angelo
 removeu ou corrigiu não foram reintroduzidos.
 
@@ -212,7 +213,7 @@ confirmados sem alteração; 347 foram removidos, 115 tiveram o span corrigido e
 Na camada de consenso, 4.640 spans têm os três anotadores, 10 têm dois e 4.668
 são exclusivos do Angelo. Houve 22 conflitos de rótulo; em todos, o rótulo do
 Angelo foi mantido (nenhuma alteração final em relação à camada revisada). A
-camada de consenso está em `data/muse-artifacts/processed/muse_consensus.tar.gz`.
+referência consolidada está em `review-data/archives/muse_consensus.tar.gz`.
 
 
 ## Treino na camada de consenso

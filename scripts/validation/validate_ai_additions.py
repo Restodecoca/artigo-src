@@ -157,7 +157,7 @@ def main() -> None:
     parser.add_argument(
         "--archive",
         type=Path,
-        default=Path("data/muse-artifacts/processed/muse_corrected.tar.gz"),
+        default=Path("review-data/archives/muse_corrected.tar.gz"),
         help="base overlay archive (batch_*.json + labels_batch_*.json)",
     )
     parser.add_argument("--json", action="store_true", help="print stats as JSON")

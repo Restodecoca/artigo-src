@@ -57,9 +57,9 @@ A ferramenta `scripts/validation/muse_audit.html` apoia a anotação manual e a
 conferência das categorias. Os arquivos de cada revisor são consolidados por
 `scripts/validation/compare_audits.py`. O nome Muse na interface e nos
 caminhos remete à origem automática das sugestões. A revisão dessas
-sugestões foi realizada manualmente. Os arquivos privados estão em
-`data/muse-artifacts/`. O procedimento e as métricas de concordância estão em
-`scripts/validation/README.md`.
+sugestões foi realizada manualmente. As exportações sem texto estão em
+`data/muse-artifacts/` e os dados completos em `review-data/`. O procedimento
+e as métricas de concordância estão em `scripts/validation/README.md`.
 
 ## Referência
 

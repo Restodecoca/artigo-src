@@ -58,15 +58,16 @@ As `source_url` foram usadas como índice de artigos completos, não como texto 
 15 falhas; o Muse processou os 314 pares source/label, reteve **299** e rejeitou
 15 páginas inutilizáveis. Os quatro labels são `IDTY`, `ACT`, `VUL` e `LOC`.
 
-Arquivos locais ignorados:
+Arquivos completos para revisão (com textos de terceiros):
 
-- Fontes do piloto: `data/raw/vinitvek-articles-2023/batch_0001.json`,
-  `data/raw/vinitvek-articles-2023/batch_0002.json` e
-  `data/raw/vinitvek-articles-2023.json`.
-- Archive Muse original: `data/raw/vinitvek-articles-2023-muse-expanded.tar.gz`;
+- Os archives completos estão em `review-data/archives/` e não devem ser
+  redistribuídos.
+- Archive Muse original:
+  `review-data/archives/vinitvek-articles-2023-muse-expanded.tar.gz`;
   SHA-256 `aebd0c149d1c5ac873fea47dce04acb57b8fea55f35529f5eba12b33d5db94cb`.
-- Archive do overlay: `data/processed/muse_corrected.tar.gz`;
+- Archive do overlay: `review-data/archives/muse_corrected.tar.gz`;
   SHA-256 `e2b3732fe64612564bc70ca95055fe9171a60d06e018578ea64bceef730b397d`.
+- Fontes do piloto: `data/raw/vinitvek-articles-2023/` (ignorado pelo Git).
 
 ## Linha do tempo T4
 

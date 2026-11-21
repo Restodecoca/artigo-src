@@ -34,8 +34,9 @@ Os números foram retirados de `README.md`, de `docs/01_dataset_e_rotulagem.md`,
 `data/muse-artifacts/results/muse_validation_vinitvek_corrected_t4.json`.
 A comparação de ajuste fino usa apenas a série pareada descrita na seção
 “Treino na camada de consenso” de `docs/04_anotacoes_assistidas.md`, sem
-misturá-la com a série anterior de outras receitas. Textos de artigos e
-anotações por documento **não** são redistribuídos publicamente.
+misturá-la com a série anterior de outras receitas. As exportações públicas
+de anotação omitem os textos integrais. Os dados completos estão em
+`review-data/`, para revisão acadêmica.
 
 ## Compilação
 
@@ -73,12 +74,9 @@ não devem ser versionados.
 - Os DOIs também constam em `note`, pois o estilo original não imprime o
   campo `doi`. A referência da Meta identifica a origem do Muse Spark.
 
-## Revisão local após os pareceres
+## Notas de revisão
 
-O estado anterior foi enviado em `028d88b`. A revisão subsequente deve
-permanecer local até a aprovação dos autores, sem novo commit ou push.
-
-O artigo agora usa menção como unidade, definida por documento, limites em
+O artigo usa menção como unidade, definida por documento, limites em
 caracteres e categoria. As duas referências contêm ocorrências repetidas
 em posições distintas. Uma inspeção dos arquivos, sem alterar os dados,
 confirmou 4.649 menções idênticas entre revisada e consolidada. Há 462
@@ -146,6 +144,7 @@ inglês. Não foi executado classificador de idioma nem estimada sua
 distribuição completa. Os resultados existentes não foram recalculados
 por idioma.
 
-O endereço do repositório é apresentado como disponibilização futura.
-Não se alterou sua visibilidade. Antes da abertura pública, a política
-de dados exige tratar os artefatos restritos presentes no histórico.
+O repositório público está em `https://github.com/Restodecoca/artigo-src`.
+As exportações de anotação omitem os textos integrais. O pacote
+`review-data/` reúne os dados completos para revisão acadêmica e não deve ser
+redistribuído.

@@ -13,7 +13,7 @@ revisor humano antes da gravação.
 - `verified_by`: `gabriel`
 - `verification_method`: cada lote foi apresentado ao revisor, que confirmou ou
   rejeitou as entidades antes da gravação.
-- `base_layer`: `processed/muse_corrected.tar.gz`
+- `base_layer`: `review-data/archives/muse_corrected.tar.gz`
 
 O nome do modelo não é registrado no artefato. A camada deve ser descrita como
 **assistida por IA e verificada por humano**, nunca como anotação exclusivamente
@@ -58,16 +58,18 @@ com as adições em um archive no formato Muse (`batch_*.json` +
 expõe as funções de leitura e validação; o empacotamento usado nos experimentos
 está descrito em `docs/04_anotacoes_assistidas.md`.
 
-## Privacidade
+## Privacidade e release público
 
-O arquivo contém IDs de documento, offsets, rótulos e o texto exato das
-entidades adicionadas. Trate como material restrito: não redistribua os textos
-integrais dos artigos e não versione exports de revisão individuais.
+A exportação pública contém IDs de documento, offsets e rótulos, sem o campo
+`text`. A versão completa, com os trechos anotados, está em
+`review-data/annotations/` e não deve ser redistribuída. Exports individuais de
+revisão não são versionados.
 
 # Revisão completa do overlay
 
-Arquivo: `overlay_review_v1.json`. Archive resultante:
-`processed/muse_reviewed.tar.gz` (pasta `muse_batches/vinitvek-healthcare-reviewed/`).
+Arquivo público: `overlay_review_v1.json`, sem textos. Archive completo:
+`review-data/archives/muse_reviewed.tar.gz` (pasta
+`muse_batches/vinitvek-healthcare-reviewed/`).
 
 Esta camada revê as 299 notícias mantidas do overlay adjudicado. Ela
 **não** usa `ai_assisted_additions.json`, que serve só para comparação. Também
@@ -89,8 +91,9 @@ metadados não foram alterados nesta revisão documental. A descrição do
 procedimento distingue a geração automática das sugestões da revisão
 manual realizada pelos anotadores.
 
-A base registrada é `processed/muse_corrected.tar.gz`, com SHA256 iniciado
-por `e2b3732f`. O campo `verified_by` ainda não está preenchido no arquivo.
+A base registrada é `review-data/archives/muse_corrected.tar.gz`, com SHA256
+iniciado por `e2b3732f`. O campo `verified_by` ainda não está preenchido no
+arquivo.
 
 ## Critérios
 

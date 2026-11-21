@@ -14,7 +14,7 @@ Como o anotador anterior já tinha feito parte do trabalho, a tarefa era
 
 ## O que foi feito
 
-As 299 notícias mantidas do overlay (`processed/muse_corrected.tar.gz`, 7 lotes,
+As 299 notícias mantidas do overlay (`review-data/archives/muse_corrected.tar.gz`, 7 lotes,
 5.111 entidades) foram lidas uma a uma. Para cada notícia:
 
 1. cada entidade do anotador anterior foi conferida e ficou como estava,
@@ -107,9 +107,9 @@ Detalhes em `docs/04_anotacoes_assistidas.md`.
 ## Arquivos
 
 - `data/muse-artifacts/annotations/overlay_review_v1.json`: decisões e adições
-  por documento (IDs, offsets, rótulos e texto exato das entidades).
-- `data/muse-artifacts/processed/muse_reviewed.tar.gz`: overlay revisado no
-  formato Muse (`muse_batches/vinitvek-healthcare-reviewed/`), com checksum em
+  por documento (IDs, offsets e rótulos, sem os textos na versão pública).
+- `review-data/archives/muse_reviewed.tar.gz`: overlay revisado no formato Muse
+  (`muse_batches/vinitvek-healthcare-reviewed/`), com checksum em
   `data/muse-artifacts/checksums.sha256`.
 - `scripts/validation/validate_overlay_review.py` e
   `tests/test_overlay_review.py`: validador e testes.
@@ -127,8 +127,8 @@ uv run python scripts/data/validate_corrected_muse_labels.py /tmp/muse/reviewed 
 
 Resultado atual: **0 erros**; 314 registros, 299 mantidos, 9.318 entidades.
 
-## Pendências
+## Estado
 
-- Preencher `verified_by` em `overlay_review_v1.json` com o nome do revisor.
-- Avaliar os modelos na camada revisada (ainda não foi feito).
-- Fazer o commit dos arquivos.
+- `verified_by` ainda não está preenchido no arquivo.
+- A camada revisada foi avaliada nos experimentos de ajuste fino.
+- Os dados completos estão em `review-data/` para revisão acadêmica.

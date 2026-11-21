@@ -32,10 +32,10 @@ Actions. Use o checklist em `.github/pull_request_template.md`.
 
 ## Regras para dados e credenciais
 
-- Nunca faça commit de `.env`, tokens, texto coletado, labels por documento,
-  checkpoints, caches ou diagnósticos detalhados.
-- Use `.env.example` como referência; mantenha os valores reais somente no
-  `.env` local, que é ignorado pelo Git.
+- Nunca faça commit de `.env`, tokens, checkpoints, caches ou diagnósticos
+  detalhados.
+- Exportações públicas de anotação devem omitir o campo `text` e notas livres.
+- Os textos completos ficam em `review-data/`, apenas para revisão acadêmica.
 - Antes de publicar qualquer artefato, confirme licença, direitos da fonte e
   ausência de conteúdo que permita reconstruir artigos.
 - Não chame substitutos públicos ou o overlay de gold manual do artigo.

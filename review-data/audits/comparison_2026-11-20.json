@@ -1,0 +1,221 @@
+{
+  "experiment_status": "extension",
+  "tool": "muse-annotation-audit",
+  "generated_at": "2026-11-20T21:56:16.614072+00:00",
+  "reviewers": [
+    "Gabriel Rodrigues",
+    "Gabriel Carlos"
+  ],
+  "dataset_keys": [
+    "d299e5111h36b78a82"
+  ],
+  "synthetic_demo": false,
+  "human_vs_muse": {
+    "Gabriel Rodrigues": {
+      "reviewed": 5111,
+      "custom_added": 0,
+      "coverage": 1.0,
+      "accuracy": 1.0,
+      "cohen_kappa": 1.0,
+      "confident_reviewed": 5111,
+      "confident_accuracy": 1.0,
+      "uncertain": 0,
+      "muse_revealed": 0,
+      "with_note": 0,
+      "macro_f1": 1.0,
+      "per_label": {
+        "IDTY": {
+          "support": 2627,
+          "predicted": 2627,
+          "true_positive": 2627,
+          "false_positive": 0,
+          "false_negative": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ACT": {
+          "support": 1747,
+          "predicted": 1747,
+          "true_positive": 1747,
+          "false_positive": 0,
+          "false_negative": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "VUL": {
+          "support": 65,
+          "predicted": 65,
+          "true_positive": 65,
+          "false_positive": 0,
+          "false_negative": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "LOC": {
+          "support": 672,
+          "predicted": 672,
+          "true_positive": 672,
+          "false_positive": 0,
+          "false_negative": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "NONE": {
+          "support": 0,
+          "predicted": 0,
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        }
+      },
+      "confusion": {
+        "IDTY": {
+          "IDTY": 2627,
+          "ACT": 0,
+          "VUL": 0,
+          "LOC": 0,
+          "NONE": 0
+        },
+        "ACT": {
+          "IDTY": 0,
+          "ACT": 1747,
+          "VUL": 0,
+          "LOC": 0,
+          "NONE": 0
+        },
+        "LOC": {
+          "IDTY": 0,
+          "ACT": 0,
+          "VUL": 0,
+          "LOC": 672,
+          "NONE": 0
+        },
+        "VUL": {
+          "IDTY": 0,
+          "ACT": 0,
+          "VUL": 65,
+          "LOC": 0,
+          "NONE": 0
+        }
+      }
+    },
+    "Gabriel Carlos": {
+      "reviewed": 5111,
+      "custom_added": 0,
+      "coverage": 1.0,
+      "accuracy": 0.9881,
+      "cohen_kappa": 0.9802,
+      "confident_reviewed": 5088,
+      "confident_accuracy": 0.9906,
+      "uncertain": 23,
+      "muse_revealed": 4787,
+      "with_note": 46,
+      "macro_f1": 0.9817,
+      "per_label": {
+        "IDTY": {
+          "support": 2627,
+          "predicted": 2624,
+          "true_positive": 2610,
+          "false_positive": 14,
+          "false_negative": 17,
+          "precision": 0.9947,
+          "recall": 0.9935,
+          "f1": 0.9941
+        },
+        "ACT": {
+          "support": 1747,
+          "predicted": 1722,
+          "true_positive": 1720,
+          "false_positive": 2,
+          "false_negative": 27,
+          "precision": 0.9988,
+          "recall": 0.9845,
+          "f1": 0.9916
+        },
+        "VUL": {
+          "support": 65,
+          "predicted": 69,
+          "true_positive": 64,
+          "false_positive": 5,
+          "false_negative": 1,
+          "precision": 0.9275,
+          "recall": 0.9846,
+          "f1": 0.9552
+        },
+        "LOC": {
+          "support": 672,
+          "predicted": 659,
+          "true_positive": 656,
+          "false_positive": 3,
+          "false_negative": 16,
+          "precision": 0.9954,
+          "recall": 0.9762,
+          "f1": 0.9857
+        },
+        "NONE": {
+          "support": 0,
+          "predicted": 37,
+          "true_positive": 0,
+          "false_positive": 37,
+          "false_negative": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      },
+      "confusion": {
+        "IDTY": {
+          "IDTY": 2610,
+          "ACT": 2,
+          "VUL": 1,
+          "LOC": 2,
+          "NONE": 12
+        },
+        "ACT": {
+          "IDTY": 2,
+          "ACT": 1720,
+          "VUL": 4,
+          "LOC": 1,
+          "NONE": 20
+        },
+        "LOC": {
+          "IDTY": 11,
+          "ACT": 0,
+          "VUL": 0,
+          "LOC": 656,
+          "NONE": 5
+        },
+        "VUL": {
+          "IDTY": 1,
+          "ACT": 0,
+          "VUL": 64,
+          "LOC": 0,
+          "NONE": 0
+        }
+      }
+    }
+  },
+  "pairwise_human": [
+    {
+      "left": "Gabriel Carlos",
+      "right": "Gabriel Rodrigues",
+      "items": 5111,
+      "agreements": 5050,
+      "accuracy": 0.9881,
+      "cohen_kappa": 0.9802,
+      "inconsistent_muse_labels": 0
+    }
+  ],
+  "fleiss_kappa": {
+    "reviewers": 2,
+    "items": 5111,
+    "kappa": 0.9802
+  }
+}

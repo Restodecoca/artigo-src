@@ -1,16 +1,19 @@
 # Auditorias humanas do overlay
 
-Arquivos privados de auditoria da camada overlay. Não redistribuir.
+Exportações públicas de auditoria da camada overlay, sem notas livres e sem
+textos integrais. As versões completas estão em `review-data/audits/` e não
+devem ser redistribuídas.
 
 Os anotadores realizaram revisão manual de anotações com origem nas
-sugestões do Muse Spark, modelo de linguagem da Meta. O nome Muse na
-interface remete a essa origem automática. O trabalho humano consistiu em
-avaliar e corrigir os trechos e seus rótulos, não em anotação do zero.
+sugestões do Muse Spark, modelo de linguagem da Meta. O trabalho humano
+consistiu em avaliar e corrigir os trechos e seus rótulos, não em anotação
+do zero.
 
 ## Arquivos
 
-- `gabriel_carlos_2026-11-20.json`: export do revisor **Gabriel Carlos**,
-  5.111 decisões sobre as 5.111 entidades do overlay.
+- `gabriel_carlos_2026-11-20.json`: export do revisor **Gabriel Machado**,
+  identificado como **Gabriel Carlos** no campo histórico. São 5.111 decisões
+  sobre as 5.111 entidades do overlay.
 - `gabriel_rodrigues_overlay_2026-11-20.json`: export derivado do overlay
   adjudicado, atribuído a Gabriel Rodrigues. Serve como referência da camada
   overlay para a comparação.
@@ -48,8 +51,9 @@ procedimento humano fornecida pelos autores.
 | Rodrigues x Angelo | 4.649 | 99,98% | — |
 | Carlos x Angelo | 4.640 | 99,5% | 0,992 |
 
-A camada de consenso (`processed/muse_consensus.tar.gz`) usa a revisão do
-Angelo como base, sobrepõe os rótulos de Rodrigues e Carlos em spans exatos e
-mantém o voto majoritário; empates ficam com o rótulo do Angelo. São 9.318
-spans: 4.640 com três anotadores, 10 com dois e 4.668 exclusivos do Angelo. Há
-22 conflitos de rótulo, sem alteração final em relação à revisão do Angelo.
+A referência consolidada (`review-data/archives/muse_consensus.tar.gz`) usa a
+revisão do Angelo como base, sobrepõe os rótulos de Rodrigues e Machado em
+spans exatos e mantém o voto majoritário; empates ficam com o rótulo do Angelo.
+São 9.318 spans: 4.640 com três anotadores, 10 com dois e 4.668 exclusivos do
+Angelo. Há 22 conflitos de rótulo, sem alteração final em relação à revisão do
+Angelo.

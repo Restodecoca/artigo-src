@@ -22,6 +22,10 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/
 data/muse-artifacts/extracted/
+data/muse-artifacts/raw/*.tar.gz
+data/muse-artifacts/processed/*.tar.gz
+data/36753-*.md
+data/healthcare_cyber_v10_hybrid_1066.csv
 data/*.json
 data/*.tar.gz
 data/*.jsonl

@@ -1,26 +1,29 @@
-# Contrato de dados locais
+# Contrato de dados
 
 O corpus original de notícias do artigo e suas anotações manuais estão
-indisponíveis. Neste repositório privado, os archives das camadas Muse original
-e overlay adjudicado para validação em pares ficam em `data/muse-artifacts/`;
-consulte a exceção operacional em `DATA_AND_ARTIFACT_POLICY.md`. Entradas locais
-adicionais devem ir para `data/raw/` ou `data/processed/`; ambos os paths são
-ignorados pelo Git.
+indisponíveis. Este repositório público contém exportações de anotação sem os
+textos integrais, resultados agregados e o código de preparação e avaliação.
 
-A camada de labels `Muse` original deve permanecer separada do
-`adjudicated overlay`. O overlay é arquivado em
-`data/muse-artifacts/processed/muse_corrected.tar.gz` e, quando extraído
-localmente, fica em `data/processed/muse_corrected/`, sem sobrescrever os
-arquivos Muse originais. Nenhuma dessas camadas deve ser descrita como as
-anotações gold manuais do artigo.
+## Dados públicos e restritos
+
+- Público: identificadores de documento, offsets, rótulos, metadados agregados,
+  resultados agregados e exportações sem o campo `text`.
+- Restrito: textos completos das notícias, arquivos `batch_*.json` com `text`,
+  arquivos compactados das camadas e notas que copiem trechos jornalísticos.
+
+Os arquivos completos ficam em `review-data/`, publicado exclusivamente para a
+revisão acadêmica do professor. Consulte
+`data/muse-artifacts/PUBLIC_RELEASE.md` para a lista do que é público e do que
+permanece restrito.
+
+A camada de labels `Muse` original deve permanecer separada do overlay
+adjudicado. Nenhuma delas deve ser descrita como as anotações gold manuais do
+artigo.
 
 ## Como preparar entradas locais
 
-Os arquivos de artigos, labels e resultados por documento não são distribuídos
-publicamente; os archives privados autorizados para validação em pares estão em
-`data/muse-artifacts/`. Para começar uma execução local, consulte os argumentos
-disponíveis nos comandos abaixo; as saídas padrão ficam em `data/raw/`, ignorada
-pelo Git:
+Para executar a coleta ou a validação, são necessários os textos autorizados e
+os arquivos completos. As saídas padrão ficam em `data/raw/`, ignorada pelo Git:
 
 ```powershell
 uv run python scripts/data/prepare_muse_batches.py --help
@@ -28,15 +31,15 @@ uv run python scripts/data/fetch_vinitvek_articles.py --help
 ```
 
 A recuperação de artigos completos requer URLs autorizadas e o Firecrawl CLI.
-A anotação Muse é uma etapa separada: gere os lotes, realize/revise a anotação
-fora do repositório e valide os arquivos locais com
-`scripts/data/validate_muse_labels.py` ou
+A anotação é uma etapa separada: gere os lotes, realize a revisão e valide os
+arquivos locais com `scripts/data/validate_muse_labels.py` ou
 `scripts/data/validate_corrected_muse_labels.py`. Os runners T4 estão em
-`scripts/colab/` e precisam dos arquivos privados preparados localmente.
+`scripts/colab/` e precisam dos arquivos completos preparados localmente.
 
 ## JSONL de anotação
 
-Cada linha representa um documento:
+O formato abaixo é local. O campo `text` não deve ser versionado no repositório
+público.
 
 ```json
 {
@@ -54,20 +57,19 @@ Os offsets são spans de caracteres zero-based e half-open dentro de `text`. As
 labels devem ser uma de `IDTY`, `ACT`, `VUL` ou `LOC`. O campo `source` é mantido
 para que os resultados possam ser reportados por portal, como no artigo.
 
-## Organização local
+## Organização
 
-- `data/raw/`: entradas autorizadas, fontes e labels Muse originais.
-- `data/muse-artifacts/`: archives privados das camadas Muse original e overlay
-  adjudicado, mantidos para validação em pares; ver o README local.
-- `data/processed/`: overlays, archives, exports da auditoria humana e dados
-  derivados locais.
+- `data/raw/`: entradas autorizadas e labels completas, ignoradas pelo Git.
+- `data/muse-artifacts/`: exportações públicas sem texto, manifestos, resultados
+  agregados e proveniência; ver o README local.
+- `data/processed/`: overlays e dados derivados locais, ignorados pelo Git.
 - `data/*.json`: resultados agregados gerados pelos runners; são ignorados pelo
   Git e devem ser relacionados no `README.md` ou em `data/SEARCH_LOG.md`.
 
-O arquivo `.env` também é local e ignorado. Ele pode conter `HF_TOKEN` para
-publicações explicitamente autorizadas no Hugging Face; credenciais não devem
-ser copiadas para datasets, logs ou documentação.
+O arquivo `.env` é local e ignorado. Ele pode conter `HF_TOKEN` para publicações
+autorizadas; credenciais não devem ser copiadas para datasets, logs ou
+documentação.
 
 Não use um substituto público com este schema e o apresente como reprodução
-`faithful`. Registre nos metadados do experimento o repositório, a licença, a
-data de acesso e os desvios.
+`faithful`. Registre nos metadados o repositório, a licença, a data de acesso e
+os desvios.

@@ -1,4 +1,4 @@
-aebd0c149d1c5ac873fea47dce04acb57b8fea55f35529f5eba12b33d5db94cb  raw/vinitvek-articles-2023-muse-expanded.tar.gz
-e2b3732fe64612564bc70ca95055fe9171a60d06e018578ea64bceef730b397d  processed/muse_corrected.tar.gz
-5e72302bc2a56d5c9c512bcb99f2427c0ef1ee0405c393a893cf535e186c6503  processed/muse_reviewed.tar.gz
-69235b39c09f4f3ce10c0bd852cf394c1707f1c2a73bb072bec189afa887fa6c  processed/muse_consensus.tar.gz
+aebd0c149d1c5ac873fea47dce04acb57b8fea55f35529f5eba12b33d5db94cb  ../../review-data/archives/vinitvek-articles-2023-muse-expanded.tar.gz
+e2b3732fe64612564bc70ca95055fe9171a60d06e018578ea64bceef730b397d  ../../review-data/archives/muse_corrected.tar.gz
+5e72302bc2a56d5c9c512bcb99f2427c0ef1ee0405c393a893cf535e186c6503  ../../review-data/archives/muse_reviewed.tar.gz
+69235b39c09f4f3ce10c0bd852cf394c1707f1c2a73bb072bec189afa887fa6c  ../../review-data/archives/muse_consensus.tar.gz

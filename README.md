@@ -19,8 +19,8 @@ inclusão de entidades ausentes. Não se trata de anotação humana do zero.
   adjudicado separado (5.111 entidades).
 - Construída uma camada separada de 687 adições assistidas por IA e verificadas
   por humano, elevando o total para 5.798 entidades.
-- Revisão completa do overlay (9.318 entidades) e camada de consenso com três
-  anotações; a validação em pares ficou entre 98,8% e 99,5%.
+- Revisão completa do overlay (9.318 entidades) e referência consolidada com
+  três anotações; a validação em pares ficou entre 98,8% e 99,5%.
 - Avaliados SecureBERT-NER e SecureBERT-APTNER e executados experimentos de
   fine-tuning com Full, LoRA+, CCE ponderada e ROS.
 
@@ -36,10 +36,16 @@ auditoria permite adicionar novas entidades encontradas pelo revisor, marcadas
 como `origin=custom` na exportação.
 
 Resultados e limitações estão detalhados em [`docs/`](docs/README.md), incluindo
-a [camada aumentada e os experimentos preliminares](docs/04_anotacoes_assistidas.md). Os
-artefatos restritos de anotação Muse usados na validação em pares estão em
-[`data/muse-artifacts/`](data/muse-artifacts/README.md) neste repositório
-privado; eles não devem ser redistribuídos publicamente.
+a [camada aumentada e os experimentos preliminares](docs/04_anotacoes_assistidas.md). As
+exportações de anotação sem texto estão em
+[`data/muse-artifacts/`](data/muse-artifacts/README.md). Os dados completos
+para a revisão acadêmica do professor estão em
+[`review-data/`](review-data/README.md).
+
+## Autoria
+
+O projeto tem três coautores. As contribuições e os contatos institucionais
+estão em [`AUTHORS.md`](AUTHORS.md).
 
 ## Começar
 
@@ -70,7 +76,8 @@ paper/                          short paper LaTeX (4 páginas, abstract)
 tests/                           testes automatizados
 configs/                         protocolo legível por máquina
 tasks/                           especificações experimentais
-docs/                            relatórios e apresentação do Marco 3
+docs/                            relatórios metodológicos
+review-data/                     dados completos para revisão acadêmica
 ```
 
 O catálogo e os comandos de cada grupo estão em [`scripts/README.md`](scripts/README.md).
@@ -80,12 +87,11 @@ dados, credenciais e artefatos está em
 
 ## Privacidade e limites
 
-Não versionar `.env`, tokens, texto de artigos, labels por documento,
-checkpoints ou saídas detalhadas, exceto os archives privados de validação em
-`data/muse-artifacts/` previstos na exceção operacional de
-`DATA_AND_ARTIFACT_POLICY.md`; eles não podem ser redistribuídos publicamente.
-O `.env.example` é apenas um modelo sem credenciais. Leia `data/README.md` antes
-de trabalhar com dados locais.
+Não versionar `.env`, tokens, checkpoints ou caches. As exportações em
+`data/muse-artifacts/` não contêm os textos integrais. A pasta `review-data/`
+contém textos de terceiros para a revisão do professor e não deve ser
+redistribuída. O `.env.example` é apenas um modelo sem credenciais. Leia
+`data/README.md` antes de trabalhar com dados locais.
 
 O overlay é uma camada adjudicada de uma extensão, não o gold manual original.
 O estado e as decisões sobre fontes estão em `data/SEARCH_LOG.md`; os

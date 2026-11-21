@@ -215,7 +215,7 @@ def main() -> None:
     parser.add_argument(
         "--archive",
         type=Path,
-        default=Path("data/muse-artifacts/processed/muse_corrected.tar.gz"),
+        default=Path("review-data/archives/muse_corrected.tar.gz"),
         help="overlay archive (batch_*.json + labels_batch_*.json)",
     )
     parser.add_argument("--export-dir", type=Path, help="write the reviewed Muse layer here")
